@@ -1,0 +1,271 @@
+/* =========================
+   REGISTER FORM
+========================= */
+
+.form-section {
+    width: 100%;
+}
+
+.form-section h3 {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 25px;
+    font-weight: 500;
+    color: #1d2639;
+    margin-bottom: 9px;
+}
+
+.form-section > p {
+    color: #718098;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+/* Họ + Tên */
+
+.name {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+/* Field */
+
+.form-section .field {
+    margin-bottom: 18px;
+}
+
+.form-section .field > label {
+    display: block;
+    margin-bottom: 8px;
+    color: #1f283b;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* Input container */
+
+.form-section .input {
+    position: relative;
+    width: 100%;
+}
+
+/* Input */
+
+.form-section .input input {
+    width: 100%;
+    height: 45px;
+
+    padding: 0 43px 0 15px;
+
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    outline: none;
+
+    background: #fff;
+    color: #20293b;
+
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+.form-section .input input:focus {
+    border-color: var(--green);
+
+    box-shadow:
+        0 0 0 3px rgba(47, 120, 103, 0.09);
+}
+
+.form-section .input input::placeholder {
+    color: #a2a9b8;
+}
+
+/* Icon */
+
+.form-section .input > i {
+    position: absolute;
+
+    right: 15px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #8992a4;
+
+    font-size: 15px;
+
+    pointer-events: none;
+}
+
+/* Eye */
+
+.form-section .input .eye {
+    position: absolute;
+
+    right: 12px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 25px;
+    height: 25px;
+
+    border: 0;
+    background: transparent;
+
+    color: #788397;
+
+    cursor: pointer;
+
+    z-index: 2;
+}
+
+.form-section .input .eye i {
+    position: static;
+    transform: none;
+
+    font-size: 14px;
+}
+
+/*
+Nếu có icon khóa + icon mắt,
+input cần chừa khoảng rộng bên phải
+*/
+.form-section .input:has(.eye) input {
+    padding-right: 43px;
+}
+
+/* =========================
+   PASSWORD STRENGTH
+========================= */
+
+.strength-wrap {
+    display: flex;
+
+    gap: 5px;
+
+    width: 100%;
+
+    margin-top: 8px;
+}
+
+.s-seg {
+    height: 4px;
+
+    flex: 1;
+
+    border-radius: 5px;
+
+    background: #e5e2da;
+
+    transition: 0.2s;
+}
+
+.strength-label {
+    min-height: 17px;
+
+    margin-top: 5px;
+
+    color: #8992a1;
+
+    font-size: 11px;
+}
+
+/* =========================
+   REGISTER BUTTON
+========================= */
+
+.form-section .login {
+    width: 100%;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 8px;
+
+    background: var(--green);
+
+    color: #fff;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s,
+        filter 0.15s;
+}
+
+.form-section .login:hover {
+    filter: brightness(0.95);
+
+    transform: translateY(-1px);
+}
+
+/* =========================
+   POLICY
+========================= */
+
+.form-section .policy {
+    margin-top: 17px;
+
+    color: #8992a1;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+
+    text-align: center;
+}
+
+.form-section .policy a {
+    color: #1b6759;
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.form-section .policy a:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.form-section .footer {
+    margin-top: 24px;
+
+    color: #788398;
+
+    font-size: 13px;
+
+    text-align: center;
+}
+
+.form-section .footer a {
+    color: #1b6759;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+.form-section .footer a:hover {
+    text-decoration: underline;
+}
