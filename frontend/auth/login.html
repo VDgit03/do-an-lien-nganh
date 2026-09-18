@@ -1,0 +1,56 @@
+<div class="form-section" id="sec-login">
+    <h3>Chào mừng trở lại 👋</h3>
+    <p>Đăng nhập để tiếp tục quản lý CV của bạn</p>
+    <form class="form-login" action="">
+        <div class="field">
+            <label for="email"> Email</label>
+            <div class="input">
+                <input
+                    type="email"
+                    placeholder="nguyenvana@gmail.com"
+                    name="email"
+                />
+                <i class="fa-regular fa-envelope"></i>
+            </div>
+        </div>
+        <div class="field">
+            <label for="pw">Mật khẩu</label>
+            <div class="input">
+                <input type="password" placeholder="••••••••" name="pw" />
+                <i class="fa-solid fa-lock"></i>
+                <span class="eye" onclick="togglePassword(this)">
+                    <i class="fa-regular fa-eye"></i>
+                </span>
+            </div>
+        </div>
+    </form>
+
+    <div class="link">
+        <label class="remember">
+            <input type="checkbox" /> Ghi nhớ đăng nhập
+        </label>
+        <button type="button" onclick="switchTab('forgot')" class="forget">
+            Quên mật khẩu
+        </button>
+    </div>
+    <button type="button" onclick="handleLogin()" class="login">
+        Đăng nhập
+    </button>
+    <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-text">HOẶC</div>
+        <div class="divider-line"></div>
+    </div>
+
+    <button id="google-btn" type="button" class="google">
+        <span class="google-icon">
+            <i class="fa-brands fa-google"></i>
+        </span>
+
+        <span class="google-text"> Đăng nhập bằng Google </span>
+    </button>
+    <div class="footer">
+        Chưa có tài khoản?
+        <a onclick="switchTab('register')">Đăng ký ngay</a>
+    </div>
+</div>

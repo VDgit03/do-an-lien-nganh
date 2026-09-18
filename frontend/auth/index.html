@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CV Studio</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=DM+Serif+Display&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="./css/index.css" />
+        <link rel="stylesheet" href="./css/register.css" />
+        <link rel="stylesheet" href="./css/login.css" />
+    </head>
+    <body>
+        <main class="page">
+            <section class="intro">
+                <header class="brand">
+                    <span class="brand-icon">↗</span>
+                    <span>CV Studio</span>
+                </header>
+
+                <div class="intro-content">
+                    <h1>
+                        Xây dựng CV chuyên nghiệp, theo dõi lịch phỏng vấn và
+                        biết ngay mức độ phù hợp với công việc của bạn.
+                    </h1>
+
+                    <p class="lead">
+                        Dành cho ứng viên ngành Công nghệ thông tin — từ thực
+                        tập sinh đến quản lý cấp cao.
+                    </p>
+
+                    <div class="features">
+                        <div class="feature">
+                            <span class="feature-icon">▦</span>
+                            <div>
+                                <strong>Quản lý nhiều bản CV</strong>
+                                <p>
+                                    Tạo, chỉnh sửa và chọn màu riêng cho từng
+                                    CV.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="feature">
+                            <span class="feature-icon">✧</span>
+                            <div>
+                                <strong>Phân tích theo JD</strong>
+                                <p>
+                                    So khớp kỹ năng theo cấp bậc và chuyên ngành
+                                    CNTT.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="feature">
+                            <span class="feature-icon">♧</span>
+                            <div>
+                                <strong>Nhắc lịch phỏng vấn</strong>
+                                <p>
+                                    Tự động nhắc qua email trước giờ phỏng vấn.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cv-stack" aria-hidden="true">
+                    <div class="mini-cv cv-one">
+                        <b>Trần Thị B</b>
+                        <span>Business Analyst</span>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                    </div>
+
+                    <div class="mini-cv cv-two">
+                        <b>Nguyễn Văn A</b>
+                        <span>Backend Developer</span>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                    </div>
+
+                    <div class="mini-cv cv-three">
+                        <b>Lê Văn C</b>
+                        <span>Frontend Developer</span>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                    </div>
+                </div>
+            </section>
+
+            <section class="auth">
+                <div class="auth-card">
+                    <article class="right">
+                        <div class="tab">
+                            <button id="tab-login" onclick="switchTab('login')">
+                                Đăng nhập
+                            </button>
+                            <button
+                                id="tab-register"
+                                onclick="switchTab('register')"
+                            >
+                                Đăng ký
+                            </button>
+                        </div>
+                        <div id="content"></div>
+                    </article>
+
+                    <div id="message" class="message" role="status"></div>
+                </div>
+            </section>
+        </main>
+
+        <script src="js/index.js"></script>
+        <script
+            src="https://accounts.google.com/gsi/client"
+            async
+            defer
+        ></script>
+    </body>
+</html>

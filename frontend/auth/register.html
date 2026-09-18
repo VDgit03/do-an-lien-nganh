@@ -1,0 +1,73 @@
+<div id="sec-register" class="form-section">
+    <h3>Tạo tài khoản mới</h3>
+    <p>Chỉ mất chưa đến 1 phút để bắt đầu</p>
+    <div class="name">
+        <div class="field">
+            <label for="first_name">Họ</label>
+            <div class="input">
+                <input type="text" name="first_name" placeholder="Nguyễn" />
+                <i class="fa-regular fa-user"></i>
+            </div>
+        </div>
+        <div class="field">
+            <label for="second_name">Tên</label>
+            <div class="input">
+                <input type="text" name="second_name" placeholder="A" />
+                <i class="fa-regular fa-user"></i>
+            </div>
+        </div>
+    </div>
+    <div class="field">
+        <label for="email"> Email</label>
+        <div class="input">
+            <input
+                type="email"
+                placeholder="nguyenvana@gmail.com"
+                name="email"
+            />
+            <i class="fa-regular fa-envelope"></i>
+        </div>
+    </div>
+    <div class="field">
+        <label for="pw">Mật khẩu</label>
+        <div class="input">
+            <input
+                type="password"
+                placeholder="Ít nhất 8 kí tự"
+                name="pw"
+                oninput="checkStrength(this.value)"
+            />
+            <i class="fa-solid fa-lock"></i>
+            <span class="eye" onclick="togglePassword(this)">
+                <i class="fa-regular fa-eye"></i>
+            </span>
+        </div>
+        <div class="strength-wrap" id="strength-bars">
+            <div class="s-seg" id="s1"></div>
+            <div class="s-seg" id="s2"></div>
+            <div class="s-seg" id="s3"></div>
+            <div class="s-seg" id="s4"></div>
+        </div>
+        <div class="strength-label" id="strength-text"></div>
+    </div>
+    <div class="field">
+        <label for="confirm">Xác nhận mật khẩu</label>
+        <div class="input">
+            <input type="password" placeholder="••••••••" name="confirm" />
+            <i class="fa-solid fa-lock"></i>
+            <span class="eye" onclick="togglePassword(this)">
+                <i class="fa-regular fa-eye"></i>
+            </span>
+        </div>
+    </div>
+    <button type="button" onclick="handleRegister()" class="login">
+        Tạo tài khoản
+    </button>
+    <div class="policy">
+        Bằng cách đăng ký, bạn đồng ý với <a>Điều khoản dịch vụ</a> và
+        <a>Chính sách bảo mật</a> của chúng tôi.
+    </div>
+    <div class="footer">
+        Đã có tài khoản? <a onclick="switchTab('login')">Đăng nhập ngay</a>
+    </div>
+</div>
