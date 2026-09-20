@@ -1,6 +1,4 @@
-/* =========================
-   LOGIN FORM
-========================= */
+/* login form */
 
 .form-section {
     width: 100%;
@@ -22,9 +20,7 @@
 }
 
 
-/* =========================
-   FIELD
-========================= */
+/* field */
 
 .form-section .field {
     margin-bottom: 18px;
@@ -40,9 +36,7 @@
 }
 
 
-/* =========================
-   INPUT
-========================= */
+/* input */
 
 .form-section .input {
     position: relative;
@@ -80,9 +74,7 @@
 }
 
 
-/* =========================
-   INPUT ICON
-========================= */
+/* input icon */
 
 .form-section .input > i {
      position: absolute;
@@ -98,9 +90,7 @@
 }
 
 
-/* =========================
-   PASSWORD EYE
-========================= */
+/* pw eye */
 
 .form-section .input .eye {
     position: absolute;
@@ -136,9 +126,7 @@
 }
 
 
-/* =========================
-   LOGIN LINK
-========================= */
+/* login link */
 
 .link {
     display: flex;
@@ -153,7 +141,7 @@
 }
 
 
-/* Ghi nhớ đăng nhập */
+/* ghi nhớ đăng nhập */
 
 .remember {
     display: flex;
@@ -176,7 +164,7 @@
 }
 
 
-/* Quên mật khẩu */
+/* quên mật khẩu */
 
 .forget {
     border: none;
@@ -195,9 +183,7 @@
 }
 
 
-/* =========================
-   LOGIN BUTTON
-========================= */
+/* login button */
 
 .login {
     width: 100%;
@@ -231,9 +217,7 @@
 }
 
 
-/* =========================
-   DIVIDER
-========================= */
+/* divider */
 
 .divider {
     width: 100%;
@@ -264,9 +248,7 @@
 }
 
 
-/* =========================
-   GOOGLE BUTTON
-========================= */
+/* gg button */
 
 .google {
     position: relative;
@@ -309,7 +291,7 @@
     background: #f5f5f5;
 }
 
-/* Logo Google */
+/* logo gg */
 
 .google-icon {
     position: absolute;
@@ -330,16 +312,12 @@
     color: #4285f4;
 }
 
-/* Chữ */
-
 .google-text {
     line-height: 1;
 }
 
 
-/* =========================
-   FOOTER
-========================= */
+/* footer */
 
 .form-section .footer {
     margin-top: 29px;
