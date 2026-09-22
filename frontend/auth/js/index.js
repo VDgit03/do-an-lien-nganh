@@ -16,15 +16,14 @@ function togglePassword(el) {
 // đổi tab
 
 function switchTab(tab) {
+    const tabContainer = document.querySelector(".tab");
     const loginTab = document.getElementById("tab-login");
     const registerTab = document.getElementById("tab-register");
 
     if (tab === "forgot" || tab === "otp" || tab === "reset") {
-        loginTab.style.display = "none";
-        registerTab.style.display = "none";
+        tabContainer.style.display = "none";
     } else {
-        loginTab.style.display = "block";
-        registerTab.style.display = "block";
+        tabContainer.style.display = "grid";
     }
 
     loginTab.classList.toggle("active", tab === "login");
