@@ -3,7 +3,7 @@ import { register } from "../controllers/auth/registerController.js";
 import { login } from "../controllers/auth/loginController.js";
 import { googleLogin } from "../controllers/auth/googleController.js";
 // // import { getUser } from "../controllers/custom/userController.js";
-// // import { changePassword } from "../controllers/custom/changepwController.js";
+// import { changePassword } from "../controllers/custom/changepwController.js";
 const router = express.Router();
 
 // đăng kí, đăng nhập
