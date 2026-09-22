@@ -1,0 +1,55 @@
+<div class="form-section reset-section">
+    <div class="forgot-icon">
+        <i class="fa-solid fa-lock"></i>
+    </div>
+
+    <h3>Đặt lại mật khẩu</h3>
+
+    <p class="forgot-desc">Nhập mật khẩu mới của bạn</p>
+
+    <form class="form-reset">
+        <div class="field">
+            <label>Mật khẩu mới</label>
+
+            <div class="input">
+                <input
+                    type="password"
+                    id="new-password"
+                    placeholder="••••••••"
+                    oninput="checkStrength(this.value)"
+                />
+                <i class="fa-solid fa-lock"></i>
+                <span class="eye" onclick="togglePassword(this)">
+                    <i class="fa-regular fa-eye"></i>
+                </span>
+            </div>
+            <div class="strength-wrap" id="strength-bars">
+                <div class="s-seg" id="s1"></div>
+                <div class="s-seg" id="s2"></div>
+                <div class="s-seg" id="s3"></div>
+                <div class="s-seg" id="s4"></div>
+            </div>
+            <div class="strength-label" id="strength-text"></div>
+        </div>
+
+        <div class="field">
+            <label>Xác nhận mật khẩu</label>
+
+            <div class="input">
+                <input
+                    type="password"
+                    id="confirm-password"
+                    placeholder="••••••••"
+                />
+                <i class="fa-solid fa-lock"></i>
+                <span class="eye" onclick="togglePassword(this)">
+                    <i class="fa-regular fa-eye"></i>
+                </span>
+            </div>
+        </div>
+
+        <button type="button" class="login" onclick="handleResetPassword()">
+            Đổi mật khẩu
+        </button>
+    </form>
+</div>

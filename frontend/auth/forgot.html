@@ -1,0 +1,38 @@
+<div class="form-section forgot-section">
+    <div class="forgot-icon">
+        <i class="fa-solid fa-lock"></i>
+    </div>
+
+    <h3>Quên mật khẩu</h3>
+
+    <p class="forgot-desc">Nhập email để nhận mã OTP</p>
+
+    <form class="form-forgot">
+        <div class="field">
+            <label for="forgot-email">Email</label>
+
+            <div class="input">
+                <input
+                    type="email"
+                    id="forgot-email"
+                    placeholder="nguyenvana@gmail.com"
+                    autocomplete="email"
+                />
+
+                <i class="fa-regular fa-envelope"></i>
+            </div>
+        </div>
+
+        <button
+            type="button"
+            class="forgot-submit"
+            onclick="handleForgotPassword()"
+        >
+            Gửi OTP
+        </button>
+    </form>
+
+    <button type="button" class="back-login" onclick="switchTab('login')">
+        Quay lại đăng nhập
+    </button>
+</div>
