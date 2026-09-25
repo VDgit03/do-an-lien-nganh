@@ -13,8 +13,8 @@ function togglePassword(el) {
     }
 }
 
-// đổi tab
 
+// đổi tab
 function switchTab(tab) {
     const tabContainer = document.querySelector(".tab");
     const loginTab = document.getElementById("tab-login");
@@ -73,6 +73,7 @@ function switchTab(tab) {
 // load mặc định
 window.onload = () => switchTab('login');
 
+
 // kiểm tra mk
 function checkStrength(val) {
     const segs = ['s1','s2','s3','s4'].map(id => document.getElementById(id));
@@ -90,6 +91,7 @@ function checkStrength(val) {
     label.textContent = labels[Math.min(score-1,3)];
     label.style.color = colors[Math.min(score-1,3)];
   }
+
 
 // đki
 async function handleRegister() {
@@ -124,32 +126,68 @@ async function handleRegister() {
     }
 }
 
+
 // đăng nhập
 async function handleLogin() {
     const form = document.getElementById("sec-login");
-    const email = document.querySelector('[name="email"]').value.trim();
-    const password = document.querySelector('[name="pw"]').value.trim();
-    const res = await fetch("http://localhost:3000/api/auth/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-    });
+
+    const email =
+        document.querySelector('[name="email"]').value.trim();
+
+    const password =
+        document.querySelector('[name="pw"]').value.trim();
+
+    const res = await fetch(
+        "http://localhost:3000/api/auth/login",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email,
+                password,
+            }),
+        }
+    );
+
     const data = await res.json();
     if (data.token) {
-    localStorage.setItem("token", data.token);
-    localStorage.setItem(
-        "userId",
-        data.user.id
-    );
-    alert("Đăng nhập thành công!");
-    window.location.href =
-        "../custom/home/home.html";
+
+        // lưu token
+        localStorage.setItem(
+            "token",
+            data.token
+        );
+
+        // lưu ID
+        localStorage.setItem(
+            "userId",
+            data.user.id
+        );
+
+        // lưu tên
+        localStorage.setItem(
+            "userName",
+            `${data.user.first_name} ${data.user.last_name}`.trim()
+        );
+
+        // báo cho Home biết vừa đăng nhập
+        sessionStorage.setItem(
+            "loginSuccess",
+            "true"
+        );
+
+        // chuyển sang Home
+        window.location.href =
+            "../custom/home/home.html";
+
     } else {
         alert(data.message);
+
     }
 }
+
 
 // tạo client id
 function initGoogle() {
@@ -179,7 +217,7 @@ function initGoogle() {
             }
 
             console.log("Google Access Token:", response.access_token);
-
+            
             await handleGoogleLogin(response.access_token);
         }
     });
