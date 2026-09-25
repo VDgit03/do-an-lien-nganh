@@ -229,30 +229,48 @@ function initGoogle() {
 
 // đăng nhập = gg
 async function handleGoogleLogin(accessToken) {
+
     try {
+
         const res = await fetch(
             "http://localhost:3000/api/auth/google",
             {
                 method: "POST",
+
                 headers: {
                     "Content-Type": "application/json"
                 },
+
                 body: JSON.stringify({
                     token: accessToken
                 })
             }
         );
 
-        const data = await res.json();
 
-        console.log("Backend:", data);
+        const data =
+            await res.json();
+
+
+        console.log(
+            "Backend:",
+            data
+        );
+
 
         if (!res.ok) {
-            console.error("Google login thất bại:", data);
+
+            console.error(
+                "Google login thất bại:",
+                data
+            );
+
             return;
         }
 
+
         if (data.token) {
+
             localStorage.setItem(
                 "token",
                 data.token
@@ -263,11 +281,29 @@ async function handleGoogleLogin(accessToken) {
                 data.user.id
             );
 
+
+            const fullName = `${data.user.first_name || ""} ${data.user.last_name || ""}`.trim();
+
+            localStorage.setItem(
+                "userName",
+                fullName
+            );
+
+
+            console.log(
+                "Tên đã lưu:",
+                localStorage.getItem(
+                    "userName"
+                )
+            );
+
             window.location.href =
                 "../custom/home/home.html";
         }
 
+
     } catch (error) {
+
         console.error(
             "Lỗi đăng nhập Google:",
             error
