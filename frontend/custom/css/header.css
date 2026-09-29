@@ -1,0 +1,808 @@
+.home {
+    min-height: 100vh;
+    
+}
+.theme-option {
+    cursor: pointer;
+}
+
+.theme-option.active {
+    background: #2f7867;
+    color: #fff;
+}
+
+
+/* main */
+.main-content {
+    margin-left: 240px;
+    min-height: 100vh;
+    background: #f8f6ef;
+}
+
+
+/* header */
+.home-header {
+    height: 78px;
+    margin-left: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 42px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #dedbd1;
+}
+
+.header-left h2 {
+    margin: 0;
+
+    font-size: 19px;
+    font-weight: 600;
+
+    color: #171e2e;
+}
+
+.header-left p {
+    margin: 6px 0 0;
+
+    color: #687084;
+
+    font-size: 15px;
+}
+
+
+/* user */
+.header-user {
+    position: relative;
+    z-index: 1000;
+    cursor: pointer;
+
+    width: 160px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 10px;
+
+    background: #fff;
+    border: 1px solid #dedbd1;
+    border-radius: 25px;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #2f7867;
+    color: #fff;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#user-short-name {
+    flex: 1;
+
+    overflow: hidden;
+    font-weight: bold;
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+
+    font-size: 13px;
+
+    color: #171e2e;
+}
+
+/* dropdown */
+.user-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+
+    width: 270px;
+
+    background: #fff;
+    border: 1px solid #dedbd1;
+    border-radius: 14px;
+
+    box-shadow: 0 15px 35px rgba(23, 30, 46, 0.12);
+
+    z-index: 9999;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: translateY(-6px);
+
+    transition:
+        opacity 0.2s ease,
+        visibility 0.2s ease,
+        transform 0.2s ease;
+}
+
+.header-user.active .user-dropdown {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+
+/* email */
+.dropdown-email {
+
+    padding: 8px 16px 12px;
+
+    color: #687084;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+
+/* divider */
+.dropdown-divider {
+
+    height: 1px;
+
+    margin: 4px 12px;
+
+    background: #dedbd1;
+}
+
+
+/* section */
+.dropdown-section {
+
+    padding: 9px 15px;
+}
+
+.dropdown-label {
+
+    margin-bottom: 10px;
+
+    color: #171e2e;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* color */
+.color-options {
+
+    display: flex;
+    gap: 10px;
+}
+
+.color-option {
+
+    width: 29px;
+    height: 29px;
+
+    padding: 0;
+
+    border: 2px solid transparent;
+
+    border-radius: 50%;
+
+    cursor: pointer;
+}
+
+.color-option.green {
+    background: #2f7867;
+}
+
+.color-option.orange {
+    background: #d18b32;
+}
+
+.color-option.blue {
+    background: #4c5f8f;
+}
+
+.color-option.purple {
+    background: #815273;
+}
+
+.color-option.red {
+    background: #bd4d3e;
+}
+
+.color-option.active {
+
+    border-color: #fff;
+
+    box-shadow:
+        0 0 0 2px #4c5f8f;
+}
+
+
+/* theme */
+.theme-options {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 8px;
+}
+
+.theme-option {
+
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    border: 1px solid #dedbd1;
+
+    border-radius: 8px;
+
+    background: #f4f0e5;
+
+    color: #171e2e;
+
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+.theme-option.active {
+
+    background: #4c5f8f;
+
+    border-color: #4c5f8f;
+
+    color: #fff;
+}
+
+
+/* dropdown item */
+.dropdown-item {
+
+    width: 100%;
+
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 0 16px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #3f4859;
+
+    font-size: 13px;
+
+    text-align: left;
+
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+
+    background: #f6f4ed;
+
+    color: #2f7867;
+}
+
+
+/* logout */
+.logout-item {
+
+    color: #c74c4c;
+}
+
+.logout-item:hover {
+
+    background: #fff5f4;
+
+    color: #b53e3e;
+}
+
+
+/* change pw */
+
+.password-modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(23, 30, 46, 0.45);
+
+    backdrop-filter: blur(5px);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.2s ease,
+        visibility 0.2s ease;
+}
+
+
+.password-modal.active {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+}
+
+
+/* content */
+
+.password-modal-content {
+
+    width: 100%;
+
+    max-width: 480px;
+
+    background: #ffffff;
+
+    border-radius: 20px;
+
+    padding: 28px;
+
+    box-shadow:
+        0 20px 60px
+        rgba(0, 0, 0, 0.18);
+
+    transform: translateY(15px);
+
+    transition:
+        transform 0.2s ease;
+}
+
+
+.password-modal.active
+.password-modal-content {
+
+    transform: translateY(0);
+}
+
+
+/* header pw */
+
+.password-modal-header {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 25px;
+}
+
+
+.password-modal-header h2 {
+
+    margin: 0 0 7px;
+
+    color: #171e2e;
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 25px;
+}
+
+
+.password-modal-header p {
+
+    margin: 0;
+
+    color: #7a8495;
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+/* close */
+
+.password-modal-close {
+
+    width: 36px;
+
+    height: 36px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #f2f3f5;
+
+    color: #687386;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.password-modal-close:hover {
+
+    background: #e8eaed;
+
+    color: #171e2e;
+}
+
+
+/* field */
+
+.password-modal .field {
+
+    margin-bottom: 18px;
+}
+
+
+.password-modal .field > label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #293346;
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+/* input */
+
+.password-modal .input {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+}
+
+
+.password-modal .input > input {
+
+    width: 100%;
+
+    height: 48px;
+
+    padding:
+        0 80px
+        0 43px;
+
+    border:
+        1px solid #dcdfe5;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #17202a;
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+    font-size: 14px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.password-modal .input > input:focus {
+
+    border-color:
+        var(--main-color, #2f7867);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(47, 120, 103, 0.10);
+}
+
+
+.password-modal .input > i {
+
+    position: absolute;
+
+    left: 16px;
+
+    color: #9aa3b2;
+
+    font-size: 14px;
+
+    pointer-events: none;
+}
+
+
+/* eye */
+
+.password-modal .eye {
+
+    position: absolute;
+
+    right: 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 28px;
+
+    height: 28px;
+
+    color: #8d96a5;
+
+    cursor: pointer;
+}
+
+
+.password-modal .eye:hover {
+
+    color: var(--main-color, #2f7867);
+}
+
+
+/* strength */
+
+.strength-wrap {
+
+    display: flex;
+
+    gap: 5px;
+
+    margin-top: 8px;
+}
+
+
+.s-seg {
+
+    height: 4px;
+
+    flex: 1;
+
+    border-radius: 10px;
+
+    background: #e7e9ed;
+
+    transition:
+        background 0.2s ease;
+}
+
+
+.s-seg.active {
+
+    background: var(--main-color, #2f7867);
+}
+
+
+.strength-label {
+
+    min-height: 18px;
+
+    margin-top: 5px;
+
+    color:
+        var(--main-color, #2f7867);
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+/* aciton */
+
+.password-modal-actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 25px;
+}
+
+
+.cancel-password-btn,
+.save-password-btn {
+
+    height: 42px;
+
+    padding: 0 20px;
+
+    border-radius: 9px;
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        all 0.2s ease;
+}
+
+
+.cancel-password-btn {
+
+    border:
+        1px solid #dcdfe5;
+
+    background: #ffffff;
+
+    color: #566174;
+}
+
+
+.cancel-password-btn:hover {
+
+    background: #f5f6f7;
+}
+
+
+.save-password-btn {
+
+    border: none;
+
+    background:
+        var(--main-color, #2f7867);
+
+    color: #ffffff;
+}
+
+
+.save-password-btn:hover {
+
+    filter: brightness(0.94);
+
+    transform: translateY(-1px);
+}
+
+
+/* responsive */
+
+@media (max-width: 600px) {
+
+    .password-modal {
+
+        padding: 15px;
+
+    }
+
+
+    .password-modal-content {
+
+        padding: 22px;
+
+        border-radius: 16px;
+
+    }
+
+
+    .password-modal-header h2 {
+
+        font-size: 22px;
+
+    }
+
+
+    .password-modal-actions {
+
+        flex-direction: column-reverse;
+
+    }
+
+
+    .cancel-password-btn,
+    .save-password-btn {
+
+        width: 100%;
+
+    }
+
+}
+
+@media (max-width: 700px) {
+
+    .home-header {
+        padding: 0 20px;
+    }
+
+    .header-left h2 {
+        font-size: 17px;
+    }
+
+    .header-left p {
+        font-size: 13px;
+    }
+
+    .header-user {
+        width: 145px;
+    }
+
+    .user-dropdown {
+        right: 0;
+
+        width: 260px;
+    }
+}
