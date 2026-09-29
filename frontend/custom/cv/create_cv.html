@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>CV Studio</title>
+
+        <link rel="stylesheet" href="../css/create_cv.css" />
+        <link rel="stylesheet" href="../css/nav.css" />
+        <link rel="stylesheet" href="../css/header.css" />
+        <link rel="stylesheet" href="../css/home.css" />
+
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        />
+    </head>
+
+    <body>
+        <!-- ==================================================
+             SIDEBAR
+        ================================================== -->
+
+        <div id="nav-container"></div>
+        <div id="header-container"></div>
+        <!-- ==================================================
+             MAIN CONTENT
+        ================================================== -->
+
+        <main class="main-content">
+            <!-- ================= HEADER ================= -->
+
+            <!-- ================= CV BUILDER ================= -->
+
+            <div class="cv-builder">
+                <!-- ==================================================
+                     LEFT: FORM
+                ================================================== -->
+
+                <div class="editor">
+                    <h1>Tạo CV mới</h1>
+
+                    <p class="editor-description">
+                        Điền thông tin và chọn màu chủ đạo cho CV của bạn.
+                    </p>
+
+                    <!-- ==================================================
+                         TÊN CV
+                    ================================================== -->
+
+                    <section class="form-section">
+                        <div class="form-group">
+                            <label for="cvTitle"> Tên CV (nội bộ) </label>
+
+                            <input
+                                type="text"
+                                id="cvTitle"
+                                placeholder="Ví dụ: CV ứng tuyển Backend Developer"
+                            />
+                        </div>
+                    </section>
+
+                    <!-- ==================================================
+                         THÔNG TIN CÁ NHÂN
+                    ================================================== -->
+
+                    <section class="form-section">
+                        <h2>Thông tin cá nhân</h2>
+
+                        <div class="form-group">
+                            <label for="fullName"> Họ và tên </label>
+
+                            <input
+                                type="text"
+                                id="fullName"
+                                placeholder="Nguyễn Văn A"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="position"> Chức danh </label>
+
+                            <input
+                                type="text"
+                                id="position"
+                                placeholder="Backend Developer"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="summary"> Tóm tắt bản thân </label>
+
+                            <textarea
+                                id="summary"
+                                rows="4"
+                                placeholder="Vài dòng giới thiệu ngắn gọn..."
+                            ></textarea>
+                        </div>
+                    </section>
+
+                    <!-- ==================================================
+                         THÔNG TIN LIÊN HỆ
+                    ================================================== -->
+
+                    <section class="form-section">
+                        <h2>Thông tin liên hệ</h2>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email"> Email </label>
+
+                                <input
+                                    type="email"
+                                    id="email"
+                                    placeholder="email@example.com"
+                                />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone"> Số điện thoại </label>
+
+                                <input
+                                    type="text"
+                                    id="phone"
+                                    placeholder="0123 456 789"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address"> Địa chỉ </label>
+
+                            <input
+                                type="text"
+                                id="address"
+                                placeholder="Hà Nội, Việt Nam"
+                            />
+                        </div>
+                    </section>
+
+                    <!-- ==================================================
+                         KỸ NĂNG
+                    ================================================== -->
+
+                    <section class="form-section">
+                        <h2>Kỹ năng</h2>
+
+                        <!-- KỸ NĂNG CHUYÊN MÔN -->
+                        <div class="form-group">
+                            <label for="skills">Kỹ năng chuyên môn</label>
+
+                            <input
+                                type="text"
+                                id="skills"
+                                placeholder="JavaScript, Node.js, MySQL, Git..."
+                            />
+
+                            <small class="form-hint">
+                                Ngăn cách các kỹ năng bằng dấu phẩy.
+                            </small>
+                        </div>
+
+                        <!-- KỸ NĂNG MỀM -->
+                        <div class="form-group">
+                            <label for="softSkills">Kỹ năng mềm</label>
+
+                            <input
+                                type="text"
+                                id="softSkills"
+                                placeholder="Làm việc nhóm, Giao tiếp, Quản lý thời gian..."
+                            />
+
+                            <small class="form-hint">
+                                Ngăn cách các kỹ năng mềm bằng dấu phẩy.
+                            </small>
+                        </div>
+                    </section>
+
+                    <!-- ==================================================
+                         KINH NGHIỆM
+                    ================================================== -->
+
+                    <section class="form-section">
+                        <div class="section-title">
+                            <h2>Kinh nghiệm làm việc</h2>
+                        </div>
+
+                        <div id="experienceList">
+                            <div class="dynamic-item experience-item">
+                                <div class="dynamic-item-header">
+                                    <span class="item-label"> Mục 1 </span>
+
+                                    <button type="button" class="remove-btn">
+                                        Xóa
+                                    </button>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label> Chức danh </label>
+
+                                        <input
+                                            type="text"
+                                            class="experience-position"
+                                            placeholder="Backend Developer"
+                                        />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label> Thời gian </label>
+
+                                        <input
+                                            type="text"
+                                            class="experience-time"
+                                            placeholder="2024 – nay"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label> Công ty / tổ chức </label>
+
+                                    <input
+                                        type="text"
+                                        class="experience-company"
+                                        placeholder="Tên công ty / tổ chức"
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <label> Mô tả công việc </label>
+
+                                    <textarea
+                                        class="experience-description"
+                                        rows="4"
+                                        placeholder="Mô tả công việc đã đảm nhiệm..."
+                                    ></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="add-more-btn"
+                            id="addExperience"
+                        >
+                            <span>+</span>
+                            Thêm kinh nghiệm
+                        </button>
+                    </section>
+
+                    <!-- ==================================================
+                         HỌC VẤN
+                    ================================================== -->
+
+                    <section class="form-section">
+                        <div class="section-title">
+                            <h2>Học vấn</h2>
+                        </div>
+
+                        <div id="educationList">
+                            <div class="dynamic-item education-item">
+                                <div class="dynamic-item-header">
+                                    <span class="item-label"> Mục 1 </span>
+
+                                    <button type="button" class="remove-btn">
+                                        Xóa
+                                    </button>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label> Chuyên ngành / bằng cấp </label>
+
+                                        <input
+                                            type="text"
+                                            class="education-degree"
+                                            placeholder="Công nghệ thông tin"
+                                        />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label> Thời gian </label>
+
+                                        <input
+                                            type="text"
+                                            class="education-time"
+                                            placeholder="2020 – 2024"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label> Tên trường </label>
+
+                                    <input
+                                        type="text"
+                                        class="education-school"
+                                        placeholder="Tên trường đại học"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="add-more-btn"
+                            id="addEducation"
+                        >
+                            <span>+</span>
+                            Thêm học vấn
+                        </button>
+                    </section>
+                    <section class="form-section">
+                        <div class="section-title">
+                            <h2>Ngoại ngữ</h2>
+                        </div>
+
+                        <div id="languageList">
+                            <!-- NGOẠI NGỮ 1 -->
+                            <div class="dynamic-item language-item">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Ngôn ngữ</label>
+
+                                        <input
+                                            type="text"
+                                            class="language-name"
+                                            placeholder="Ngôn ngữ (VD: Tiếng Anh)"
+                                        />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Trình độ</label>
+
+                                        <input
+                                            type="text"
+                                            class="language-level"
+                                            placeholder="VD: B2, N1..."
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <small class="form-hint">
+                            Nhập trình độ theo cách bạn muốn — VD: B2, N1, IELTS
+                            6.5, Thành thạo...
+                        </small>
+
+                        <button
+                            type="button"
+                            class="add-more-btn"
+                            id="addLanguage"
+                        >
+                            <span>+</span>
+                            Thêm ngoại ngữ
+                        </button>
+                    </section>
+                    <!-- ==================================================
+                         MÀU CHỦ ĐẠO
+                    ================================================== -->
+
+                    <section class="form-section">
+                        <h2>Màu chủ đạo</h2>
+
+                        <div class="color-options">
+                            <button
+                                type="button"
+                                class="color-btn active"
+                                data-color="#2f7867"
+                                style="--color: #2f7867"
+                            ></button>
+
+                            <button
+                                type="button"
+                                class="color-btn"
+                                data-color="#d18b32"
+                                style="--color: #d18b32"
+                            ></button>
+
+                            <button
+                                type="button"
+                                class="color-btn"
+                                data-color="#344b7a"
+                                style="--color: #344b7a"
+                            ></button>
+
+                            <button
+                                type="button"
+                                class="color-btn"
+                                data-color="#bd4d3e"
+                                style="--color: #bd4d3e"
+                            ></button>
+
+                            <button
+                                type="button"
+                                class="color-btn"
+                                data-color="#815273"
+                                style="--color: #815273"
+                            ></button>
+
+                            <button
+                                type="button"
+                                class="color-btn"
+                                data-color="#607438"
+                                style="--color: #607438"
+                            ></button>
+
+                            <button
+                                type="button"
+                                class="color-btn"
+                                data-color="#465a83"
+                                style="--color: #465a83"
+                            ></button>
+
+                            <button
+                                type="button"
+                                class="color-btn"
+                                data-color="#4f626f"
+                                style="--color: #4f626f"
+                            ></button>
+                        </div>
+
+                        <small class="form-hint">
+                            Màu sẽ áp dụng cho dải màu đầu trang của CV.
+                        </small>
+                    </section>
+
+                    <!-- ==================================================
+                         KIỂU BỐ CỤC
+                    ================================================== -->
+
+                    <section class="form-section">
+                        <h2>Kiểu bố cục CV</h2>
+
+                        <div class="layout-options">
+                            <button
+                                type="button"
+                                class="layout-btn active"
+                                data-layout="layout1"
+                            >
+                                <span
+                                    class="layout-preview layout-preview-1"
+                                ></span>
+
+                                <span> Cổ điển </span>
+                            </button>
+
+                            <button
+                                type="button"
+                                class="layout-btn"
+                                data-layout="layout2"
+                            >
+                                <span
+                                    class="layout-preview layout-preview-2"
+                                ></span>
+
+                                <span> Hai cột </span>
+                            </button>
+
+                            <button
+                                type="button"
+                                class="layout-btn"
+                                data-layout="layout3"
+                            >
+                                <span
+                                    class="layout-preview layout-preview-3"
+                                ></span>
+
+                                <span> Tối giản </span>
+                            </button>
+
+                            <button
+                                type="button"
+                                class="layout-btn"
+                                data-layout="layout4"
+                            >
+                                <span
+                                    class="layout-preview layout-preview-4"
+                                ></span>
+
+                                <span> Dòng thời gian </span>
+                            </button>
+                        </div>
+
+                        <small class="form-hint">
+                            Chọn cách trình bày nội dung trên CV.
+                        </small>
+                    </section>
+
+                    <!-- ==================================================
+                         ACTION
+                    ================================================== -->
+
+                    <div class="form-actions">
+                        <button type="button" class="save-btn" id="saveCvBtn">
+                            Lưu CV
+                        </button>
+
+                        <button type="button" class="cancel-btn" id="cancelCV">
+                            Hủy
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ==================================================
+                     RIGHT: PREVIEW
+                ================================================== -->
+
+                <div class="preview-area">
+                    <h2>Xem trước</h2>
+
+                    <div id="cvPreview" class="cv-preview layout1">
+                        <!-- ================= CV HEADER ================= -->
+
+                        <div class="cv-header"></div>
+
+                        <!-- ================= CV CONTENT ================= -->
+
+                        <div class="cv-content">
+                            <!-- ================= CV SIDEBAR ================= -->
+
+                            <div class="cv-sidebar">
+                                <div class="avatar"></div>
+
+                                <div class="sidebar-line"></div>
+
+                                <div class="sidebar-line short"></div>
+
+                                <div class="sidebar-line"></div>
+                            </div>
+
+                            <!-- ================= CV MAIN ================= -->
+
+                            <div class="cv-main">
+                                <h1 id="previewName">Họ và tên</h1>
+
+                                <h3 id="previewPosition">Chức danh</h3>
+
+                                <p id="previewSummary" class="summary">
+                                    Giới thiệu bản thân
+                                </p>
+
+                                <!-- ================= KINH NGHIỆM ================= -->
+
+                                <section
+                                    class="preview-section"
+                                    id="experiencePreview"
+                                >
+                                    <h2>Kinh nghiệm</h2>
+
+                                    <div class="empty-line"></div>
+                                </section>
+
+                                <!-- ================= HỌC VẤN ================= -->
+
+                                <section
+                                    class="preview-section"
+                                    id="educationPreview"
+                                >
+                                    <h2>Học vấn</h2>
+
+                                    <div class="empty-line"></div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- ==================================================
+             JAVASCRIPT
+        ================================================== -->
+
+        <script src="../js/function.js"></script>
+
+        <script src="../js/create_cv.js"></script>
+
+        <script src="../js/header.js"></script>
+
+        <!-- <script src="../js/home.js"></script> -->
+
+        <script src="../js/theme.js"></script>
+    </body>
+</html>

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>Chi tiết CV - CV Studio</title>
+
+        <!-- FONT -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <link
+            href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- FONT AWESOME -->
+
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        />
+
+        <!-- NAV -->
+
+        <link rel="stylesheet" href="../css/nav.css" />
+
+        <!-- HEADER -->
+
+        <link rel="stylesheet" href="../css/header.css" />
+
+        <!-- DETAIL -->
+
+        <link rel="stylesheet" href="../css/detail.css" />
+    </head>
+
+    <body>
+        <!-- SIDEBAR -->
+
+        <div id="nav-container"></div>
+
+        <!-- HEADER -->
+
+        <div id="header-container"></div>
+
+        <!-- MAIN -->
+
+        <main class="detail-page">
+            <!-- TOP -->
+
+            <section class="detail-top">
+                <div class="detail-heading">
+                    <h1 id="cv-title">Đang tải CV...</h1>
+
+                    <p id="cv-meta">Đang tải thông tin...</p>
+                </div>
+
+                <div class="detail-actions">
+                    <button
+                        type="button"
+                        class="action-btn"
+                        id="downloadPdfBtn"
+                    >
+                        <i class="fa-solid fa-download"></i>
+
+                        Tải xuống PDF
+                    </button>
+
+                    <button type="button" class="action-btn" id="duplicateBtn">
+                        <i class="fa-regular fa-copy"></i>
+
+                        Nhân bản
+                    </button>
+
+                    <button
+                        type="button"
+                        class="action-btn danger"
+                        id="deleteBtn"
+                    >
+                        <i class="fa-regular fa-trash-can"></i>
+
+                        Xóa
+                    </button>
+
+                    <button
+                        type="button"
+                        class="action-btn primary"
+                        id="editBtn"
+                    >
+                        <i class="fa-solid fa-pen"></i>
+
+                        Sửa CV
+                    </button>
+                </div>
+            </section>
+
+            <!-- CV -->
+
+            <section class="cv-detail-wrapper">
+                <div id="cv-document" class="cv-document layout1">
+                    <!-- JS render -->
+                </div>
+            </section>
+        </main>
+
+        <!-- TOAST -->
+
+        <div id="toastArea" class="toast-area"></div>
+
+        <!-- PDF LIBRARY -->
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+        <!-- DETAIL JS -->
+
+        <script src="../js/home.js"></script>
+        <script src="../js/function.js"></script>
+        <script src="../js/theme.js"></script>
+        <script src="../js/header.js"></script>
+        <script src="../js/detail.js"></script>
+    </body>
+</html>
