@@ -1,0 +1,222 @@
+<header class="home-header">
+    <div class="header-left">
+        <h2>
+            <span id="greeting">Chào buổi sáng</span>
+            <span id="user-name">...</span>
+        </h2>
+
+        <p>
+            <span id="current-date">...</span>
+            <span> · </span>
+            <span id="cv-count">0 CV</span>
+            <span> · </span>
+            <span id="interview-count"> 0 lịch phỏng vấn </span>
+        </p>
+    </div>
+
+    <!-- USER -->
+    <div class="header-user" id="header-user">
+        <div class="user-avatar" id="user-avatar">?</div>
+
+        <span id="user-short-name"> ... </span>
+
+        <i class="fa-solid fa-chevron-down"></i>
+
+        <!-- DROPDOWN -->
+        <div class="user-dropdown" id="user-dropdown">
+            <!-- MÀU CHỦ ĐẠO -->
+            <div class="dropdown-section">
+                <div class="dropdown-label">Màu chủ đạo</div>
+
+                <div class="color-options">
+                    <button
+                        class="color-option green active"
+                        data-color="#2f7867"
+                    ></button>
+
+                    <button
+                        class="color-option orange"
+                        data-color="#d18b32"
+                    ></button>
+
+                    <button
+                        class="color-option blue"
+                        data-color="#4c5f8f"
+                    ></button>
+
+                    <button
+                        class="color-option purple"
+                        data-color="#815273"
+                    ></button>
+
+                    <button
+                        class="color-option red"
+                        data-color="#bd4d3e"
+                    ></button>
+                </div>
+            </div>
+
+            <div class="dropdown-divider"></div>
+
+            <!-- CHẾ ĐỘ -->
+            <div class="dropdown-section">
+                <div class="dropdown-label">Chế độ hiển thị</div>
+
+                <div class="theme-options">
+                    <button
+                        type="button"
+                        class="theme-option"
+                        data-theme="light"
+                    >
+                        <i class="fa-solid fa-sun"></i>
+                        Sáng
+                    </button>
+
+                    <button
+                        type="button"
+                        class="theme-option"
+                        data-theme="dark"
+                    >
+                        <i class="fa-regular fa-moon"></i>
+                        Tối
+                    </button>
+                </div>
+            </div>
+
+            <div class="dropdown-divider"></div>
+
+            <!-- ĐỔI MẬT KHẨU -->
+            <button class="dropdown-item" id="change-password-btn">
+                <i class="fa-solid fa-lock"></i>
+                <span>Đổi mật khẩu</span>
+            </button>
+
+            <!-- ĐĂNG XUẤT -->
+            <button
+                class="dropdown-item logout-item"
+                id="logout-btn"
+                onclick="logout()"
+            >
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>Đăng xuất</span>
+            </button>
+        </div>
+    </div>
+</header>
+<!-- =========================================
+     MODAL ĐỔI MẬT KHẨU
+========================================= -->
+
+<div class="password-modal" id="password-modal">
+    <div class="password-modal-content">
+        <!-- HEADER -->
+        <div class="password-modal-header">
+            <div>
+                <h2>Đổi mật khẩu</h2>
+
+                <p>Cập nhật mật khẩu mới cho tài khoản của bạn.</p>
+            </div>
+
+            <button
+                type="button"
+                class="password-modal-close"
+                id="close-password-modal"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- FORM -->
+        <form id="change-password-form">
+            <!-- MẬT KHẨU HIỆN TẠI -->
+            <div class="field">
+                <label for="current-password"> Mật khẩu hiện tại </label>
+
+                <div class="input">
+                    <input
+                        id="current-password"
+                        type="password"
+                        placeholder="Nhập mật khẩu hiện tại"
+                        name="current_password"
+                        required
+                    />
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    <span class="eye" onclick="togglePassword(this)">
+                        <i class="fa-regular fa-eye"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- MẬT KHẨU MỚI -->
+            <div class="field">
+                <label for="new-password"> Mật khẩu mới </label>
+
+                <div class="input">
+                    <input
+                        id="new-password"
+                        type="password"
+                        placeholder="Ít nhất 8 kí tự"
+                        name="new_password"
+                        oninput="checkStrength(this.value)"
+                        required
+                    />
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    <span class="eye" onclick="togglePassword(this)">
+                        <i class="fa-regular fa-eye"></i>
+                    </span>
+                </div>
+
+                <!-- ĐỘ MẠNH -->
+                <div class="strength-wrap" id="strength-bars">
+                    <div class="s-seg" id="s1"></div>
+                    <div class="s-seg" id="s2"></div>
+                    <div class="s-seg" id="s3"></div>
+                    <div class="s-seg" id="s4"></div>
+                </div>
+
+                <div class="strength-label" id="strength-text"></div>
+            </div>
+
+            <!-- XÁC NHẬN -->
+            <div class="field">
+                <label for="confirm-password"> Xác nhận mật khẩu </label>
+
+                <div class="input">
+                    <input
+                        id="confirm-password"
+                        type="password"
+                        placeholder="••••••••"
+                        name="confirm_password"
+                        required
+                    />
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    <span class="eye" onclick="togglePassword(this)">
+                        <i class="fa-regular fa-eye"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- BUTTON -->
+            <div class="password-modal-actions">
+                <button
+                    type="button"
+                    class="cancel-password-btn"
+                    id="cancel-password"
+                >
+                    Hủy
+                </button>
+
+                <button type="submit" class="save-password-btn">
+                    Đổi mật khẩu
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
