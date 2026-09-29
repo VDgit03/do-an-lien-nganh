@@ -288,7 +288,11 @@ async function handleGoogleLogin(accessToken) {
                 "userName",
                 fullName
             );
-
+            
+            sessionStorage.setItem(
+                "loginSuccess",
+                "true"
+            );
 
             console.log(
                 "Tên đã lưu:",
