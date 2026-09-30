@@ -6,107 +6,207 @@ function logout() {
     window.location.href = "../../auth/index.html";
 }
 
-fetch("../nav.html")
-    .then((response) => {
+
+// load nav
+async function loadNav() {
+
+    try {
+
+        const response = await fetch("../nav.html");
+
         if (!response.ok) {
             throw new Error("Không thể tải nav.html");
         }
 
-        return response.text();
-    })
-    .then((data) => {
-        document.getElementById("nav-container").innerHTML = data;
+        const data = await response.text();
 
-        setActiveNav();
-    })
-    .catch((error) => {
-        console.error("Lỗi load nav:", error);
-    });
+        const navContainer =
+            document.getElementById("nav-container");
 
-
-function setActiveNav() {
-    const path = window.location.pathname;
-
-    let currentPage = "";
-
-    if (path.includes("/home/")) {
-        currentPage = "home";
-    } else if (path.includes("/cv/")) {
-        currentPage = "cv";
-    } else if (path.includes("/analysis/")) {
-        currentPage = "analysis";
-    } else if (path.includes("/interview/")) {
-        currentPage = "interview";
-    }
-
-    document.querySelectorAll(".nav-item").forEach((item) => {
-        item.classList.remove("active");
-
-        if (item.dataset.page === currentPage) {
-            item.classList.add("active");
+        if (!navContainer) {
+            return;
         }
-    });
+
+        // đưa nav vào HTML
+        navContainer.innerHTML = data;
+
+        // active menu
+        setActiveNav();
+
+        // sau khi nav đã tồn tại mới đếm
+        await loadSidebarStats();
+
+    } catch (error) {
+
+        console.error(
+            "Lỗi load nav:",
+            error
+        );
+
+    }
 }
 
 
-// popup đổi mk
-document.addEventListener("DOMContentLoaded", () => {
+// active nav
+function setActiveNav() {
 
-    const changePasswordBtn = document.getElementById("change-password-btn");
+    const path =
+        window.location.pathname;
 
-    const passwordModal = document.getElementById("password-modal");
+    let currentPage = "";
 
-    const closePasswordModal = document.getElementById("close-password-modal");
 
-    const cancelPassword = document.getElementById("cancel-password");
+    if (path.includes("/home/")) {
 
-  const changePasswordForm = document.getElementById("change-password-form");
+        currentPage = "home";
 
-    if (!changePasswordBtn || !passwordModal) {
-        return;
     }
 
-    // mở popup
-    changePasswordBtn.addEventListener("click", (event) => {
+    else if (path.includes("/cv/")) {
 
-        event.stopPropagation();
+        currentPage = "cv";
 
-        passwordModal.classList.add("active");
+    }
 
-    });
+    else if (path.includes("/analysis/")) {
+
+        currentPage = "analysis";
+
+    }
+
+    else if (path.includes("/interview/")) {
+
+        currentPage = "interview";
+
+    }
 
 
-    // đóng
-    closePasswordModal.addEventListener("click", () => {
-        passwordModal.classList.remove("active");
+    document
+        .querySelectorAll(".nav-item")
+        .forEach((item) => {
 
-    });
+            item.classList.remove("active");
 
-    // hủy
-    cancelPassword.addEventListener("click", () => {
+            if (
+                item.dataset.page ===
+                currentPage
+            ) {
 
-        passwordModal.classList.remove("active");
+                item.classList.add("active");
 
-    });
+            }
 
-    // gửi
-    changePasswordForm.addEventListener(
-        "submit",
-        handleChangePassword
-    );
+        });
 
-    // click ngoài popup
-    passwordModal.addEventListener("click", (event) => {
+}
 
-        if (event.target === passwordModal) {
 
-            passwordModal.classList.remove("active");
+// count cv + interview
+
+async function loadSidebarStats() {
+
+    try {
+
+        const token =
+            localStorage.getItem("token");
+
+
+        if (!token) {
+
+            logout();
+
+            return;
 
         }
 
-    });
 
-});
+        const response =
+            await fetch(
+                "http://localhost:3000/api/home/summary",
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        if (response.status === 401) {
+
+            logout();
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Không thể lấy thống kê"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Dữ liệu thống kê:",
+            data
+        );
+
+        const cvElement =
+            document.getElementById(
+                "cv-count"
+            );
+
+
+        if (cvElement) {
+
+            cvElement.textContent =
+                `${data.cvCount || 0} CV`;
+
+        }
+
+        const interviewElement =
+            document.getElementById(
+                "interview-count"
+            );
+
+
+        if (interviewElement) {
+
+            interviewElement.textContent =
+                `${data.interviewCount || 0} lịch phỏng vấn`;
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Lỗi load sidebar:",
+            error
+        );
+
+    }
+
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        loadNav();
+
+    }
+);
 
 
 function togglePassword(el) {
