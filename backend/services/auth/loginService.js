@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const loginService = async (email, password) => {
-
     // 1. Tìm user
     const user = await findUserByEmail(email);
 
@@ -32,7 +31,6 @@ export const loginService = async (email, password) => {
     if (!isMatch) {
         throw new Error("Sai mật khẩu");
     }
-
 
     // 5. Tạo token
     const token = jwt.sign(

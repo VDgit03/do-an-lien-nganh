@@ -36,14 +36,12 @@ export const authMiddleware = (req, res, next) => {
         req.userId = decoded.id;
 
         if (!req.userId) {
-
             return res.status(401).json({
                 message:
                     "Không tìm thấy ID người dùng trong token"
             });
 
         }
-
 
         next();
 
