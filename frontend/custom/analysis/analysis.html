@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="stylesheet" href="../css/nav.css" />
+
+        <link rel="stylesheet" href="../css/header.css" />
+
+        <link rel="stylesheet" href="../css/analysis.css" />
+
+        <link
+            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap"
+            rel="stylesheet"
+        />
+
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        />
+
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"
+        />
+
+        <title>Phân tích CV - CV Studio</title>
+    </head>
+
+    <body>
+        <div class="toast-area" id="toastArea"></div>
+
+        <div id="nav-container"></div>
+
+        <div id="header-container"></div>
+
+        <main class="analysis-page">
+            <section class="analysis-heading">
+                <h1>Phân tích CV</h1>
+
+                <p>
+                    So khớp CV với mô tả công việc (JD) theo cấp bậc và ngành
+                    trong CNTT.
+                </p>
+            </section>
+
+            <section class="analysis-layout">
+                <div class="analysis-form">
+                    <div class="form-section">
+                        <label class="section-label">
+                            Tải CV từ thiết bị
+                        </label>
+
+                        <label class="upload-box" id="uploadBox" for="cvFile">
+                            <input
+                                type="file"
+                                id="cvFile"
+                                accept=".pdf,application/pdf"
+                                hidden
+                            />
+
+                            <div class="upload-icon">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                            </div>
+
+                            <div class="upload-title" id="uploadTitle">
+                                Nhấn để chọn tệp CV (PDF)
+                            </div>
+
+                            <div class="upload-subtitle">
+                                hoặc kéo thả tệp vào đây
+                            </div>
+                        </label>
+
+                        <div class="file-info" id="fileInfo">
+                            <div class="file-icon">
+                                <i class="fa-solid fa-file-pdf"></i>
+                            </div>
+
+                            <div class="file-details">
+                                <span class="file-name" id="fileName"> </span>
+
+                                <span class="file-size" id="fileSize"> </span>
+                            </div>
+
+                            <button
+                                type="button"
+                                class="remove-file"
+                                id="removeFile"
+                            >
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <label class="section-label" for="jobDescription">
+                            Nội dung JD (mô tả công việc)
+                        </label>
+
+                        <textarea
+                            id="jobDescription"
+                            class="job-description"
+                            maxlength="10000"
+                            placeholder="Dán nội dung tin tuyển dụng vào đây..."
+                        ></textarea>
+
+                        <div class="textarea-footer">
+                            <button
+                                type="button"
+                                class="sample-jd-btn"
+                                id="sampleJdBtn"
+                            >
+                                Dùng JD mẫu
+                            </button>
+
+                            <span id="charCount"> 0 ký tự </span>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="select-grid">
+                            <!-- CẤP BẬC -->
+
+                            <div class="select-group">
+                                <label for="level"> Cấp bậc </label>
+
+                                <div class="select-wrapper">
+                                    <select id="level">
+                                        <option value="intern">Intern</option>
+
+                                        <option value="fresher">Fresher</option>
+
+                                        <option value="junior" selected>
+                                            Junior
+                                        </option>
+
+                                        <option value="middle">Middle</option>
+
+                                        <option value="senior">Senior</option>
+
+                                        <option value="manager">Manager</option>
+                                    </select>
+
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </div>
+                            </div>
+
+                            <div class="select-group">
+                                <label for="jobField"> Ngành trong CNTT </label>
+
+                                <div class="select-wrapper">
+                                    <select id="jobField">
+                                        <option value="frontend" selected>
+                                            Frontend Developer
+                                        </option>
+
+                                        <option value="backend">
+                                            Backend Developer
+                                        </option>
+
+                                        <option value="mobile">
+                                            Mobile App Developer
+                                        </option>
+
+                                        <option value="ai-ml">
+                                            AI/ML Engineer
+                                        </option>
+
+                                        <option value="data-scientist">
+                                            Data Scientist
+                                        </option>
+
+                                        <option value="data-engineer">
+                                            Data Engineer
+                                        </option>
+
+                                        <option value="devops">
+                                            DevOps Engineer
+                                        </option>
+
+                                        <option value="cloud">
+                                            Cloud Engineer
+                                        </option>
+
+                                        <option value="cybersecurity">
+                                            Cybersecurity Engineer
+                                        </option>
+
+                                        <option value="qa-qc">
+                                            QA/QC Engineer
+                                        </option>
+
+                                        <option value="system-admin">
+                                            System Administrator
+                                        </option>
+
+                                        <option value="network">
+                                            Network Engineer
+                                        </option>
+
+                                        <option value="ui-ux">
+                                            UI/UX Designer
+                                        </option>
+
+                                        <option value="ba">
+                                            Business Analyst (BA)
+                                        </option>
+
+                                        <option value="dba">
+                                            Database Administrator (DBA)
+                                        </option>
+                                    </select>
+
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button
+                            type="button"
+                            class="btn-analyze"
+                            id="analyzeBtn"
+                        >
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                            Phân tích
+                        </button>
+
+                        <button type="button" class="btn-clear" id="clearBtn">
+                            <i class="fa-solid fa-rotate-left"></i>
+
+                            Xóa nội dung
+                        </button>
+                    </div>
+                </div>
+
+                <div class="analysis-result">
+                    <div class="result-empty">
+                        <div class="result-icon">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+
+                        <h2>Kết quả sẽ hiện ở đây</h2>
+
+                        <p>
+                            Nhập JD, chọn cấp bậc và ngành,
+                            <br />
+                            sau đó nhấn "Phân tích" để xem
+                            <br />
+                            mức độ phù hợp.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <script src="../js/function.js"></script>
+
+        <script src="../js/theme.js"></script>
+
+        <script src="../js/header.js"></script>
+
+        <script src="../js/analysis.js"></script>
+    </body>
+</html>
