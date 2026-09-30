@@ -1,1110 +1,648 @@
-/* =========================================================
-   ANALYSIS PAGE
-========================================================= */
-
 :root {
-
     --navy: #171e2e;
-
     --cream: #f8f6ef;
-
     --green: #2f7867;
-
     --green-light: #eaf3ef;
-
     --gold: #d8ad62;
-
     --text: #172033;
-
     --text-light: #657086;
-
     --border: #ddd9ce;
-
     --white: #ffffff;
-
 }
-
-
-/* =========================================================
-   RESET
-========================================================= */
 
 * {
     box-sizing: border-box;
 }
 
-
 body {
     margin: 0;
-
     background: var(--cream);
-
     color: var(--text);
-
     font-family: Arial, Helvetica, sans-serif;
 }
 
-
-/* =========================================================
-   MAIN
-========================================================= */
+/* heading */
 
 .analysis-page {
-
     margin-left: 250px;
-
     padding: 32px 42px 60px;
-
     min-height: calc(100vh - 80px);
 }
 
-
-/* =========================================================
-   HEADING
-========================================================= */
-
 .analysis-heading {
-
     margin-bottom: 26px;
 }
 
-
 .analysis-heading h1 {
-
     margin: 0 0 8px;
-
     font-family: Arial, Helvetica, sans-serif;
-
     font-size: 30px;
-
     font-weight: 500;
-
     color: #172033;
 }
 
-
 .analysis-heading p {
-
     margin: 0;
-
     color: #62718a;
-
     font-size: 15px;
-
     line-height: 1.6;
 }
 
-
-/* =========================================================
-   LAYOUT
-========================================================= */
+/* layout */
 
 .analysis-layout {
-
     display: grid;
-
     grid-template-columns:
         minmax(520px, 1fr)
         minmax(420px, 1fr);
-
     gap: 30px;
-
     align-items: start;
 }
 
-
-/* =========================================================
-   FORM CARD
-========================================================= */
+/* form card */
 
 .analysis-form {
-
     background: var(--white);
-
     border: 1px solid var(--border);
-
     border-radius: 16px;
-
     padding: 28px 26px;
-
     box-shadow:
         0 3px 12px rgba(23, 30, 46, 0.025);
 }
 
-
-/* =========================================================
-   FORM SECTION
-========================================================= */
+/* form section */
 
 .form-section {
-
     margin-bottom: 20px;
 }
 
-
 .form-section:last-child {
-
     margin-bottom: 0;
 }
 
-
 .section-label {
-
     display: block;
-
     margin-bottom: 10px;
-
     color: #172033;
-
     font-size: 14px;
-
     font-weight: 600;
 }
 
-
-/* =========================================================
-   UPLOAD
-========================================================= */
+/* upload */
 
 .upload-box {
-
     min-height: 130px;
-
     width: 100%;
-
     border: 1.5px dashed #d9d3c6;
-
     border-radius: 13px;
-
     display: flex;
-
     flex-direction: column;
-
     justify-content: center;
-
     align-items: center;
-
     cursor: pointer;
-
     transition:
         border-color 0.2s ease,
         background 0.2s ease,
         transform 0.2s ease;
 }
 
-
 .upload-box:hover {
-
     border-color: var(--green);
-
     background: #fafcfb;
 }
 
-
 .upload-box.dragging {
-
     border-color: var(--green);
-
     background: var(--green-light);
-
     transform: scale(1.01);
 }
 
-
 .upload-icon {
-
     margin-bottom: 10px;
-
     color: #737e91;
-
     font-size: 23px;
 }
 
-
 .upload-title {
-
     color: #647189;
-
     font-size: 14px;
-
     font-weight: 500;
-
     text-align: center;
 }
-
 
 .upload-subtitle {
-
     margin-top: 5px;
-
     color: #8791a2;
-
     font-size: 13px;
-
     text-align: center;
 }
 
-
-/* =========================================================
-   FILE INFO
-========================================================= */
+/* file info */
 
 .file-info {
-
     display: none;
-
     align-items: center;
-
     gap: 12px;
-
     margin-top: 10px;
-
     padding: 10px 12px;
-
     border-radius: 10px;
-
     background: #f5f7f6;
-
     border: 1px solid #e0e8e4;
 }
 
-
 .file-info.show {
-
     display: flex;
 }
 
-
 .file-icon {
-
     width: 36px;
-
     height: 36px;
-
     border-radius: 8px;
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     background: #fcecec;
-
     color: #d95050;
-
     flex-shrink: 0;
 }
 
-
 .file-details {
-
     min-width: 0;
-
     flex: 1;
-
     display: flex;
-
     flex-direction: column;
-
     gap: 2px;
 }
 
-
 .file-name {
-
     color: #273144;
-
     font-size: 13px;
-
     font-weight: 600;
-
     white-space: nowrap;
-
     overflow: hidden;
-
     text-overflow: ellipsis;
 }
 
-
 .file-size {
-
     color: #8992a2;
-
     font-size: 11px;
 }
 
-
 .remove-file {
-
     width: 30px;
-
     height: 30px;
-
     border: none;
-
     border-radius: 7px;
-
     background: transparent;
-
     color: #8a92a0;
-
     cursor: pointer;
-
     transition: 0.2s;
 }
 
-
 .remove-file:hover {
-
     color: #d34e4e;
-
     background: #fcecec;
 }
 
-
-/* =========================================================
-   TEXTAREA
-========================================================= */
+/* textarea */
 
 .job-description {
-
     width: 100%;
-
     min-height: 140px;
-
     padding: 13px;
-
     resize: vertical;
-
     border: 1px solid var(--border);
-
     border-radius: 10px;
-
     outline: none;
-
     background: #fff;
-
     color: #273144;
-
     font-family: inherit;
-
     font-size: 13px;
-
     line-height: 1.65;
-
     transition:
         border-color 0.2s ease,
         box-shadow 0.2s ease;
 }
 
-
 .job-description::placeholder {
-
     color: #a1a9b7;
 }
 
-
 .job-description:focus {
-
     border-color: var(--green);
-
     box-shadow:
         0 0 0 3px rgba(47, 120, 103, 0.08);
 }
 
-
-/* =========================================================
-   TEXTAREA FOOTER
-========================================================= */
+/* textarea footer */
 
 .textarea-footer {
-
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
-
     margin-top: 7px;
 }
 
-
 .sample-jd-btn {
-
     padding: 0;
-
     border: none;
-
     background: transparent;
-
     color: var(--green);
-
     font-family: inherit;
-
     font-size: 13px;
-
     cursor: pointer;
-
     transition: 0.2s;
 }
 
-
 .sample-jd-btn:hover {
-
     text-decoration: underline;
 }
 
-
 #charCount {
-
     color: #8b94a4;
-
     font-size: 12px;
 }
 
-
-/* =========================================================
-   SELECT
-========================================================= */
+/* select */
 
 .select-grid {
-
     display: grid;
-
     grid-template-columns: 1fr 1fr;
-
     gap: 16px;
 }
 
-
 .select-group label {
-
     display: block;
-
     margin-bottom: 8px;
-
     color: #172033;
-
     font-size: 13px;
-
     font-weight: 600;
 }
 
-
 .select-wrapper {
-
     position: relative;
 }
 
-
 .select-wrapper select {
-
     width: 100%;
-
     height: 44px;
-
     padding: 0 40px 0 13px;
-
     border: 1px solid var(--border);
-
     border-radius: 9px;
-
     background: #fff;
-
     color: #273144;
-
     font-family: inherit;
-
     font-size: 13px;
-
     cursor: pointer;
-
     appearance: none;
-
     outline: none;
-
     transition: 0.2s;
 }
 
-
 .select-wrapper select:focus {
-
     border-color: var(--green);
-
     box-shadow:
         0 0 0 3px rgba(47, 120, 103, 0.08);
 }
 
-
 .select-wrapper i {
-
     position: absolute;
-
     top: 50%;
-
     right: 14px;
-
     transform: translateY(-50%);
-
     pointer-events: none;
-
     color: #7a8495;
-
     font-size: 11px;
 }
 
-
-/* =========================================================
-   ACTIONS
-========================================================= */
+/* actions */
 
 .form-actions {
-
     display: flex;
-
     gap: 10px;
-
     margin-top: 4px;
 }
 
-
 .btn-analyze,
 .btn-clear {
-
     min-height: 45px;
-
     padding: 0 20px;
-
     border-radius: 9px;
-
     font-family: inherit;
-
     font-size: 13px;
-
     font-weight: 600;
-
     cursor: pointer;
-
     display: inline-flex;
-
     justify-content: center;
-
     align-items: center;
-
     gap: 8px;
-
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease,
         background 0.2s ease;
 }
 
-
 .btn-analyze {
-
     border: 1px solid var(--green);
-
     background: var(--green);
-
     color: #fff;
 }
 
-
 .btn-analyze:hover {
-
     background: #286b5c;
-
     transform: translateY(-1px);
-
     box-shadow:
         0 5px 14px rgba(47, 120, 103, 0.2);
 }
 
-
 .btn-clear {
-
     border: 1px solid #ddd8cc;
-
     background: #fff;
-
     color: #344052;
 }
 
-
 .btn-clear:hover {
-
     background: #f8f7f3;
-
     transform: translateY(-1px);
 }
 
-
-/* =========================================================
-   RESULT CARD
-========================================================= */
+/* result card */
 
 .analysis-result {
-
     min-height: 387px;
-
     background: var(--white);
-
     border: 1px solid var(--border);
-
     border-radius: 16px;
-
     padding: 30px;
-
     box-shadow:
         0 3px 12px rgba(23, 30, 46, 0.025);
 }
 
-
-/* =========================================================
-   EMPTY RESULT
-========================================================= */
+/* empty result */
 
 .result-empty {
-
     min-height: 325px;
-
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
-
     justify-content: center;
-
     text-align: center;
 }
 
-
 .result-icon {
-
     margin-bottom: 18px;
-
     color: #788397;
-
     font-size: 25px;
 }
 
-
 .result-empty h2 {
-
     margin: 0 0 12px;
-
     font-size: 18px;
-
     font-weight: 400;
-
     color: #1c2535;
 }
 
-
 .result-empty p {
-
     margin: 0;
-
     color: #748096;
-
     font-size: 14px;
-
     line-height: 1.65;
 }
 
-
-/* =========================================================
-   RESULT CONTENT
-========================================================= */
+/* result content */
 
 .result-content {
-
     width: 100%;
 }
 
-
 .result-header {
-
     display: flex;
-
     justify-content: space-between;
-
     align-items: flex-start;
-
     gap: 20px;
 }
 
-
 .result-small-title {
-
     color: var(--green);
-
     font-size: 11px;
-
     font-weight: 700;
-
     letter-spacing: 0.08em;
 }
 
-
 .result-header h2 {
-
     margin: 4px 0 0;
-
     font-family: "Syne", sans-serif;
-
     font-size: 24px;
-
     color: #172033;
 }
 
-
 .match-score {
-
     font-size: 28px;
-
     font-weight: 700;
-
     color: var(--green);
 }
 
-
-/* =========================================================
-   PROGRESS
-========================================================= */
+/* progress */
 
 .progress-wrapper {
-
     margin: 20px 0 22px;
 }
 
-
 .progress-track {
-
     width: 100%;
-
     height: 9px;
-
     overflow: hidden;
-
     border-radius: 99px;
-
     background: #e9eee9;
 }
 
-
 .progress-bar {
-
     width: 0%;
-
     height: 100%;
-
     border-radius: inherit;
-
     background: var(--green);
-
     transition: width 0.7s ease;
 }
 
-
-/* =========================================================
-   RESULT INFO
-========================================================= */
+/* result info */
 
 .result-info {
-
     display: grid;
-
     grid-template-columns: 1fr 1fr;
-
     gap: 12px;
-
     margin-bottom: 24px;
 }
 
-
 .result-info-item {
-
     padding: 12px;
-
     border: 1px solid #e5e2da;
-
     border-radius: 9px;
-
     background: #fcfbf8;
 }
 
-
 .result-info-item span {
-
     display: block;
-
     margin-bottom: 4px;
-
     color: #8992a1;
-
     font-size: 11px;
 }
 
-
 .result-info-item strong {
-
     color: #263144;
-
     font-size: 13px;
 }
 
-
-/* =========================================================
-   RESULT SECTION
-========================================================= */
+/* result section */
 
 .result-section {
-
     padding-top: 18px;
-
     border-top: 1px solid #ece9e1;
-
     margin-top: 18px;
 }
 
-
 .result-section h3 {
-
     margin: 0 0 12px;
-
     font-size: 14px;
-
     color: #263144;
 }
 
-
-/* =========================================================
-   SKILLS
-========================================================= */
+/* skills */
 
 .skill-list {
-
     display: flex;
-
     flex-wrap: wrap;
-
     gap: 7px;
 }
 
-
 .skill-list span {
-
     padding: 6px 10px;
-
     border-radius: 99px;
-
     background: var(--green-light);
-
     color: var(--green);
-
     font-size: 11px;
-
     font-weight: 600;
 }
 
-
-/* =========================================================
-   MISSING SKILLS
-========================================================= */
+/* missing skills */
 
 #missingSkills {
-
     margin: 0;
-
     padding-left: 19px;
-
     color: #667287;
-
     font-size: 13px;
-
     line-height: 1.8;
 }
 
-
-/* =========================================================
-   RESPONSIVE - 1200
-========================================================= */
+/* responsive - 1200 */
 
 @media (max-width: 1200px) {
-
     .analysis-page {
-
         padding-left: 30px;
-
         padding-right: 30px;
     }
 
-
     .analysis-layout {
-
         grid-template-columns:
             minmax(450px, 1fr)
             minmax(380px, 1fr);
-
         gap: 20px;
     }
-
 }
 
-
-/* =========================================================
-   RESPONSIVE - 1000
-========================================================= */
+/* responsive - 1000 */
 
 @media (max-width: 1000px) {
-
     .analysis-layout {
-
         grid-template-columns: 1fr;
     }
 
-
     .analysis-result {
-
         min-height: 350px;
     }
-
 }
 
-
-/* =========================================================
-   RESPONSIVE - 768
-========================================================= */
+/* responsive - 768 */
 
 @media (max-width: 768px) {
-
     .analysis-page {
-
         margin-left: 0;
-
         padding: 25px 18px 45px;
     }
 
-
     .analysis-heading h1 {
-
         font-size: 26px;
     }
 
-
     .analysis-heading p {
-
         font-size: 13px;
     }
 
-
     .analysis-form,
     .analysis-result {
-
         padding: 22px 18px;
-
         border-radius: 13px;
     }
 
-
     .select-grid {
-
         grid-template-columns: 1fr;
     }
-
 }
 
-
-/* =========================================================
-   RESPONSIVE - 550
-========================================================= */
+/* responsive - 550 */
 
 @media (max-width: 550px) {
-
     .analysis-page {
-
         padding: 20px 13px 35px;
     }
 
-
     .analysis-heading {
-
         margin-bottom: 20px;
     }
 
-
     .analysis-heading h1 {
-
         font-size: 23px;
     }
 
-
     .analysis-heading p {
-
         font-size: 12px;
     }
 
-
     .upload-box {
-
         min-height: 120px;
     }
 
-
     .form-actions {
-
         flex-direction: column;
     }
-
 
     .btn-analyze,
     .btn-clear {
-
         width: 100%;
     }
 
-
     .result-info {
-
         grid-template-columns: 1fr;
     }
 
-
     .result-header {
-
         flex-direction: column;
     }
 
-
     .match-score {
-
         font-size: 25px;
     }
-
 }
 
-
-/* =========================================================
-   DRAG / FOCUS
-========================================================= */
+/* drag / focus */
 
 .upload-box:focus-within {
-
     border-color: var(--green);
-
     box-shadow:
         0 0 0 3px rgba(47, 120, 103, 0.08);
 }
 
-
-/* =========================================================
-   HIDDEN
-========================================================= */
+/* hidden */
 
 [hidden] {
-
     display: none !important;
 }
