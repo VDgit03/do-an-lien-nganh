@@ -1,0 +1,1086 @@
+/* ======================================================
+   ROOT
+====================================================== */
+
+:root {
+
+    --navy: #171e2e;
+
+    --cream: #f8f6ef;
+
+    --green: #2f7867;
+
+    --gold: #d8ad62;
+
+    --text: #24364b;
+
+    --muted: #65758b;
+
+    --border: #e5dfd2;
+
+}
+
+
+/* ======================================================
+   PAGE
+====================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+
+    margin: 0;
+
+    background: var(--cream);
+
+    color: var(--text);
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+}
+
+
+/* ======================================================
+   MAIN
+====================================================== */
+
+.detail-page {
+
+    margin-left: 250px;
+
+    padding: 28px 42px 60px;
+
+    min-height: 100vh;
+
+}
+
+
+/* ======================================================
+   TOP
+====================================================== */
+
+.detail-top {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 30px;
+
+    margin-bottom: 28px;
+
+}
+
+
+.detail-heading h1 {
+
+    margin: 0 0 8px;
+
+    font-family:
+        "Playfair Display",
+        serif;
+
+    font-size: 32px;
+
+    font-weight: 500;
+
+    color: #152238;
+
+}
+
+
+.detail-heading p {
+
+    margin: 0;
+
+    color: #75849a;
+
+    font-size: 15px;
+
+}
+
+
+/* ======================================================
+   ACTIONS
+====================================================== */
+
+.detail-actions {
+
+    display: flex;
+
+    gap: 10px;
+
+    align-items: center;
+
+}
+
+
+.action-btn {
+
+    height: 48px;
+
+    padding: 0 20px;
+
+    border-radius: 10px;
+
+    border: 1px solid #ded8ca;
+
+    background: #faf9f4;
+
+    color: #27364a;
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    transition: 0.2s ease;
+
+}
+
+
+.action-btn:hover {
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 15px rgba(20, 35, 50, 0.08);
+
+}
+
+
+.action-btn.primary {
+
+    background: var(--green);
+
+    color: white;
+
+    border-color: var(--green);
+
+}
+
+
+.action-btn.danger:hover {
+
+    color: #b33a3a;
+
+    border-color: #e0bcbc;
+
+}
+
+
+/* ======================================================
+   CV WRAPPER
+====================================================== */
+
+.cv-detail-wrapper {
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: flex-start;
+
+}
+
+
+/* ======================================================
+   CV DOCUMENT
+====================================================== */
+
+.cv-document {
+
+    width: 815px;
+
+    min-height: 1120px;
+
+    background: white;
+
+    margin: 0 auto;
+
+    position: relative;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 35px rgba(25, 35, 45, 0.09);
+
+    border-radius: 0 0 12px 12px;
+
+    color: #293b50;
+
+}
+
+
+/* TOP COLOR BAR */
+
+.cv-document::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    top: 0;
+
+    width: 100%;
+
+    height: 10px;
+
+    background: var(--cv-color);
+
+}
+
+
+/* ======================================================
+   COMMON CONTENT
+====================================================== */
+
+.cv-content {
+
+    padding: 52px 45px 55px;
+
+}
+
+
+.cv-name {
+
+    margin: 0;
+
+    font-family:
+        "Playfair Display",
+        serif;
+
+    font-size: 31px;
+
+    font-weight: 500;
+
+    color: #18283b;
+
+}
+
+
+.cv-position {
+
+    margin-top: 7px;
+
+    color: #65768a;
+
+    font-size: 16px;
+
+}
+
+
+.contact-list {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px 22px;
+
+    margin-top: 18px;
+
+    color: #637287;
+
+    font-size: 13px;
+
+}
+
+
+.contact-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+}
+
+
+.contact-item i {
+
+    color: #66788d;
+
+}
+
+
+/* ======================================================
+   SECTION
+====================================================== */
+
+.cv-section {
+
+    margin-top: 28px;
+
+}
+
+
+.cv-section-title {
+
+    color: var(--cv-color);
+
+    font-family:
+        "Playfair Display",
+        serif;
+
+    font-size: 15px;
+
+    font-weight: 500;
+
+    letter-spacing: 0.5px;
+
+    text-transform: uppercase;
+
+    padding-bottom: 9px;
+
+    border-bottom: 1px solid #e4dfd5;
+
+    margin-bottom: 15px;
+
+}
+
+
+.cv-summary {
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+    color: #3e536b;
+
+}
+
+
+/* ======================================================
+   EXPERIENCE
+====================================================== */
+
+.experience-item {
+
+    margin-bottom: 22px;
+
+}
+
+
+.experience-head {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+}
+
+
+.experience-position {
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    color: #182a3f;
+
+}
+
+
+.experience-time {
+
+    color: #61738a;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+
+}
+
+
+.experience-company {
+
+    color: var(--cv-color);
+
+    font-size: 13px;
+
+    margin-top: 4px;
+
+}
+
+
+.experience-description {
+
+    margin-top: 7px;
+
+    color: #52657b;
+
+    font-size: 13.5px;
+
+    line-height: 1.6;
+
+}
+
+
+/* ======================================================
+   EDUCATION
+====================================================== */
+
+.education-item {
+
+    margin-bottom: 18px;
+
+}
+
+
+.education-head {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+}
+
+
+.education-degree {
+
+    font-weight: 700;
+
+    font-size: 15px;
+
+}
+
+
+.education-time {
+
+    font-size: 13px;
+
+    color: #61738a;
+
+}
+
+
+.education-school {
+
+    margin-top: 4px;
+
+    font-size: 13px;
+
+    color: var(--cv-color);
+
+}
+
+
+/* ======================================================
+   TAGS
+====================================================== */
+
+.tags {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+}
+
+
+.tag {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    min-height: 28px;
+
+    padding: 4px 11px;
+
+    border-radius: 20px;
+
+    background: color-mix(
+        in srgb,
+        var(--cv-color) 10%,
+        white
+    );
+
+    color: var(--cv-color);
+
+    font-size: 12.5px;
+
+}
+
+
+/* ======================================================
+   LAYOUT 1 - CỔ ĐIỂN
+====================================================== */
+
+.cv-document.layout1 {
+
+    --layout-gap: 0;
+
+}
+
+
+.layout1 .cv-content {
+
+    padding: 52px 45px;
+
+}
+
+
+.layout1 .cv-header {
+
+    padding-bottom: 5px;
+
+}
+
+
+/* ======================================================
+   LAYOUT 2 - HAI CỘT
+====================================================== */
+
+.cv-document.layout2 {
+
+    --sidebar-width: 235px;
+
+}
+
+
+.layout2 {
+
+    display: block;
+
+}
+
+
+.layout2 .cv-two-column {
+
+    display: grid;
+
+    grid-template-columns:
+        var(--sidebar-width) 1fr;
+
+    min-height: 1120px;
+
+}
+
+
+.layout2 .cv-sidebar {
+
+    background: #f1f4f1;
+
+    padding: 55px 25px;
+
+}
+
+
+.layout2 .cv-main {
+
+    padding: 55px 35px;
+
+}
+
+
+.layout2 .cv-sidebar .cv-name {
+
+    font-size: 24px;
+
+}
+
+
+.layout2 .cv-sidebar .cv-position {
+
+    font-size: 13px;
+
+}
+
+
+.layout2 .cv-sidebar .contact-list {
+
+    display: block;
+
+}
+
+
+.layout2 .cv-sidebar .contact-item {
+
+    margin-bottom: 11px;
+
+    align-items: flex-start;
+
+}
+
+
+.layout2 .cv-sidebar .cv-section {
+
+    margin-top: 30px;
+
+}
+
+
+.layout2 .cv-sidebar .cv-section-title {
+
+    border-bottom: 0;
+
+    font-size: 13px;
+
+}
+
+
+.layout2 .cv-main .cv-section:first-child {
+
+    margin-top: 0;
+
+}
+
+
+/* ======================================================
+   LAYOUT 3 - TỐI GIẢN
+====================================================== */
+
+.layout3 {
+
+    border-radius: 0;
+
+    box-shadow: none;
+
+}
+
+
+.layout3::before {
+
+    height: 5px;
+
+}
+
+
+.layout3 .cv-content {
+
+    padding: 60px 70px;
+
+}
+
+
+.layout3 .cv-name {
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+}
+
+
+.layout3 .cv-position {
+
+    color: var(--cv-color);
+
+}
+
+
+.layout3 .cv-section-title {
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+
+}
+
+
+.layout3 .cv-section {
+
+    margin-top: 35px;
+
+}
+
+
+.layout3 .experience-item {
+
+    padding-left: 16px;
+
+    border-left:
+        2px solid var(--cv-color);
+
+}
+
+
+/* ======================================================
+   LAYOUT 4 - DÒNG THỜI GIAN
+====================================================== */
+
+.layout4 .cv-content {
+
+    padding: 50px 48px;
+
+}
+
+
+.layout4 .cv-section {
+
+    margin-top: 32px;
+
+}
+
+
+.layout4 .experience-item,
+.layout4 .education-item {
+
+    position: relative;
+
+    padding-left: 28px;
+
+}
+
+
+.layout4 .experience-item::before,
+.layout4 .education-item::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    top: 5px;
+
+    width: 10px;
+
+    height: 10px;
+
+    border-radius: 50%;
+
+    background: var(--cv-color);
+
+}
+
+
+.layout4 .experience-item::after,
+.layout4 .education-item::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 4px;
+
+    top: 15px;
+
+    bottom: -20px;
+
+    width: 2px;
+
+    background: #dfe5e2;
+
+}
+
+
+.layout4 .experience-item:last-child::after,
+.layout4 .education-item:last-child::after {
+
+    display: none;
+
+}
+
+
+/* ======================================================
+   TOAST
+====================================================== */
+
+.toast-area {
+
+    position: fixed;
+
+    right: 25px;
+
+    bottom: 25px;
+
+    z-index: 9999;
+
+}
+
+
+.toast {
+
+    min-width: 300px;
+
+    padding: 15px 18px;
+
+    border-radius: 12px;
+
+    background: #202936;
+
+    color: white;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.18);
+
+    display: flex;
+
+    gap: 12px;
+
+    align-items: flex-start;
+
+    animation:
+        toastIn 0.25s ease;
+
+}
+
+
+.toast i {
+
+    color: #67c4a6;
+
+    font-size: 20px;
+
+}
+
+
+.toast strong {
+
+    font-size: 14px;
+
+}
+
+
+.toast p {
+
+    margin: 3px 0 0;
+
+    color: #c6ced8;
+
+    font-size: 13px;
+
+}
+
+
+@keyframes toastIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(15px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* ======================================================
+   PRINT
+====================================================== */
+
+@media print {
+
+    body {
+
+        background: white;
+
+    }
+
+    .detail-top,
+    #nav-container,
+    #header-container,
+    .toast-area {
+
+        display: none !important;
+
+    }
+
+    .detail-page {
+
+        margin: 0;
+
+        padding: 0;
+
+    }
+
+    .cv-document {
+
+        width: 210mm;
+
+        min-height: 297mm;
+
+        box-shadow: none;
+
+        margin: 0;
+
+    }
+
+}
+
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 1200px) {
+
+    .detail-top {
+
+        flex-direction: column;
+
+    }
+
+    .detail-actions {
+
+        flex-wrap: wrap;
+
+    }
+
+}
+
+
+@media (max-width: 900px) {
+
+    .detail-page {
+
+        margin-left: 0;
+
+        padding: 20px;
+
+    }
+
+    .cv-document {
+
+        width: 100%;
+
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .detail-actions {
+
+        width: 100%;
+
+    }
+
+    .action-btn {
+
+        flex: 1;
+
+        justify-content: center;
+
+        padding: 0 10px;
+
+    }
+
+    .action-btn:nth-child(2) {
+
+        display: none;
+
+    }
+
+    .cv-content {
+
+        padding: 35px 25px;
+
+    }
+
+    .layout2 .cv-two-column {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .layout2 .cv-sidebar {
+
+        padding: 35px 25px;
+
+    }
+
+    .layout2 .cv-main {
+
+        padding: 35px 25px;
+
+    }
+
+}
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    #nav-container,
+    #header-container,
+    .detail-header,
+    .detail-actions,
+    #downloadPdfBtn,
+    #duplicateBtn,
+    #deleteBtn,
+    #editBtn,
+    #toastArea {
+        display: none !important;
+    }
+
+    .detail-page {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: none !important;
+    }
+
+    #cv-document {
+        width: 210mm !important;
+        min-height: 297mm;
+        margin: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+        overflow: visible !important;
+        background: #ffffff !important;
+    }
+
+    #cv-document,
+    #cv-document * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
