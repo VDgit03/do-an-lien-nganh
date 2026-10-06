@@ -1,16 +1,13 @@
 import {
-    createCVService, 
-    getMyCVsService, 
-    getCVByIdService, 
-    updateCVService, 
+    createCVService,
+    getMyCVsService,
+    getCVByIdService,
+    updateCVService,
     deleteCVService
 } from "../../services/cv/cvService.js";
 
-
-export const createCV = async (
-    req,
-    res
-) => {
+// tạo cv
+export const createCV = async (req, res) => {
 
     try {
 
@@ -44,45 +41,37 @@ export const createCV = async (
             error
         );
 
-        if (
-            error.message
-        ) {
 
-            return res.status(400).json({
-
-                success: false,
-
-                message:
-                    error.message
-
-            });
-        }
-
-        return res.status(500).json({
+        return res.status(400).json({
 
             success: false,
 
             message:
+                error.message ||
                 "Có lỗi xảy ra khi lưu CV"
 
         });
+
     }
+
 };
 
 
-// lấy cv
-export const getMyCVs = async (
-    req,
-    res
-) => {
+// lấy ds cv
+
+
+export const getMyCVs = async (req, res) => {
 
     try {
 
         const userId = req.user.id;
 
-        const cvs = await getMyCVsService(
-            userId
-        );
+
+        const cvs =
+            await getMyCVsService(
+                userId
+            );
+
 
         return res.status(200).json({
 
@@ -92,6 +81,7 @@ export const getMyCVs = async (
 
         });
 
+
     } catch (error) {
 
         console.error(
@@ -99,64 +89,40 @@ export const getMyCVs = async (
             error
         );
 
+
         return res.status(500).json({
 
             success: false,
 
             message:
+                error.message ||
                 "Không thể lấy danh sách CV"
 
         });
+
     }
+
 };
 
 
-// xóa cv
-export const deleteCV = async (req, res) => {
+// lấy cv theo id
+
+export const getCVById = async (req, res) => {
 
     try {
 
-        const { id } = req.params;
+        const { id } =
+            req.params;
 
-        const userId = req.user.id;
-
-        const result = await deleteCVService(
-            id,
-            userId
-        );
-
-        res.status(200).json(result);
-
-    } catch (error) {
-
-        console.error(
-            "Lỗi xóa CV:",
-            error
-        );
-
-        res.status(400).json({
-            message: error.message
-        });
-    }
-};
+        const userId =
+            req.user.id;
 
 
-// lấy cv
-export const getCVById = async (
-    req,
-    res
-) => {
-
-    try {
-
-        const { id } = req.params;
-
-        const userId = req.user.id;
-
-        const cv = await getCVByIdService(
-            id,
-            userId
-        );
+        const cv =
+            await getCVByIdService(
+                id,
+                userId
+            );
 
 
         return res.status(200).json({
@@ -167,12 +133,14 @@ export const getCVById = async (
 
         });
 
+
     } catch (error) {
 
         console.error(
             "GET CV BY ID ERROR:",
             error
         );
+
 
         return res.status(404).json({
 
@@ -190,24 +158,28 @@ export const getCVById = async (
 
 
 // update cv
-export const updateCV = async (
-    req,
-    res
-) => {
+
+export const updateCV = async (req, res) => {
 
     try {
 
-        const { id } = req.params;
+        const { id } =
+            req.params;
 
-        const userId = req.user.id;
+        const userId =
+            req.user.id;
 
-        const data = req.body;
+        const data =
+            req.body;
 
-        const cv = await updateCVService(
-            id,
-            userId,
-            data
-        );
+
+        const cv =
+            await updateCVService(
+                id,
+                userId,
+                data
+            );
+
 
         return res.status(200).json({
 
@@ -220,12 +192,14 @@ export const updateCV = async (
 
         });
 
+
     } catch (error) {
 
         console.error(
             "UPDATE CV ERROR:",
             error
         );
+
 
         return res.status(400).json({
 
@@ -234,6 +208,59 @@ export const updateCV = async (
             message:
                 error.message ||
                 "Không thể cập nhật CV"
+
+        });
+
+    }
+
+};
+
+
+// xóa cv
+
+export const deleteCV = async (req, res) => {
+
+    try {
+
+        const { id } =
+            req.params;
+
+        const userId =
+            req.user.id;
+
+
+        const result =
+            await deleteCVService(
+                id,
+                userId
+            );
+
+
+        return res.status(200).json({
+
+            success: true,
+
+            message:
+                result.message
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "DELETE CV ERROR:",
+            error
+        );
+
+
+        return res.status(400).json({
+
+            success: false,
+
+            message:
+                error.message ||
+                "Không thể xóa CV"
 
         });
 
