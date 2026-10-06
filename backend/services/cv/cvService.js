@@ -2,16 +2,18 @@ import db from "../../config/db.js";
 
 import {
     createCV,
+    createProfessionalSkill,
     createExperience,
     createEducation,
+    createProject,
     createLanguage,
+    createActivity,
     getCVsByUserId,
     getCVById,
     updateCV as updateCVModel,
     deleteCVById
 } from "../../models/cvModel.js";
 
-// clean chuỗi
 const cleanString = (value) => {
 
     if (value === undefined || value === null) {
@@ -23,28 +25,30 @@ const cleanString = (value) => {
     return result === "" ? null : result;
 };
 
-
-// validate độ dài
 const validateLength = (
     value,
     max,
     fieldName
 ) => {
 
-    if (value !== null && value.length > max) {
+    if (
+        value !== null &&
+        value !== undefined &&
+        value.length > max
+    ) {
         throw new Error(
             `${fieldName} không được vượt quá ${max} ký tự`
         );
     }
 };
 
-
-// validate cv
 const validateMainCV = (data) => {
 
-    const title = cleanString(data.title);
+    const title =
+        cleanString(data.title);
 
-    const fullName = cleanString(data.full_name);
+    const fullName =
+        cleanString(data.full_name);
 
     if (!title) {
         throw new Error(
@@ -58,26 +62,38 @@ const validateMainCV = (data) => {
         );
     }
 
-    const position = cleanString(data.position);
 
-    const summary = cleanString(data.summary);
+    const position =
+        cleanString(data.position);
 
-    const skills = cleanString(data.skills);
+    const summary =
+        cleanString(data.summary);
 
-    const softSkills = cleanString(data.soft_skills);
+    const email =
+        cleanString(data.email);
 
-    const email = cleanString(data.email);
+    const phone =
+        cleanString(data.phone);
 
-    const phone = cleanString(data.phone);
+    const address =
+        cleanString(data.address);
 
-    const address = cleanString(data.address);
+    const gitLink =
+        cleanString(data.git_link);
+
+    
+    const softSkills =
+        cleanString(data.soft_skills);
 
 
-    const primaryColor = cleanString(data.primary_color) || "#2F7867";
+    const primaryColor =
+        cleanString(data.primary_color)
+        || "#2F7867";
 
-
-    const template = cleanString(data.template) || "layout1";
-
+    const template =
+        cleanString(data.template)
+        || "layout1";
+        
     validateLength(
         title,
         150,
@@ -103,18 +119,6 @@ const validateMainCV = (data) => {
     );
 
     validateLength(
-        skills,
-        1000,
-        "Kỹ năng chuyên môn"
-    );
-
-    validateLength(
-        softSkills,
-        1000,
-        "Kỹ năng mềm"
-    );
-
-    validateLength(
         email,
         255,
         "Email"
@@ -132,56 +136,164 @@ const validateMainCV = (data) => {
         "Địa chỉ"
     );
 
+    validateLength(
+        gitLink,
+        500,
+        "GitHub"
+    );
+
+    validateLength(
+        softSkills,
+        2000,
+        "Kỹ năng mềm"
+    );
+
     if (email) {
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailRegex =
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if (!emailRegex.test(email)) {
+
             throw new Error(
                 "Email không hợp lệ"
             );
         }
     }
 
+
     return {
 
         title,
-        full_name: fullName,
-        position,
-        summary,
-        skills,
-        soft_skills: softSkills,
-        email,
-        phone,
-        address,
-        primary_color: primaryColor,
-        template
 
+        full_name:
+            fullName,
+
+        position,
+
+        summary,
+
+        email,
+
+        phone,
+
+        address,
+
+        git_link:
+            gitLink,
+
+        soft_skills:
+            softSkills,
+
+        primary_color:
+            primaryColor,
+
+        template
     };
 };
 
+const validateProfessionalSkills = (
+    skills
+) => {
 
-// validate experience
+    if (
+        skills === undefined ||
+        skills === null
+    ) {
+        return [];
+    }
+
+    if (!Array.isArray(skills)) {
+
+        throw new Error(
+            "Danh sách kỹ năng chuyên môn không hợp lệ"
+        );
+    }
+
+
+    return skills
+        .map((item) => {
+
+            if (
+                !item ||
+                typeof item !== "object"
+            ) {
+                return null;
+            }
+
+
+            const skill = {
+
+                position:
+                    cleanString(
+                        item.position
+                    ),
+
+                technologies:
+                    cleanString(
+                        item.technologies
+                    )
+            };
+
+
+            const hasData =
+                skill.position ||
+                skill.technologies;
+
+
+            if (!hasData) {
+                return null;
+            }
+
+
+            validateLength(
+                skill.position,
+                150,
+                "Tên nhóm kỹ năng chuyên môn"
+            );
+
+            validateLength(
+                skill.technologies,
+                2000,
+                "Công nghệ"
+            );
+
+
+            return skill;
+
+        })
+        .filter(Boolean);
+};
+
 const validateExperiences = (
     experiences
 ) => {
 
-    if (experiences === undefined || experiences === null) {
+    if (
+        experiences === undefined ||
+        experiences === null
+    ) {
         return [];
     }
 
     if (!Array.isArray(experiences)) {
+
         throw new Error(
             "Danh sách kinh nghiệm không hợp lệ"
         );
     }
 
+
     return experiences
         .map((item) => {
 
-            if (!item || typeof item !== "object") {
+            if (
+                !item ||
+                typeof item !== "object"
+            ) {
                 return null;
             }
+
 
             const experience = {
 
@@ -204,7 +316,6 @@ const validateExperiences = (
                     cleanString(
                         item.description
                     )
-
             };
 
 
@@ -251,17 +362,19 @@ const validateExperiences = (
         .filter(Boolean);
 };
 
-
-// validate education
 const validateEducations = (
     educations
 ) => {
 
-    if ( educations === undefined || educations === null) {
+    if (
+        educations === undefined ||
+        educations === null
+    ) {
         return [];
     }
 
     if (!Array.isArray(educations)) {
+
         throw new Error(
             "Danh sách học vấn không hợp lệ"
         );
@@ -271,9 +384,13 @@ const validateEducations = (
     return educations
         .map((item) => {
 
-            if (!item || typeof item !== "object") {
+            if (
+                !item ||
+                typeof item !== "object"
+            ) {
                 return null;
             }
+
 
             const education = {
 
@@ -290,15 +407,22 @@ const validateEducations = (
                 school:
                     cleanString(
                         item.school
-                    )
+                    ),
 
+                gpa:
+                    item.gpa === undefined ||
+                    item.gpa === null ||
+                    String(item.gpa).trim() === ""
+                        ? null
+                        : Number(item.gpa)
             };
 
 
             const hasData =
                 education.degree ||
                 education.time_range ||
-                education.school;
+                education.school ||
+                education.gpa !== null;
 
 
             if (!hasData) {
@@ -325,23 +449,130 @@ const validateEducations = (
             );
 
 
+            // ==========================================
+            // GPA
+            // ==========================================
+
+            if (
+                education.gpa !== null &&
+                (
+                    Number.isNaN(education.gpa) ||
+                    education.gpa < 0 ||
+                    education.gpa > 4
+                )
+            ) {
+
+                throw new Error(
+                    "GPA phải nằm trong khoảng từ 0 đến 4"
+                );
+            }
+
+
             return education;
 
         })
         .filter(Boolean);
 };
 
+const validateProjects = (
+    projects
+) => {
 
-// validate language
+    if (
+        projects === undefined ||
+        projects === null
+    ) {
+        return [];
+    }
+
+    if (!Array.isArray(projects)) {
+
+        throw new Error(
+            "Danh sách dự án không hợp lệ"
+        );
+    }
+
+
+    return projects
+        .map((item) => {
+
+            if (
+                !item ||
+                typeof item !== "object"
+            ) {
+                return null;
+            }
+
+
+            const project = {
+
+                project_name:
+                    cleanString(
+                        item.project_name ??
+                        item.name
+                    ),
+
+                technologies:
+                    cleanString(
+                        item.technologies
+                    ),
+
+                description:
+                    cleanString(
+                        item.description
+                    )
+            };
+
+
+            const hasData =
+                project.project_name ||
+                project.technologies ||
+                project.description;
+
+
+            if (!hasData) {
+                return null;
+            }
+
+
+            validateLength(
+                project.project_name,
+                200,
+                "Tên dự án"
+            );
+
+            validateLength(
+                project.technologies,
+                2000,
+                "Công nghệ dự án"
+            );
+
+            validateLength(
+                project.description,
+                3000,
+                "Mô tả dự án"
+            );
+
+
+            return project;
+
+        })
+        .filter(Boolean);
+};
+
 const validateLanguages = (
     languages
 ) => {
 
-    if (languages === undefined || languages === null) {
+    if (
+        languages === undefined ||
+        languages === null
+    ) {
         return [];
     }
 
     if (!Array.isArray(languages)) {
+
         throw new Error(
             "Danh sách ngôn ngữ không hợp lệ"
         );
@@ -351,9 +582,13 @@ const validateLanguages = (
     return languages
         .map((item) => {
 
-            if (!item || typeof item !== "object") {
+            if (
+                !item ||
+                typeof item !== "object"
+            ) {
                 return null;
             }
+
 
             const language = {
 
@@ -369,7 +604,6 @@ const validateLanguages = (
                         item.level ??
                         item.proficiency
                     )
-
             };
 
 
@@ -402,67 +636,202 @@ const validateLanguages = (
         .filter(Boolean);
 };
 
+const validateActivities = (
+    activities
+) => {
 
-// tạo cv
+    if (
+        activities === undefined ||
+        activities === null
+    ) {
+        return [];
+    }
+
+    if (!Array.isArray(activities)) {
+
+        throw new Error(
+            "Danh sách hoạt động không hợp lệ"
+        );
+    }
+
+
+    return activities
+        .map((item) => {
+
+            if (
+                !item ||
+                typeof item !== "object"
+            ) {
+                return null;
+            }
+
+
+            const activity = {
+
+                activity_name:
+                    cleanString(
+                        item.activity_name ??
+                        item.name
+                    ),
+
+                activity_year:
+                    cleanString(
+                        item.activity_year ??
+                        item.year
+                    ),
+
+                description:
+                    cleanString(
+                        item.description
+                    )
+            };
+
+
+            const hasData =
+                activity.activity_name ||
+                activity.activity_year ||
+                activity.description;
+
+
+            if (!hasData) {
+                return null;
+            }
+
+
+            validateLength(
+                activity.activity_name,
+                200,
+                "Tên hoạt động"
+            );
+
+            validateLength(
+                activity.activity_year,
+                100,
+                "Thời gian hoạt động"
+            );
+
+            validateLength(
+                activity.description,
+                3000,
+                "Mô tả hoạt động"
+            );
+
+
+            return activity;
+
+        })
+        .filter(Boolean);
+};
+
 export const createCVService = async (
     userId,
     data
 ) => {
 
     if (!userId) {
+
         throw new Error(
             "Không xác định được người dùng"
         );
     }
 
 
-    if (!data || typeof data !== "object") {
+    if (
+        !data ||
+        typeof data !== "object"
+    ) {
+
         throw new Error(
             "Dữ liệu CV không hợp lệ"
         );
     }
 
-    const mainCV = validateMainCV(data);
+    const mainCV =
+        validateMainCV(data);
 
-    const experiences = validateExperiences(data.experiences);
+    const professionalSkills =
+        validateProfessionalSkills(
+            data.professional_skills
+        );
 
-    const educations = validateEducations(data.educations);
+    const experiences =
+        validateExperiences(
+            data.experiences
+        );
 
-    const languages = validateLanguages(data.languages);
+    const educations =
+        validateEducations(
+            data.educations
+        );
 
+    const projects =
+        validateProjects(
+            data.projects
+        );
 
-   // ktra user
-    const [users] = await db.execute(
-        `
-        SELECT id
-        FROM users
-        WHERE id = ?
-        LIMIT 1
-        `,
-        [userId]
-    );
+    const languages =
+        validateLanguages(
+            data.languages
+        );
+
+    const activities =
+        validateActivities(
+            data.activities
+        );
+
+    const [users] =
+        await db.execute(
+            `
+            SELECT id
+            FROM users
+            WHERE id = ?
+            LIMIT 1
+            `,
+            [userId]
+        );
+
 
     if (users.length === 0) {
+
         throw new Error(
             "Tài khoản không tồn tại. Vui lòng đăng nhập lại."
         );
     }
 
-    const connection = await db.getConnection();
+    const connection =
+        await db.getConnection();
+
 
     try {
 
         await connection.beginTransaction();
 
-        const cvId = await createCV(
-            connection,
-            {
-                user_id: userId,
-                ...mainCV
-            }
-        );
+        const cvId =
+            await createCV(
+                connection,
+                {
+                    user_id: userId,
+                    ...mainCV
+                }
+            );
 
-        for (const experience of experiences) {
+        for (
+            const skill
+            of professionalSkills
+        ) {
+
+            await createProfessionalSkill(
+                connection,
+                cvId,
+                skill
+            );
+        }
+
+        for (
+            const experience
+            of experiences
+        ) {
+
             await createExperience(
                 connection,
                 cvId,
@@ -470,7 +839,11 @@ export const createCVService = async (
             );
         }
 
-        for (const education of educations) {
+        for (
+            const education
+            of educations
+        ) {
+
             await createEducation(
                 connection,
                 cvId,
@@ -478,7 +851,23 @@ export const createCVService = async (
             );
         }
 
-        for (const language of languages) {
+        for (
+            const project
+            of projects
+        ) {
+
+            await createProject(
+                connection,
+                cvId,
+                project
+            );
+        }
+
+        for (
+            const language
+            of languages
+        ) {
+
             await createLanguage(
                 connection,
                 cvId,
@@ -486,7 +875,21 @@ export const createCVService = async (
             );
         }
 
+        for (
+            const activity
+            of activities
+        ) {
+
+            await createActivity(
+                connection,
+                cvId,
+                activity
+            );
+        }
+
+
         await connection.commit();
+
 
         return {
 
@@ -494,13 +897,20 @@ export const createCVService = async (
 
             ...mainCV,
 
+            professional_skills:
+                professionalSkills,
+
             experiences,
 
             educations,
 
-            languages
+            projects,
 
+            languages,
+
+            activities
         };
+
 
     } catch (error) {
 
@@ -511,35 +921,33 @@ export const createCVService = async (
     } finally {
 
         connection.release();
-
     }
 };
 
-
-// lấy cv
 export const getMyCVsService = async (
     userId
 ) => {
 
     if (!userId) {
+
         throw new Error(
             "Không xác định được người dùng"
         );
     }
+
 
     return await getCVsByUserId(
         userId
     );
 };
 
-
-// lấy cv id
 export const getCVByIdService = async (
     id,
     userId
 ) => {
 
     if (!id) {
+
         throw new Error(
             "Thiếu ID CV"
         );
@@ -547,28 +955,31 @@ export const getCVByIdService = async (
 
 
     if (!userId) {
+
         throw new Error(
             "Không xác định được người dùng"
         );
     }
 
 
-    const cv = await getCVById(
-        id,
-        userId
-    );
+    const cv =
+        await getCVById(
+            id,
+            userId
+        );
+
 
     if (!cv) {
+
         throw new Error(
             "CV không tồn tại hoặc bạn không có quyền truy cập"
         );
     }
 
+
     return cv;
 };
 
-
-// update cv
 export const updateCVService = async (
     id,
     userId,
@@ -576,6 +987,7 @@ export const updateCVService = async (
 ) => {
 
     if (!id) {
+
         throw new Error(
             "Thiếu ID CV"
         );
@@ -583,33 +995,65 @@ export const updateCVService = async (
 
 
     if (!userId) {
+
         throw new Error(
             "Không xác định được người dùng"
         );
     }
 
 
-    if (!data || typeof data !== "object") {
+    if (
+        !data ||
+        typeof data !== "object"
+    ) {
+
         throw new Error(
             "Dữ liệu CV không hợp lệ"
         );
     }
 
-    //validate
-    const mainCV = validateMainCV(data);
+    const mainCV =
+        validateMainCV(data);
 
-    const experiences = validateExperiences(data.experiences);
+    const professionalSkills =
+        validateProfessionalSkills(
+            data.professional_skills
+        );
 
-    const educations = validateEducations(data.educations);
+    const experiences =
+        validateExperiences(
+            data.experiences
+        );
 
-    const languages = validateLanguages(data.languages);
+    const educations =
+        validateEducations(
+            data.educations
+        );
 
-    const cv = await getCVById(
-        id,
-        userId
-    );
+    const projects =
+        validateProjects(
+            data.projects
+        );
+
+    const languages =
+        validateLanguages(
+            data.languages
+        );
+
+    const activities =
+        validateActivities(
+            data.activities
+        );
+
+    const cv =
+        await getCVById(
+            id,
+            userId
+        );
+
 
     if (!cv) {
+
         throw new Error(
             "CV không tồn tại hoặc bạn không có quyền cập nhật"
         );
@@ -619,10 +1063,21 @@ export const updateCVService = async (
         id,
         userId,
         {
+
             ...mainCV,
+
+            professional_skills:
+                professionalSkills,
+
             experiences,
+
             educations,
-            languages
+
+            projects,
+
+            languages,
+
+            activities
         }
     );
 
@@ -632,38 +1087,47 @@ export const updateCVService = async (
     );
 };
 
-
-// xóa cv
 export const deleteCVService = async (
     id,
     userId
 ) => {
 
     if (!id) {
+
         throw new Error(
             "Thiếu ID CV"
         );
     }
 
+
     if (!userId) {
+
         throw new Error(
             "Không xác định được người dùng"
         );
     }
 
 
-    const result = await deleteCVById(
-        id,
-        userId
-    );
+    const result =
+        await deleteCVById(
+            id,
+            userId
+        );
 
-    if (result.affectedRows === 0) {
+
+    if (
+        result.affectedRows === 0
+    ) {
+
         throw new Error(
             "CV không tồn tại hoặc bạn không có quyền xóa"
         );
     }
 
+
     return {
-        message: "Xóa CV thành công"
+
+        message:
+            "Xóa CV thành công"
     };
 };
