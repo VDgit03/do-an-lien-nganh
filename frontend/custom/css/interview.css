@@ -1,0 +1,1585 @@
+/* interview page */
+
+body{
+
+    margin: 0;
+
+    padding: 0;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+.interview-page {
+
+    margin-left: 240px;
+
+    min-height: calc(100vh - 86px);
+
+    background: #f8f6ef;
+
+    padding: 38px 42px 60px;
+
+}
+
+.interview-container {
+
+    width: 100%;
+
+    max-width: 1320px;
+
+    margin: 0 auto;
+
+}
+
+
+/* page header */
+
+.page-header {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    margin-bottom: 28px;
+
+}
+
+.page-title h1 {
+
+    margin: 0;
+
+    color: #171e2e;
+
+    font-family: "Playfair Display", Georgia, serif;
+
+    font-size: 30px;
+
+    font-weight: 500;
+
+    line-height: 1.2;
+
+}
+
+.page-title p {
+
+    margin: 10px 0 0;
+
+    color: #718096;
+
+    font-family: "Be Vietnam Pro", sans-serif;
+
+    font-size: 15px;
+
+    line-height: 1.7;
+
+}
+
+
+/* add button */
+
+.add-interview-btn {
+
+    flex-shrink: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    min-height: 46px;
+
+    padding: 0 22px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #2f7867;
+
+    color: #ffffff;
+
+    font-family: "Be Vietnam Pro", sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+
+        *background* 0.2s ease,
+
+        transform 0.2s ease,
+
+        box-shadow 0.2s ease;
+
+}
+
+.add-interview-btn:hover {
+
+    background: #256454;
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 8px 18px rgba(47, 120, 103, 0.18);
+
+}
+
+.add-interview-btn i {
+
+    font-size: 13px;
+
+}
+
+
+/* nearest interview */
+
+.nearest-interview {
+
+    margin-bottom: 30px;
+
+}
+
+.nearest-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    min-height: 76px;
+
+    padding: 15px 18px;
+
+    border: 1px solid #ded9c9;
+
+    border-left: 4px solid #2f7867;
+
+    border-radius: 10px;
+
+    background: #eeebdf;
+
+}
+
+.nearest-icon {
+
+    width: 42px;
+
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #2f7867;
+
+    color: #ffffff;
+
+    font-size: 17px;
+
+}
+
+.nearest-content {
+
+    min-width: 0;
+
+    flex: 1;
+
+}
+
+.nearest-title {
+
+    margin-bottom: 4px;
+
+    color: #171e2e;
+
+    font-family: "Be Vietnam Pro", sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+}
+
+.nearest-info {
+
+    color: #718096;
+
+    font-family: "Be Vietnam Pro", sans-serif;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+}
+
+.nearest-info strong {
+
+    color: #253044;
+
+}
+
+
+/* empty nearest */
+
+.nearest-empty {
+
+    padding: 18px 20px;
+
+    border: 1px solid #ded9c9;
+
+    border-radius: 10px;
+
+    background: #eeebdf;
+
+    color: #718096;
+
+    font-family: "Be Vietnam Pro", sans-serif;
+
+    font-size: 13px;
+
+}
+
+
+/* interview list */
+
+.interview-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 28px;
+
+}
+
+.interview-day {
+
+    width: 100%;
+
+}
+
+.day-title {
+
+    display: flex;
+
+    align-items: center;
+
+    padding-bottom: 11px;
+
+    border-bottom: 1px solid #ddd8ca;
+
+    color: #8a7966;
+
+    font-family: "Playfair Display", Georgia, serif;
+
+    font-size: 15px;
+
+    font-style: italic;
+
+}
+
+.day-items {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    margin-top: 12px;
+
+}
+
+
+/* interview card */
+
+.interview-card {
+
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns: 78px minmax(0, 1fr) auto;
+
+    gap: 22px;
+
+    padding: 21px 22px;
+
+    border: 1px solid #ded9c9;
+
+    border-radius: 11px;
+
+    background: #ffffff;
+
+    transition:
+
+        transform 0.2s ease,
+
+        box-shadow 0.2s ease;
+
+}
+
+.interview-card:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+
+        0 10px 28px rgba(23, 30, 46, 0.07);
+
+}
+
+
+/* time */
+
+.interview-time {
+
+    padding-top: 1px;
+
+}
+
+.interview-time strong {
+
+    display: block;
+
+    color: #171e2e;
+
+    font-family:Arial, Helvetica, sans-serif;
+
+    font-size: 22px;
+
+    font-weight: 500;
+
+}
+
+.interview-time span {
+
+    display: block;
+
+    margin-top: 5px;
+
+    color: #718096;
+
+    font-family: "Be Vietnam Pro", sans-serif;
+
+    font-size: 10px;
+
+    font-weight: 500;
+
+    letter-spacing: 0.5px;
+
+    text-transform: uppercase;
+
+}
+
+
+/* content */
+
+.interview-content {
+
+    min-width: 0;
+
+}
+
+.company-name {
+
+    color: #171e2e;
+
+    font-family: "Playfair Display", Georgia, serif;
+
+    font-size: 18px;
+
+    font-weight: 500;
+
+}
+
+.position-name {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-top: 4px;
+
+    color: #718096;
+
+    font-family: "Be Vietnam Pro", sans-serif;
+
+    font-size: 13px;
+
+}
+
+.position-name i {
+
+    color: #7d8795;
+
+    font-size: 11px;
+
+}
+
+
+/* meta */
+
+.interview-meta {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin-top: 12px;
+
+}
+
+.meta-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 6px 10px;
+
+    border: 1px solid #d9e2de;
+
+    border-radius: 999px;
+
+    background: #f4f8f6;
+
+    color: #2f7867;
+
+    font-family: "Be Vietnam Pro", sans-serif;
+
+    font-size: 11px;
+
+}
+
+.meta-badge.offline {
+
+    border-color: #ddd7ca;
+
+    background: #f7f5ef;
+
+    color: #756b5c;
+
+}
+
+.meta-badge.reminder {
+
+    border-color: #e5cfae;
+
+    background: #fcf6ec;
+
+    color: #a26c2e;
+
+}
+
+
+/* interview type - link / location */
+
+#linkGroup,
+
+#locationGroup {
+
+    transition:
+
+        opacity 0.2s ease,
+
+        max-height 0.25s ease,
+
+        margin 0.25s ease;
+
+}
+
+/* link phỏng vấn */
+
+#linkGroup .input-wrapper input {
+
+    padding-left: 40px;
+
+}
+
+/* địa điểm phỏng vấn */
+
+#locationGroup .input-wrapper input {
+
+    padding-left: 40px;
+
+}
+
+/* khi field bị ẩn */
+
+#linkGroup[style*="display: none"],
+
+#locationGroup[style*="display: none"] {
+
+    margin-bottom: 0;
+
+}
+
+
+/* note */
+
+.interview-note {
+
+    margin-top: 12px;
+
+    padding: 10px 13px;
+
+    border-radius: 8px;
+
+    background: #eeebdf;
+
+    color: #5e6570;
+
+    font-family: "Be Vietnam Pro", sans-serif;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+
+}
+
+
+/* actions */
+
+.interview-actions {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 5px;
+
+}
+
+.action-btn {
+
+    width: 34px;
+
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: transparent;
+
+    color: #7a8492;
+
+    cursor: pointer;
+
+    transition:
+
+        *background* 0.2s ease,
+
+        color 0.2s ease;
+
+}
+
+.action-btn:hover {
+
+    background: #f1f2f3;
+
+    color: #2f7867;
+
+}
+
+.action-btn.delete:hover {
+
+    background: #fdf0ef;
+
+    color: #b55252;
+
+}
+
+
+/* empty list */
+
+.empty-interview {
+
+    padding: 45px 25px;
+
+    border: 1px solid #ded9c9;
+
+    border-radius: 11px;
+
+    background: #ffffff;
+
+    text-align: center;
+
+}
+
+.empty-interview h3 {
+
+    margin: 0;
+
+    color: #171e2e;
+
+    font-family: "Playfair Display", Georgia, serif;
+
+    font-size: 19px;
+
+    font-weight: 500;
+
+}
+
+.empty-interview p {
+
+    margin: 10px 0 0;
+
+    color: #718096;
+
+    font-family: "Be Vietnam Pro", sans-serif;
+
+    font-size: 13px;
+
+}
+
+
+/* modal */
+
+.modal-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(23, 30, 46, 0.52);
+
+    backdrop-filter: blur(3px);
+
+}
+
+.modal-overlay.active {
+
+    display: flex;
+
+}
+
+.interview-modal {
+
+    width: 100%;
+
+    max-width: 500px;
+
+    max-height: calc(100vh - 40px);
+
+    overflow-y: auto;
+
+    border-radius: 15px;
+
+    background: #ffffff;
+
+    box-shadow:
+
+        0 25px 70px rgba(0, 0, 0, 0.18);
+
+}
+
+
+/* modal header */
+
+.modal-header {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 24px 25px 18px;
+
+    border-bottom: 1px solid #eeeae1;
+
+}
+
+.modal-header h2 {
+
+    margin: 0;
+
+    color: #171e2e;
+
+    font-family: "Playfair Display", Georgia, serif;
+
+    font-size: 22px;
+
+    font-weight: 500;
+
+}
+
+.modal-header p {
+
+    margin: 6px 0 0;
+
+    color: #718096;
+
+    font-family: "Be Vietnam Pro", sans-serif;
+
+    font-size: 12px;
+
+}
+
+.modal-close {
+
+    width: 34px;
+
+    height: 34px;
+
+    flex-shrink: 0;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: #7c8490;
+
+    cursor: pointer;
+
+}
+
+.modal-close:hover {
+
+    background: #f2f3f4;
+
+    color: #171e2e;
+
+}
+
+
+/* form */
+
+#interviewForm {
+
+    padding: 20px 25px 24px;
+
+}
+
+.form-group {
+
+    margin-bottom: 17px;
+
+}
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #171e2e;
+
+    font-family: "Be Vietnam Pro", sans-serif;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+}
+
+.form-row {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+
+}
+
+.input-wrapper,
+
+.select-wrapper {
+
+    position: relative;
+
+}
+
+.input-wrapper i,
+
+.select-wrapper i {
+
+    position: absolute;
+
+    top: 50%;
+
+    left: 13px;
+
+    transform: translateY(-50%);
+
+    color: #8a93a0;
+
+    font-size: 13px;
+
+    pointer-events: none;
+
+}
+
+.input-wrapper input,
+
+.select-wrapper select,
+
+.form-group textarea {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    border: 1px solid #ddd8cc;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #273143;
+
+    font-family: "Be Vietnam Pro", sans-serif;
+
+    font-size: 13px;
+
+    outline: none;
+
+    transition:
+
+        border-color 0.2s ease,
+
+        box-shadow 0.2s ease;
+
+}
+
+.input-wrapper input,
+
+.select-wrapper select {
+
+    height: 45px;
+
+    padding: 0 13px 0 40px;
+
+}
+
+.form-group textarea {
+
+    min-height: 90px;
+
+    padding: 12px 13px;
+
+    resize: vertical;
+
+}
+
+.input-wrapper input:focus,
+
+.select-wrapper select:focus,
+
+.form-group textarea:focus {
+
+    border-color: #2f7867;
+
+    box-shadow:
+
+        0 0 0 3px rgba(47, 120, 103, 0.09);
+
+}
+
+.select-wrapper select {
+
+    appearance: none;
+
+    cursor: pointer;
+
+}
+
+.select-wrapper::after {
+
+    content: "\f078";
+
+    position: absolute;
+
+    top: 50%;
+
+    right: 14px;
+
+    transform: translateY(-50%);
+
+    color: #7f8792;
+
+    font-family: "Font Awesome 6 Free";
+
+    font-size: 10px;
+
+    font-weight: 900;
+
+    pointer-events: none;
+
+}
+
+
+/* reminder */
+
+.reminder-option {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    color: #47505c;
+
+    font-family: "Be Vietnam Pro", sans-serif;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+}
+
+.reminder-option input {
+
+    position: absolute;
+
+    opacity: 0;
+
+}
+
+.custom-checkbox {
+
+    width: 18px;
+
+    height: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border: 1px solid #c9cfd2;
+
+    border-radius: 4px;
+
+    background: #ffffff;
+
+    color: #ffffff;
+
+    font-size: 10px;
+
+}
+
+.reminder-option input:checked + .custom-checkbox {
+
+    border-color: #2f7867;
+
+    background: #2f7867;
+
+}
+
+
+/* modal actions */
+
+.modal-actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 24px;
+
+}
+
+.cancel-btn,
+
+.save-btn {
+
+    min-width: 90px;
+
+    height: 42px;
+
+    border-radius: 8px;
+
+    font-family: "Be Vietnam Pro", sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+}
+
+.cancel-btn {
+
+    border: 1px solid #ddd8cc;
+
+    background: #ffffff;
+
+    color: #5e6671;
+
+}
+
+.cancel-btn:hover {
+
+    background: #f7f6f2;
+
+}
+
+.save-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    border: none;
+
+    background: #2f7867;
+
+    color: #ffffff;
+
+}
+
+.save-btn:hover {
+
+    background: #256454;
+
+}
+
+
+/* toast */
+
+/* toast area */
+
+.toast-area {
+
+    position: fixed;
+
+    top: 24px;
+
+    right: 24px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    z-index: 99999;
+
+    pointer-events: none;
+
+}
+
+
+/* toast */
+
+.toast {
+
+    position: relative;
+
+    width: 360px;
+
+    min-height: 76px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 14px 18px;
+
+    background:
+
+        rgba(
+
+            255,
+
+            255,
+
+            255,
+
+            0.96
+
+        );
+
+    border:
+
+        1px solid
+
+        rgba(
+
+            47,
+
+            120,
+
+            103,
+
+            0.15
+
+        );
+
+    border-radius: 18px;
+
+    box-shadow:
+
+        0 15px 40px
+
+        rgba(
+
+            23,
+
+            30,
+
+            46,
+
+            0.12
+
+        ),
+
+        0 4px 12px
+
+        rgba(
+
+            23,
+
+            30,
+
+            46,
+
+            0.06
+
+        );
+
+    backdrop-filter:
+
+        blur(14px);
+
+    overflow: hidden;
+
+    animation:
+
+        toastSlideIn
+
+        0.45s
+
+        cubic-bezier(
+
+            .21,
+
+            1.02,
+
+            .73,
+
+            1
+
+        )
+
+        forwards;
+
+}
+
+
+/* icon */
+
+.toast > i {
+
+    width: 42px;
+
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+
+        rgba(
+
+            47,
+
+            120,
+
+            103,
+
+            0.1
+
+        );
+
+    color:
+
+        #2f7867;
+
+    font-size: 19px;
+
+}
+
+
+/* content */
+
+.toast div {
+
+    flex: 1;
+
+}
+
+
+
+.toast strong {
+
+    display: block;
+
+    margin-bottom: 4px;
+
+    color:
+
+        #171e2e;
+
+    font-family:
+
+        "Be Vietnam Pro",
+
+        sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+}
+
+
+
+.toast p {
+
+    margin: 0;
+
+    color:
+
+        #6f7480;
+
+    font-family:
+
+        "Be Vietnam Pro",
+
+        sans-serif;
+
+    font-size: 13px;
+
+}
+
+
+/* progress bar */
+
+.toast::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    bottom: 0;
+
+    width: 100%;
+
+    height: 3px;
+
+    background:
+
+        #2f7867;
+
+    transform-origin:
+
+        left;
+
+    animation:
+
+        toastProgress
+
+        2s
+
+        linear
+
+        forwards;
+
+}
+
+@keyframes toastSlideIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+
+            translateX(
+
+                40px
+
+            );
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+
+            translateX(
+
+                0
+
+            );
+
+    }
+
+}
+
+
+
+@keyframes toastProgress {
+
+    from {
+
+        transform:
+
+            scaleX(1);
+
+    }
+
+    to {
+
+        transform:
+
+            scaleX(0);
+
+    }
+
+}
+
+
+/* responsive */
+
+@media (max-width: 1100px) {
+
+    .interview-page {
+
+        padding: 32px 28px 50px;
+
+    }
+
+    .interview-card {
+
+        grid-template-columns: 70px minmax(0, 1fr) auto;
+
+        gap: 17px;
+
+    }
+
+}
+
+
+
+@media (max-width: 800px) {
+
+    .interview-page {
+
+        margin-left: 0;
+
+        padding: 25px 18px 45px;
+
+    }
+
+    .page-header {
+
+        flex-direction: column;
+
+        gap: 18px;
+
+    }
+
+    .add-interview-btn {
+
+        width: 100%;
+
+    }
+
+    .interview-card {
+
+        grid-template-columns: 65px minmax(0, 1fr);
+
+    }
+
+    .interview-actions {
+
+        position: absolute;
+
+        top: 14px;
+
+        right: 14px;
+
+    }
+
+}
+
+
+
+@media (max-width: 600px) {
+
+    .interview-page {
+
+        padding: 22px 14px 35px;
+
+    }
+
+    .page-title h1 {
+
+        font-size: 29px;
+
+    }
+
+    .page-title p {
+
+        font-size: 12px;
+
+    }
+
+    .nearest-card {
+
+        align-items: flex-start;
+
+        padding: 14px;
+
+    }
+
+    .interview-card {
+
+        display: block;
+
+        padding: 18px;
+
+    }
+
+    .interview-time {
+
+        margin-bottom: 12px;
+
+    }
+
+    .interview-actions {
+
+        top: 13px;
+
+        right: 10px;
+
+    }
+
+    .company-name {
+
+        padding-right: 70px;
+
+    }
+
+    .form-row {
+
+        grid-template-columns: 1fr;
+
+        gap: 0;
+
+    }
+
+    .interview-modal {
+
+        max-height: calc(100vh - 20px);
+
+        border-radius: 12px;
+
+    }
+
+    .modal-header {
+
+        padding: 19px 18px 15px;
+
+    }
+
+    #interviewForm {
+
+        padding: 17px 18px 20px;
+
+    }
+
+    .toast-area {
+
+        top: 12px;
+
+        right: 12px;
+
+        left: 12px;
+
+    }
+
+    .toast {
+
+        width: 100%;
+
+        min-width: 0;
+
+        box-sizing: border-box;
+
+    }
+
+}
