@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="../css/nav.css" />
+        <link rel="stylesheet" href="../css/header.css" />
+        <link rel="stylesheet" href="../css/interview.css" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&family=Syne:wght@700;800&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        />
+
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"
+        />
+        <title>CV Studio</title>
+    </head>
+    <body>
+        <div class="toast-area" id="toastArea"></div>
+
+        <div id="nav-container"></div>
+
+        <div id="header-container"></div>
+
+        <main class="interview-page">
+            <div class="interview-container">
+                <!-- PAGE HEADER -->
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>Lịch phỏng vấn</h1>
+
+                        <p>
+                            Theo dõi các buổi phỏng vấn sắp tới. Bạn có thể bật
+                            nhắc nhở qua email trước 1 giờ.
+                        </p>
+                    </div>
+
+                    <button
+                        class="add-interview-btn"
+                        id="addInterviewBtn"
+                        type="button"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                        Thêm lịch phỏng vấn
+                    </button>
+                </div>
+
+                <!-- LỊCH GẦN NHẤT -->
+                <section class="nearest-interview" id="nearestInterview">
+                    <!-- JS render -->
+                </section>
+
+                <!-- DANH SÁCH LỊCH -->
+                <section class="interview-list" id="interviewList">
+                    <!-- JS render -->
+                </section>
+            </div>
+        </main>
+
+        <!-- ============================= -->
+        <!-- POPUP THÊM / SỬA LỊCH -->
+        <!-- ============================= -->
+
+        <div class="modal-overlay" id="interviewModal">
+            <div class="interview-modal">
+                <div class="modal-header">
+                    <div>
+                        <h2 id="modalTitle">Thêm lịch phỏng vấn</h2>
+
+                        <p>Điền thông tin buổi phỏng vấn của bạn.</p>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="modal-close"
+                        id="closeModalBtn"
+                    >
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <form id="interviewForm">
+                    <input type="hidden" id="interviewId" />
+
+                    <!-- CÔNG TY -->
+                    <div class="form-group">
+                        <label for="company"> Công ty </label>
+
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-building"></i>
+
+                            <input
+                                type="text"
+                                id="company"
+                                placeholder="Tên công ty"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <!-- VỊ TRÍ -->
+                    <div class="form-group">
+                        <label for="position"> Vị trí ứng tuyển </label>
+
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-briefcase"></i>
+
+                            <input
+                                type="text"
+                                id="position"
+                                placeholder="Ví dụ: Backend Developer"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <!-- NGÀY + GIỜ -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="date"> Ngày phỏng vấn </label>
+
+                            <div class="input-wrapper">
+                                <i class="fa-regular fa-calendar"></i>
+
+                                <input type="date" id="date" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="time"> Giờ bắt đầu </label>
+
+                            <div class="input-wrapper">
+                                <i class="fa-regular fa-clock"></i>
+
+                                <input type="time" id="time" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="type">Hình thức phỏng vấn</label>
+
+                        <div class="select-wrapper">
+                            <i class="fa-solid fa-video"></i>
+
+                            <select id="type" name="type">
+                                <option value="online">Online</option>
+                                <option value="offline">Offline</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- ONLINE -->
+                    <div class="form-group" id="linkGroup">
+                        <label for="link">Link phỏng vấn</label>
+
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-link"></i>
+
+                            <input
+                                type="url"
+                                id="link"
+                                name="link"
+                                placeholder="https://meet.google.com/..."
+                            />
+                        </div>
+                    </div>
+
+                    <!-- OFFLINE -->
+                    <div
+                        class="form-group"
+                        id="locationGroup"
+                        style="display: none"
+                    >
+                        <label for="location">Địa điểm phỏng vấn</label>
+
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-location-dot"></i>
+
+                            <input
+                                type="text"
+                                id="location"
+                                name="location"
+                                placeholder="Nhập địa điểm phỏng vấn"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- GHI CHÚ -->
+                    <div class="form-group">
+                        <label for="note"> Ghi chú </label>
+
+                        <textarea
+                            id="note"
+                            rows="4"
+                            placeholder="Địa chỉ, người liên hệ, cần chuẩn bị gì..."
+                        ></textarea>
+                    </div>
+
+                    <!-- REMINDER -->
+                    <label class="reminder-option">
+                        <input type="checkbox" id="reminder" checked />
+
+                        <span class="custom-checkbox">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+
+                        <span> Gửi email nhắc nhở trước 1 giờ </span>
+                    </label>
+
+                    <!-- BUTTON -->
+                    <div class="modal-actions">
+                        <button
+                            type="button"
+                            class="cancel-btn"
+                            id="cancelModalBtn"
+                        >
+                            Hủy
+                        </button>
+
+                        <button type="submit" class="save-btn">
+                            <i class="fa-solid fa-check"></i>
+                            Lưu
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+    <script src="../js/function.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/interview.js"></script>
+</html>
