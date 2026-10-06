@@ -45,6 +45,7 @@ CREATE TABLE password_resets (
     INDEX idx_password_resets_expires_at (expires_at)
 );
 
+
 -- CV
 CREATE TABLE cvs (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -59,21 +60,21 @@ CREATE TABLE cvs (
 
     summary TEXT,
 
-    skills TEXT,
-
-    soft_skills TEXT,
-
     email VARCHAR(255),
 
     phone VARCHAR(30),
 
     address VARCHAR(255),
 
+    git_link VARCHAR(500),
+
+    soft_skills TEXT,
+
     primary_color VARCHAR(20)
         DEFAULT '#2F7867',
 
     template VARCHAR(50)
-        DEFAULT 'classic',
+        DEFAULT 'layout1',
 
     created_at DATETIME
         DEFAULT CURRENT_TIMESTAMP,
@@ -90,7 +91,27 @@ CREATE TABLE cvs (
     INDEX idx_cvs_user_id (user_id)
 );
 
--- language
+
+-- KỸ NĂNG CHUYÊN MÔN
+CREATE TABLE cv_professional_skills (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    cv_id INT NOT NULL,
+
+    position VARCHAR(150),
+
+    technologies TEXT,
+
+    CONSTRAINT fk_cv_professional_skills_cv
+        FOREIGN KEY (cv_id)
+        REFERENCES cvs(id)
+        ON DELETE CASCADE,
+
+    INDEX idx_cv_professional_skills_cv_id (cv_id)
+);
+
+
+-- NGÔN NGỮ
 CREATE TABLE cv_languages (
     id INT AUTO_INCREMENT PRIMARY KEY,
 
@@ -109,7 +130,7 @@ CREATE TABLE cv_languages (
 );
 
 
--- EXPERIENCES
+-- KINH NGHIỆM LÀM VIỆC
 CREATE TABLE cv_experiences (
     id INT AUTO_INCREMENT PRIMARY KEY,
 
@@ -132,8 +153,7 @@ CREATE TABLE cv_experiences (
 );
 
 
--- EDUCATIONS
-
+-- HỌC VẤN
 CREATE TABLE cv_educations (
     id INT AUTO_INCREMENT PRIMARY KEY,
 
@@ -145,6 +165,8 @@ CREATE TABLE cv_educations (
 
     school VARCHAR(200),
 
+    gpa DECIMAL(3,2),
+
     CONSTRAINT fk_cv_educations_cv
         FOREIGN KEY (cv_id)
         REFERENCES cvs(id)
@@ -154,8 +176,49 @@ CREATE TABLE cv_educations (
 );
 
 
--- INTERVIEWS
+-- DỰ ÁN
+CREATE TABLE cv_projects (
+    id INT AUTO_INCREMENT PRIMARY KEY,
 
+    cv_id INT NOT NULL,
+
+    project_name VARCHAR(200) NOT NULL,
+
+    technologies TEXT,
+
+    description TEXT,
+
+    CONSTRAINT fk_cv_projects_cv
+        FOREIGN KEY (cv_id)
+        REFERENCES cvs(id)
+        ON DELETE CASCADE,
+
+    INDEX idx_cv_projects_cv_id (cv_id)
+);
+
+
+-- HOẠT ĐỘNG
+CREATE TABLE cv_activities (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    cv_id INT NOT NULL,
+
+    activity_name VARCHAR(200) NOT NULL,
+
+    activity_year VARCHAR(100),
+
+    description TEXT,
+
+    CONSTRAINT fk_cv_activities_cv
+        FOREIGN KEY (cv_id)
+        REFERENCES cvs(id)
+        ON DELETE CASCADE,
+
+    INDEX idx_cv_activities_cv_id (cv_id)
+);
+
+
+-- INTERVIEWS
 CREATE TABLE interviews (
     id INT AUTO_INCREMENT PRIMARY KEY,
 
