@@ -1,6 +1,8 @@
 import db from "../config/db.js";
 
+
 // tạo cv
+
 export const createCV = async (
     connection,
     data
@@ -15,11 +17,11 @@ export const createCV = async (
             full_name,
             position,
             summary,
-            skills,
-            soft_skills,
             email,
             phone,
             address,
+            git_link,
+            soft_skills,
             primary_color,
             template
         )
@@ -31,11 +33,11 @@ export const createCV = async (
             data.full_name ?? null,
             data.position ?? null,
             data.summary ?? null,
-            data.skills ?? null,
-            data.soft_skills ?? null,
             data.email ?? null,
             data.phone ?? null,
             data.address ?? null,
+            data.git_link ?? null,
+            data.soft_skills ?? null,
             data.primary_color ?? "#2F7867",
             data.template ?? "layout1"
         ]
@@ -45,7 +47,8 @@ export const createCV = async (
 };
 
 
-// lấy cv user
+// lấy cv theo id
+
 export const getCVsByUserId = async (
     userId
 ) => {
@@ -58,11 +61,11 @@ export const getCVsByUserId = async (
             full_name,
             position,
             summary,
-            skills,
-            soft_skills,
             email,
             phone,
             address,
+            git_link,
+            soft_skills,
             primary_color,
             template,
             created_at,
@@ -77,8 +80,30 @@ export const getCVsByUserId = async (
     return rows;
 };
 
+export const createProfessionalSkill = async (
+    connection,
+    cvId,
+    skill
+) => {
 
-// experience
+    await connection.execute(
+        `
+        INSERT INTO cv_professional_skills
+        (
+            cv_id,
+            position,
+            technologies
+        )
+        VALUES (?, ?, ?)
+        `,
+        [
+            cvId,
+            skill.position ?? null,
+            skill.technologies ?? null
+        ]
+    );
+};
+
 export const createExperience = async (
     connection,
     cvId,
@@ -107,8 +132,6 @@ export const createExperience = async (
     );
 };
 
-
-// education
 export const createEducation = async (
     connection,
     cvId,
@@ -122,21 +145,47 @@ export const createEducation = async (
             cv_id,
             degree,
             time_range,
-            school
+            school,
+            gpa
         )
-        VALUES (?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?)
         `,
         [
             cvId,
             education.degree ?? null,
             education.time_range ?? null,
-            education.school ?? null
+            education.school ?? null,
+            education.gpa ?? null
         ]
     );
 };
 
+export const createProject = async (
+    connection,
+    cvId,
+    project
+) => {
 
-// language
+    await connection.execute(
+        `
+        INSERT INTO cv_projects
+        (
+            cv_id,
+            project_name,
+            technologies,
+            description
+        )
+        VALUES (?, ?, ?, ?)
+        `,
+        [
+            cvId,
+            project.project_name ?? null,
+            project.technologies ?? null,
+            project.description ?? null
+        ]
+    );
+};
+
 export const createLanguage = async (
     connection,
     cvId,
@@ -155,42 +204,56 @@ export const createLanguage = async (
         `,
         [
             cvId,
-            language.name ?? null,
+            language.name ??
+            language.language_name ??
+            null,
+
             language.level ?? null
         ]
     );
 };
 
-
-// xóa cv
-export const deleteCVById = async (
-    id,
-    userId
+export const createActivity = async (
+    connection,
+    cvId,
+    activity
 ) => {
 
-    const [result] = await db.query(
+    await connection.execute(
         `
-        DELETE FROM cvs
-        WHERE id = ?
-        AND user_id = ?
+        INSERT INTO cv_activities
+        (
+            cv_id,
+            activity_name,
+            activity_year,
+            description
+        )
+        VALUES (?, ?, ?, ?)
         `,
         [
-            id,
-            userId
+            cvId,
+            activity.activity_name ??
+            activity.name ??
+            null,
+
+            activity.activity_year ??
+            activity.year ??
+            null,
+
+            activity.description ?? null
         ]
     );
-
-    return result;
 };
 
-
-// lấy cv id
 export const getCVById = async (
     id,
     userId
 ) => {
 
-    // cv
+    // --------------------------------------------------
+    // CV
+    // --------------------------------------------------
+
     const [cvRows] = await db.query(
         `
         SELECT
@@ -200,11 +263,11 @@ export const getCVById = async (
             full_name,
             position,
             summary,
-            skills,
-            soft_skills,
             email,
             phone,
             address,
+            git_link,
+            soft_skills,
             primary_color,
             template,
             created_at,
@@ -220,121 +283,197 @@ export const getCVById = async (
         ]
     );
 
+
     if (cvRows.length === 0) {
+
         return null;
     }
 
+
     const cv = cvRows[0];
 
-    // experience
-    const [experiences] = await db.query(
-        `
-        SELECT
-            id,
-            position,
-            time_range,
-            company,
-            description
-        FROM cv_experiences
-        WHERE cv_id = ?
-        ORDER BY id ASC
-        `,
-        [id]
-    );
+    const [professionalSkills] =
+        await db.query(
+            `
+            SELECT
+                id,
+                position,
+                technologies
+            FROM cv_professional_skills
+            WHERE cv_id = ?
+            ORDER BY id ASC
+            `,
+            [id]
+        );
 
-    // education
-    const [educations] = await db.query(
-        `
-        SELECT
-            id,
-            degree,
-            time_range,
-            school
-        FROM cv_educations
-        WHERE cv_id = ?
-        ORDER BY id ASC
-        `,
-        [id]
-    );
+    const [experiences] =
+        await db.query(
+            `
+            SELECT
+                id,
+                position,
+                time_range,
+                company,
+                description
+            FROM cv_experiences
+            WHERE cv_id = ?
+            ORDER BY id ASC
+            `,
+            [id]
+        );
 
-    // language
-    const [languages] = await db.query(
-        `
-        SELECT
-            id,
-            language_name AS name,
-            level
-        FROM cv_languages
-        WHERE cv_id = ?
-        ORDER BY id ASC
-        `,
-        [id]
-    );
+    const [educations] =
+        await db.query(
+            `
+            SELECT
+                id,
+                degree,
+                time_range,
+                school,
+                gpa
+            FROM cv_educations
+            WHERE cv_id = ?
+            ORDER BY id ASC
+            `,
+            [id]
+        );
+
+    const [projects] =
+        await db.query(
+            `
+            SELECT
+                id,
+                project_name,
+                technologies,
+                description
+            FROM cv_projects
+            WHERE cv_id = ?
+            ORDER BY id ASC
+            `,
+            [id]
+        );
+
+    const [languages] =
+        await db.query(
+            `
+            SELECT
+                id,
+                language_name AS name,
+                level
+            FROM cv_languages
+            WHERE cv_id = ?
+            ORDER BY id ASC
+            `,
+            [id]
+        );
+
+    const [activities] =
+        await db.query(
+            `
+            SELECT
+                id,
+                activity_name,
+                activity_year,
+                description
+            FROM cv_activities
+            WHERE cv_id = ?
+            ORDER BY id ASC
+            `,
+            [id]
+        );
 
     return {
+
         ...cv,
-        experiences,
-        educations,
-        languages
+
+        professional_skills:
+            professionalSkills,
+
+        experiences:
+            experiences,
+
+        educations:
+            educations,
+
+        projects:
+            projects,
+
+        languages:
+            languages,
+
+        activities:
+            activities
+
     };
 };
 
-
-// update cv
 export const updateCV = async (
     id,
     userId,
     data
 ) => {
 
-    const connection = await db.getConnection();
+    const connection =
+        await db.getConnection();
+
 
     try {
 
         await connection.beginTransaction();
 
-        const [result] = await connection.execute(
-            `
-            UPDATE cvs
-            SET
-                title = ?,
-                full_name = ?,
-                position = ?,
-                summary = ?,
-                skills = ?,
-                soft_skills = ?,
-                email = ?,
-                phone = ?,
-                address = ?,
-                primary_color = ?,
-                template = ?,
-                updated_at = NOW()
-            WHERE id = ?
-            AND user_id = ?
-            `,
-            [
-                data.title ?? null,
-                data.full_name ?? null,
-                data.position ?? null,
-                data.summary ?? null,
-                data.skills ?? null,
-                data.soft_skills ?? null,
-                data.email ?? null,
-                data.phone ?? null,
-                data.address ?? null,
-                data.primary_color ?? "#2F7867",
-                data.template ?? "layout1",
-                id,
-                userId
-            ]
-        );
+        const [result] =
+            await connection.execute(
+                `
+                UPDATE cvs
+                SET
+                    title = ?,
+                    full_name = ?,
+                    position = ?,
+                    summary = ?,
+                    email = ?,
+                    phone = ?,
+                    address = ?,
+                    git_link = ?,
+                    soft_skills = ?,
+                    primary_color = ?,
+                    template = ?,
+                    updated_at = NOW()
+                WHERE id = ?
+                AND user_id = ?
+                `,
+                [
+                    data.title ?? null,
+                    data.full_name ?? null,
+                    data.position ?? null,
+                    data.summary ?? null,
+                    data.email ?? null,
+                    data.phone ?? null,
+                    data.address ?? null,
+                    data.git_link ?? null,
+                    data.soft_skills ?? null,
+                    data.primary_color ?? "#2F7867",
+                    data.template ?? "layout1",
+                    id,
+                    userId
+                ]
+            );
+
 
         if (result.affectedRows === 0) {
+
             throw new Error(
                 "CV không tồn tại hoặc bạn không có quyền cập nhật"
             );
         }
 
+
+        await connection.execute(
+            `
+            DELETE FROM cv_professional_skills
+            WHERE cv_id = ?
+            `,
+            [id]
+        );
 
         await connection.execute(
             `
@@ -354,12 +493,50 @@ export const updateCV = async (
 
         await connection.execute(
             `
+            DELETE FROM cv_projects
+            WHERE cv_id = ?
+            `,
+            [id]
+        );
+
+        await connection.execute(
+            `
             DELETE FROM cv_languages
             WHERE cv_id = ?
             `,
             [id]
         );
 
+        await connection.execute(
+            `
+            DELETE FROM cv_activities
+            WHERE cv_id = ?
+            `,
+            [id]
+        );
+
+        for (
+            const skill
+            of data.professional_skills || []
+        ) {
+
+            await connection.execute(
+                `
+                INSERT INTO cv_professional_skills
+                (
+                    cv_id,
+                    position,
+                    technologies
+                )
+                VALUES (?, ?, ?)
+                `,
+                [
+                    id,
+                    skill.position ?? null,
+                    skill.technologies ?? null
+                ]
+            );
+        }
 
         for (
             const experience
@@ -400,15 +577,44 @@ export const updateCV = async (
                     cv_id,
                     degree,
                     time_range,
-                    school
+                    school,
+                    gpa
                 )
-                VALUES (?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?)
                 `,
                 [
                     id,
                     education.degree ?? null,
                     education.time_range ?? null,
-                    education.school ?? null
+                    education.school ?? null,
+                    education.gpa === ""
+                        ? null
+                        : education.gpa ?? null
+                ]
+            );
+        }
+
+        for (
+            const project
+            of data.projects || []
+        ) {
+
+            await connection.execute(
+                `
+                INSERT INTO cv_projects
+                (
+                    cv_id,
+                    project_name,
+                    technologies,
+                    description
+                )
+                VALUES (?, ?, ?, ?)
+                `,
+                [
+                    id,
+                    project.project_name ?? null,
+                    project.technologies ?? null,
+                    project.description ?? null
                 ]
             );
         }
@@ -430,8 +636,42 @@ export const updateCV = async (
                 `,
                 [
                     id,
-                    language.name ?? null,
+                    language.name ??
+                    language.language_name ??
+                    null,
+
                     language.level ?? null
+                ]
+            );
+        }
+
+        for (
+            const activity
+            of data.activities || []
+        ) {
+
+            await connection.execute(
+                `
+                INSERT INTO cv_activities
+                (
+                    cv_id,
+                    activity_name,
+                    activity_year,
+                    description
+                )
+                VALUES (?, ?, ?, ?)
+                `,
+                [
+                    id,
+                    activity.activity_name ??
+                    activity.name ??
+                    null,
+
+                    activity.activity_year ??
+                    activity.year ??
+                    null,
+
+                    activity.description ?? null
                 ]
             );
         }
@@ -440,15 +680,39 @@ export const updateCV = async (
 
         return true;
 
+
     } catch (error) {
 
         await connection.rollback();
 
         throw error;
 
+
     } finally {
 
         connection.release();
 
     }
+};
+
+export const deleteCVById = async (
+    id,
+    userId
+) => {
+
+    const [result] =
+        await db.query(
+            `
+            DELETE FROM cvs
+            WHERE id = ?
+            AND user_id = ?
+            `,
+            [
+                id,
+                userId
+            ]
+        );
+
+
+    return result;
 };
