@@ -34,7 +34,9 @@ body {
 .page-title p {
     margin: 9px 0 0;
     color: #687084;
-    font-size: 18px;
+    font-size: 15px;
+    font-family: "Be Vietnam Pro", sans-serif;
+
 }
 
 /* create button */
