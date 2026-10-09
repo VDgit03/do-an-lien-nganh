@@ -1,0 +1,1146 @@
+{
+  "dataset_name": "IT Job Positions Dataset",
+  "version": "1.0",
+  "language": "vi",
+  "total_jobs": 15,
+  "jobs": [
+    {
+      "job_title": "Frontend Developer",
+      "job_level": "Fresher",
+      "employment_type": "Full-time",
+      "job_description": {
+        "summary": "Phát triển giao diện web hiện đại, responsive và tối ưu trải nghiệm người dùng.",
+        "responsibilities": [
+          "Phân tích yêu cầu và xây dựng giao diện web",
+          "Phát triển các component và tính năng Frontend",
+          "Tích hợp RESTful API",
+          "Tối ưu hiệu năng và khả năng responsive",
+          "Testing, debugging và refactoring",
+          "Quản lý source code bằng Git",
+          "Phối hợp với Backend Developer và UI/UX Designer",
+          "Nghiên cứu và ứng dụng công nghệ Frontend mới",
+          "Ứng dụng AI/AI Agent trong quá trình phát triển phần mềm"
+        ]
+      },
+      "requirements": {
+        "education": [
+          "Cao đẳng",
+          "Đại học"
+        ],
+        "experience": {
+          "min_years": 0,
+          "max_years": 1,
+          "description": "Có kiến thức hoặc kinh nghiệm thực tế về phát triển Frontend."
+        },
+        "skills": {
+          "technical": [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "TypeScript",
+            "ReactJS",
+            "Next.js",
+            "Vue.js",
+            "RESTful API",
+            "Responsive Design"
+          ],
+          "soft": [
+            "Problem solving",
+            "Teamwork",
+            "Communication",
+            "Learning ability"
+          ],
+          "tools": [
+            "Git",
+            "VS Code",
+            "ChatGPT"
+          ],
+          "languages": [
+            "English"
+          ]
+        },
+        "certifications": []
+      },
+      "preferred_qualifications": [
+        "UI/UX",
+        "Performance Optimization",
+        "AI-integrated Software Development"
+      ],
+      "domain": [
+        "IT - Software"
+      ],
+      "work_conditions": {
+        "full_time": true,
+        "remote": null
+      },
+      "benefits": [],
+      "recruitment_process": []
+    },
+    {
+      "job_title": "Backend Developer",
+      "job_level": "Fresher",
+      "employment_type": "Full-time",
+      "job_description": {
+        "summary": "Phát triển các dịch vụ Backend, API và hệ thống xử lý dữ liệu cho sản phẩm.",
+        "responsibilities": [
+          "Phân tích yêu cầu và thiết kế Backend",
+          "Xây dựng RESTful API",
+          "Thiết kế và tối ưu cơ sở dữ liệu",
+          "Xử lý authentication và authorization",
+          "Testing, debugging và refactoring",
+          "Tối ưu hiệu năng hệ thống",
+          "Quản lý source code bằng Git",
+          "Phối hợp với Frontend và DevOps",
+          "Ứng dụng AI/AI Agent trong phát triển phần mềm"
+        ]
+      },
+      "requirements": {
+        "education": [
+          "Cao đẳng",
+          "Đại học"
+        ],
+        "experience": {
+          "min_years": 0,
+          "max_years": 1,
+          "description": "Có kiến thức hoặc kinh nghiệm phát triển Backend."
+        },
+        "skills": {
+          "technical": [
+            "Java",
+            "Python",
+            "Node.js",
+            "Spring Boot",
+            "ExpressJS",
+            "RESTful API",
+            "MySQL",
+            "PostgreSQL",
+            "MongoDB",
+            "Redis"
+          ],
+          "soft": [
+            "Problem solving",
+            "Teamwork",
+            "Communication",
+            "Learning ability"
+          ],
+          "tools": [
+            "Git",
+            "Postman",
+            "Docker",
+            "ChatGPT"
+          ],
+          "languages": [
+            "English"
+          ]
+        },
+        "certifications": []
+      },
+      "preferred_qualifications": [
+        "Microservices",
+        "Cloud",
+        "System Design",
+        "AI-integrated Software Development"
+      ],
+      "domain": [
+        "IT - Software"
+      ],
+      "work_conditions": {
+        "full_time": true,
+        "remote": null
+      },
+      "benefits": [],
+      "recruitment_process": []
+    },
+    {
+      "job_title": "Mobile App Developer",
+      "job_level": "Fresher",
+      "employment_type": "Full-time",
+      "job_description": {
+        "summary": "Phát triển và duy trì ứng dụng di động trên Android và iOS.",
+        "responsibilities": [
+          "Phát triển tính năng cho ứng dụng mobile",
+          "Tích hợp API và dịch vụ Backend",
+          "Tối ưu hiệu năng ứng dụng",
+          "Xử lý lỗi và debugging",
+          "Viết unit test và integration test",
+          "Đóng gói và phát hành ứng dụng",
+          "Quản lý source code bằng Git",
+          "Nghiên cứu công nghệ mobile mới"
+        ]
+      },
+      "requirements": {
+        "education": [
+          "Cao đẳng",
+          "Đại học"
+        ],
+        "experience": {
+          "min_years": 0,
+          "max_years": 1,
+          "description": "Có kiến thức hoặc dự án thực tế về phát triển ứng dụng mobile."
+        },
+        "skills": {
+          "technical": [
+            "Flutter",
+            "Dart",
+            "React Native",
+            "Kotlin",
+            "Swift",
+            "RESTful API",
+            "Firebase",
+            "SQLite"
+          ],
+          "soft": [
+            "Problem solving",
+            "Teamwork",
+            "Communication",
+            "Learning ability"
+          ],
+          "tools": [
+            "Git",
+            "Android Studio",
+            "Xcode",
+            "ChatGPT"
+          ],
+          "languages": [
+            "English"
+          ]
+        },
+        "certifications": []
+      },
+      "preferred_qualifications": [
+        "Mobile UI/UX",
+        "Firebase",
+        "CI/CD",
+        "AI-integrated Mobile Development"
+      ],
+      "domain": [
+        "IT - Mobile"
+      ],
+      "work_conditions": {
+        "full_time": true,
+        "remote": null
+      },
+      "benefits": [],
+      "recruitment_process": []
+    },
+    {
+      "job_title": "AI/Machine Learning Engineer",
+      "job_level": "Fresher",
+      "employment_type": "Full-time",
+      "job_description": {
+        "summary": "Xây dựng, huấn luyện và triển khai các mô hình AI/ML cho sản phẩm và hệ thống.",
+        "responsibilities": [
+          "Thu thập và tiền xử lý dữ liệu",
+          "Xây dựng và huấn luyện mô hình Machine Learning",
+          "Đánh giá và tối ưu mô hình",
+          "Thực hiện Computer Vision hoặc NLP tùy dự án",
+          "Triển khai mô hình vào hệ thống",
+          "Theo dõi hiệu năng mô hình",
+          "Nghiên cứu các mô hình và kỹ thuật AI mới",
+          "Quản lý code và thí nghiệm"
+        ]
+      },
+      "requirements": {
+        "education": [
+          "Đại học",
+          "Cao học"
+        ],
+        "experience": {
+          "min_years": 0,
+          "max_years": 2,
+          "description": "Có kiến thức nền tảng về AI/ML và kinh nghiệm qua dự án hoặc nghiên cứu."
+        },
+        "skills": {
+          "technical": [
+            "Python",
+            "NumPy",
+            "Pandas",
+            "Scikit-learn",
+            "PyTorch",
+            "TensorFlow",
+            "Machine Learning",
+            "Deep Learning",
+            "Computer Vision",
+            "NLP"
+          ],
+          "soft": [
+            "Problem solving",
+            "Analytical thinking",
+            "Research",
+            "Communication"
+          ],
+          "tools": [
+            "Jupyter",
+            "Git",
+            "Docker",
+            "MLflow",
+            "ChatGPT"
+          ],
+          "languages": [
+            "English"
+          ]
+        },
+        "certifications": []
+      },
+      "preferred_qualifications": [
+        "Generative AI",
+        "LLM",
+        "MLOps",
+        "Computer Vision",
+        "NLP"
+      ],
+      "domain": [
+        "IT - Artificial Intelligence"
+      ],
+      "work_conditions": {
+        "full_time": true,
+        "remote": null
+      },
+      "benefits": [],
+      "recruitment_process": []
+    },
+    {
+      "job_title": "Data Scientist",
+      "job_level": "Senior",
+      "employment_type": "Full-time",
+
+      "job_description": {
+      "summary": "Phát triển các mô hình Data Science và Machine Learning phục vụ dự báo, tối ưu lợi nhuận, phân tích khách hàng và hỗ trợ ra quyết định kinh doanh trong lĩnh vực tài chính, ngân hàng.",
+      "responsibilities": [
+      "Phát triển các mô hình dự báo Balance Sheet và P&L",
+      "Xây dựng mô hình forecasting dựa trên business drivers và scenario analysis",
+      "Cải thiện độ chính xác của dự báo và giảm các điều chỉnh thủ công",
+      "Phân tích profitability theo khách hàng, phân khúc, sản phẩm và kênh",
+      "Tối ưu pricing, marketing spend và capital allocation",
+      "Xây dựng các mô hình churn, CLTV, next-best-action và cross-sell/upsell",
+      "Cung cấp actionable insights nhằm hỗ trợ các team kinh doanh",
+      "Cải thiện commercial effectiveness và productivity",
+      "Xây dựng reusable data pipelines, ML pipelines và feature sets",
+      "Phát triển dashboards và các công cụ hỗ trợ ra quyết định",
+      "Tự động hóa reporting, data analysis và insight generation",
+      "Đánh giá, validation và explainability của các mô hình Machine Learning",
+      "Phối hợp với các business stakeholders để chuyển đổi bài toán kinh doanh thành giải pháp Data Science",
+      "Theo dõi và cải thiện hiệu quả của các mô hình sau khi triển khai",
+      "Ứng dụng MLOps để quản lý vòng đời mô hình"
+      ]
+      },
+
+      "requirements": {
+      "education": [
+      "Đại học",
+      "Cao học"
+      ],
+      "experience": {
+        "min_years": 4,
+        "max_years": null,
+        "description": "Có từ 04 năm kinh nghiệm trong Data Science, Machine Learning, Quantitative Analytics hoặc các lĩnh vực liên quan."
+      },
+
+      "skills": {
+        "technical": [
+          "Python",
+          "SQL",
+          "Apache Spark",
+          "Data Science",
+          "Machine Learning",
+          "Time Series Forecasting",
+          "Causal Inference",
+          "A/B Testing",
+          "Experimentation",
+          "Model Validation",
+          "Model Explainability",
+          "Feature Engineering",
+          "Data Pipelines",
+          "ML Pipelines",
+          "MLOps",
+          "Predictive Modeling",
+          "Customer Analytics",
+          "Profitability Analytics",
+          "Scenario Analysis",
+          "Statistical Modeling"
+        ],
+
+        "soft": [
+          "Business Acumen",
+          "Problem Solving",
+          "Analytical Thinking",
+          "Stakeholder Management",
+          "Communication",
+          "Presentation",
+          "Decision Making",
+          "Leadership"
+        ],
+
+        "tools": [
+          "Git",
+          "Jupyter",
+          "Apache Spark",
+          "MLflow",
+          "Airflow",
+          "Power BI",
+          "Tableau"
+        ],
+
+        "languages": [
+          "English"
+        ]
+      },
+
+      "certifications": []
+
+      },
+
+      "preferred_qualifications": [
+      "Financial Analytics",
+      "Banking Analytics",
+      "Quantitative Analytics",
+      "Advanced Forecasting",
+      "Causal Inference",
+      "Experimentation",
+      "MLOps",
+      "Customer Analytics",
+      "Pricing Optimization",
+      "AI/ML"
+      ],
+
+      "domain": [
+      "IT - Software",
+      "Finance",
+      "Banking"
+      ],
+
+      "work_conditions": {
+      "full_time": true,
+      "remote": null
+      },
+
+      "benefits": [],
+
+      "recruitment_process": []
+    },  
+    {
+      "job_title": "Data Engineer",
+      "job_level": "Fresher",
+      "employment_type": "Full-time",
+      "job_description": {
+        "summary": "Xây dựng hệ thống thu thập, xử lý, lưu trữ và cung cấp dữ liệu cho tổ chức.",
+        "responsibilities": [
+          "Xây dựng data pipeline",
+          "Thiết kế và tối ưu data warehouse",
+          "ETL/ELT dữ liệu",
+          "Tích hợp dữ liệu từ nhiều nguồn",
+          "Đảm bảo chất lượng và tính nhất quán của dữ liệu",
+          "Tối ưu hiệu năng xử lý dữ liệu",
+          "Theo dõi và xử lý lỗi pipeline",
+          "Quản lý code và workflow dữ liệu"
+        ]
+      },
+      "requirements": {
+        "education": [
+          "Đại học",
+          "Cao học"
+        ],
+        "experience": {
+          "min_years": 0,
+          "max_years": 2,
+          "description": "Có kiến thức về cơ sở dữ liệu, SQL và xử lý dữ liệu."
+        },
+        "skills": {
+          "technical": [
+            "Python",
+            "SQL",
+            "PostgreSQL",
+            "MySQL",
+            "Apache Spark",
+            "Kafka",
+            "ETL",
+            "Data Warehouse",
+            "Airflow"
+          ],
+          "soft": [
+            "Problem solving",
+            "Analytical thinking",
+            "Teamwork",
+            "Communication"
+          ],
+          "tools": [
+            "Git",
+            "Docker",
+            "Airflow",
+            "Databricks"
+          ],
+          "languages": [
+            "English"
+          ]
+        },
+        "certifications": []
+      },
+      "preferred_qualifications": [
+        "Cloud Data Engineering",
+        "Big Data",
+        "Data Lake",
+        "MLOps"
+      ],
+      "domain": [
+        "IT - Data Engineering"
+      ],
+      "work_conditions": {
+        "full_time": true,
+        "remote": null
+      },
+      "benefits": [],
+      "recruitment_process": []
+    },
+    {
+      "job_title": "DevOps Engineer",
+      "job_level": "Fresher",
+      "employment_type": "Full-time",
+      "job_description": {
+        "summary": "Xây dựng và vận hành quy trình CI/CD, hạ tầng và hệ thống triển khai phần mềm.",
+        "responsibilities": [
+          "Xây dựng và duy trì CI/CD pipeline",
+          "Quản lý hạ tầng và môi trường triển khai",
+          "Container hóa ứng dụng",
+          "Theo dõi hiệu năng và độ ổn định hệ thống",
+          "Tự động hóa các tác vụ vận hành",
+          "Quản lý cấu hình và infrastructure as code",
+          "Xử lý sự cố production",
+          "Phối hợp với Development Team"
+        ]
+      },
+      "requirements": {
+        "education": [
+          "Cao đẳng",
+          "Đại học"
+        ],
+        "experience": {
+          "min_years": 0,
+          "max_years": 2,
+          "description": "Có kiến thức Linux, networking và quy trình triển khai phần mềm."
+        },
+        "skills": {
+          "technical": [
+            "Linux",
+            "Docker",
+            "Kubernetes",
+            "CI/CD",
+            "AWS",
+            "Azure",
+            "Terraform",
+            "Bash",
+            "Networking"
+          ],
+          "soft": [
+            "Problem solving",
+            "Teamwork",
+            "Communication",
+            "Incident management"
+          ],
+          "tools": [
+            "Git",
+            "GitHub Actions",
+            "GitLab CI",
+            "Jenkins",
+            "Prometheus"
+          ],
+          "languages": [
+            "English"
+          ]
+        },
+        "certifications": []
+      },
+      "preferred_qualifications": [
+        "Cloud Architecture",
+        "SRE",
+        "Infrastructure as Code",
+        "Security"
+      ],
+      "domain": [
+        "IT - DevOps"
+      ],
+      "work_conditions": {
+        "full_time": true,
+        "remote": null
+      },
+      "benefits": [],
+      "recruitment_process": []
+    },
+    {
+      "job_title": "Cloud Engineer",
+      "job_level": "Fresher",
+      "employment_type": "Full-time",
+      "job_description": {
+        "summary": "Thiết kế, triển khai và vận hành hạ tầng ứng dụng trên nền tảng Cloud.",
+        "responsibilities": [
+          "Triển khai ứng dụng trên Cloud",
+          "Quản lý compute, storage và networking",
+          "Thiết lập monitoring và logging",
+          "Tối ưu chi phí và tài nguyên Cloud",
+          "Xây dựng automation",
+          "Quản lý quyền truy cập và bảo mật cơ bản",
+          "Hỗ trợ migration lên Cloud",
+          "Phối hợp với DevOps và Development Team"
+        ]
+      },
+      "requirements": {
+        "education": [
+          "Đại học"
+        ],
+        "experience": {
+          "min_years": 0,
+          "max_years": 2,
+          "description": "Có kiến thức về Cloud Computing và hệ điều hành."
+        },
+        "skills": {
+          "technical": [
+            "AWS",
+            "Azure",
+            "Google Cloud",
+            "Linux",
+            "Networking",
+            "Docker",
+            "Kubernetes",
+            "Terraform"
+          ],
+          "soft": [
+            "Problem solving",
+            "Analytical thinking",
+            "Teamwork",
+            "Communication"
+          ],
+          "tools": [
+            "Git",
+            "Terraform",
+            "Docker",
+            "Cloud Console",
+            "ChatGPT"
+          ],
+          "languages": [
+            "English"
+          ]
+        },
+        "certifications": []
+      },
+      "preferred_qualifications": [
+        "Cloud Architecture",
+        "DevOps",
+        "Kubernetes",
+        "FinOps"
+      ],
+      "domain": [
+        "IT - Cloud Computing"
+      ],
+      "work_conditions": {
+        "full_time": true,
+        "remote": null
+      },
+      "benefits": [],
+      "recruitment_process": []
+    },
+    {
+      "job_title": "Cybersecurity Engineer",
+      "job_level": "Fresher",
+      "employment_type": "Full-time",
+      "job_description": {
+        "summary": "Bảo vệ hệ thống, ứng dụng và dữ liệu trước các rủi ro an toàn thông tin.",
+        "responsibilities": [
+          "Giám sát và phân tích sự kiện bảo mật",
+          "Phát hiện và xử lý lỗ hổng",
+          "Thực hiện vulnerability assessment",
+          "Hỗ trợ incident response",
+          "Kiểm tra cấu hình bảo mật hệ thống",
+          "Theo dõi threat intelligence",
+          "Xây dựng tài liệu và quy trình bảo mật",
+          "Phối hợp với IT và Development Team"
+        ]
+      },
+      "requirements": {
+        "education": [
+          "Cao đẳng",
+          "Đại học"
+        ],
+        "experience": {
+          "min_years": 0,
+          "max_years": 2,
+          "description": "Có kiến thức về mạng máy tính, hệ điều hành và an toàn thông tin."
+        },
+        "skills": {
+          "technical": [
+            "Networking",
+            "Linux",
+            "Windows",
+            "TCP/IP",
+            "Web Security",
+            "Cryptography",
+            "Vulnerability Assessment",
+            "SIEM"
+          ],
+          "soft": [
+            "Problem solving",
+            "Analytical thinking",
+            "Attention to detail",
+            "Communication"
+          ],
+          "tools": [
+            "Wireshark",
+            "Burp Suite",
+            "Nmap",
+            "Splunk",
+            "Git"
+          ],
+          "languages": [
+            "English"
+          ]
+        },
+        "certifications": []
+      },
+      "preferred_qualifications": [
+        "SOC",
+        "Penetration Testing",
+        "Cloud Security",
+        "Security Automation"
+      ],
+      "domain": [
+        "IT - Cybersecurity"
+      ],
+      "work_conditions": {
+        "full_time": true,
+        "remote": null
+      },
+      "benefits": [],
+      "recruitment_process": []
+    },
+    {
+      "job_title": "QA/QC Engineer",
+      "job_level": "Fresher",
+      "employment_type": "Full-time",
+      "job_description": {
+        "summary": "Đảm bảo chất lượng phần mềm thông qua kiểm thử thủ công và tự động.",
+        "responsibilities": [
+          "Phân tích yêu cầu và xây dựng test case",
+          "Thực hiện functional và regression testing",
+          "Phát hiện và theo dõi lỗi",
+          "Thực hiện API testing",
+          "Viết và duy trì automation test",
+          "Kiểm tra chất lượng trước khi release",
+          "Lập báo cáo kiểm thử",
+          "Phối hợp với Developer và Product Team"
+        ]
+      },
+      "requirements": {
+        "education": [
+          "Cao đẳng",
+          "Đại học"
+        ],
+        "experience": {
+          "min_years": 0,
+          "max_years": 1,
+          "description": "Có kiến thức cơ bản về Software Testing và quy trình phát triển phần mềm."
+        },
+        "skills": {
+          "technical": [
+            "Software Testing",
+            "Test Case",
+            "API Testing",
+            "SQL",
+            "Automation Testing",
+            "Selenium",
+            "Postman"
+          ],
+          "soft": [
+            "Attention to detail",
+            "Problem solving",
+            "Communication",
+            "Teamwork"
+          ],
+          "tools": [
+            "Jira",
+            "Postman",
+            "Selenium",
+            "Git",
+            "ChatGPT"
+          ],
+          "languages": [
+            "English"
+          ]
+        },
+        "certifications": []
+      },
+      "preferred_qualifications": [
+        "ISTQB",
+        "Automation Testing",
+        "Performance Testing",
+        "CI/CD"
+      ],
+      "domain": [
+        "IT - Software Quality Assurance"
+      ],
+      "work_conditions": {
+        "full_time": true,
+        "remote": null
+      },
+      "benefits": [],
+      "recruitment_process": []
+    },
+    {
+      "job_title": "System Administrator",
+      "job_level": "Fresher",
+      "employment_type": "Full-time",
+      "job_description": {
+        "summary": "Quản trị máy chủ, hệ điều hành, mạng nội bộ và các dịch vụ IT của tổ chức.",
+        "responsibilities": [
+          "Quản trị Windows Server và Linux",
+          "Theo dõi tình trạng máy chủ và dịch vụ",
+          "Quản lý user và phân quyền",
+          "Sao lưu và khôi phục dữ liệu",
+          "Xử lý sự cố hệ thống",
+          "Quản lý network cơ bản",
+          "Cập nhật và bảo trì hệ thống",
+          "Xây dựng tài liệu vận hành"
+        ]
+      },
+      "requirements": {
+        "education": [
+          "Cao đẳng",
+          "Đại học"
+        ],
+        "experience": {
+          "min_years": 0,
+          "max_years": 2,
+          "description": "Có kiến thức về hệ điều hành, mạng và quản trị máy chủ."
+        },
+        "skills": {
+          "technical": [
+            "Linux",
+            "Windows Server",
+            "Networking",
+            "TCP/IP",
+            "Active Directory",
+            "Virtualization",
+            "Backup"
+          ],
+          "soft": [
+            "Problem solving",
+            "Troubleshooting",
+            "Communication",
+            "Teamwork"
+          ],
+          "tools": [
+            "VMware",
+            "VirtualBox",
+            "PowerShell",
+            "Bash",
+            "Git"
+          ],
+          "languages": [
+            "English"
+          ]
+        },
+        "certifications": []
+      },
+      "preferred_qualifications": [
+        "Cloud",
+        "Cybersecurity",
+        "Automation",
+        "Network Administration"
+      ],
+      "domain": [
+        "IT - Infrastructure"
+      ],
+      "work_conditions": {
+        "full_time": true,
+        "remote": null
+      },
+      "benefits": [],
+      "recruitment_process": []
+    },
+    {
+      "job_title": "Network Engineer",
+      "job_level": "Fresher",
+      "employment_type": "Full-time",
+      "job_description": {
+        "summary": "Thiết kế, triển khai và vận hành hệ thống mạng doanh nghiệp.",
+        "responsibilities": [
+          "Cấu hình và quản lý thiết bị mạng",
+          "Giám sát network performance",
+          "Xử lý sự cố kết nối",
+          "Thiết lập VLAN và routing",
+          "Hỗ trợ firewall và VPN",
+          "Tài liệu hóa network topology",
+          "Theo dõi và cải thiện network security",
+          "Phối hợp với System và Security Team"
+        ]
+      },
+      "requirements": {
+        "education": [
+          "Cao đẳng",
+          "Đại học"
+        ],
+        "experience": {
+          "min_years": 0,
+          "max_years": 2,
+          "description": "Có kiến thức nền tảng về mạng máy tính."
+        },
+        "skills": {
+          "technical": [
+            "TCP/IP",
+            "Routing",
+            "Switching",
+            "VLAN",
+            "DNS",
+            "DHCP",
+            "VPN",
+            "Firewall",
+            "Network Security"
+          ],
+          "soft": [
+            "Problem solving",
+            "Troubleshooting",
+            "Teamwork",
+            "Communication"
+          ],
+          "tools": [
+            "Cisco Packet Tracer",
+            "Wireshark",
+            "GNS3",
+            "Git"
+          ],
+          "languages": [
+            "English"
+          ]
+        },
+        "certifications": []
+      },
+      "preferred_qualifications": [
+        "CCNA",
+        "Cloud Networking",
+        "Network Security",
+        "SD-WAN"
+      ],
+      "domain": [
+        "IT - Networking"
+      ],
+      "work_conditions": {
+        "full_time": true,
+        "remote": null
+      },
+      "benefits": [],
+      "recruitment_process": []
+    },
+    {
+      "job_title": "UI/UX Designer",
+      "job_level": "Fresher",
+      "employment_type": "Full-time",
+      "job_description": {
+        "summary": "Thiết kế trải nghiệm và giao diện người dùng cho sản phẩm số.",
+        "responsibilities": [
+          "Nghiên cứu nhu cầu người dùng",
+          "Xây dựng user flow và wireframe",
+          "Thiết kế UI cho web và mobile",
+          "Xây dựng prototype",
+          "Thiết kế và duy trì design system",
+          "Phối hợp với Product và Development Team",
+          "Thực hiện usability testing",
+          "Cải thiện trải nghiệm dựa trên feedback"
+        ]
+      },
+      "requirements": {
+        "education": [
+          "Cao đẳng",
+          "Đại học"
+        ],
+        "experience": {
+          "min_years": 0,
+          "max_years": 2,
+          "description": "Có portfolio hoặc dự án UI/UX thực tế."
+        },
+        "skills": {
+          "technical": [
+            "UI Design",
+            "UX Design",
+            "Wireframing",
+            "Prototyping",
+            "Design System",
+            "Usability Testing"
+          ],
+          "soft": [
+            "Creativity",
+            "Problem solving",
+            "Communication",
+            "Empathy"
+          ],
+          "tools": [
+            "Figma",
+            "Adobe XD",
+            "FigJam",
+            "ChatGPT"
+          ],
+          "languages": [
+            "English"
+          ]
+        },
+        "certifications": []
+      },
+      "preferred_qualifications": [
+        "Product Design",
+        "User Research",
+        "Design System",
+        "AI-assisted Design"
+      ],
+      "domain": [
+        "IT - Product Design"
+      ],
+      "work_conditions": {
+        "full_time": true,
+        "remote": null
+      },
+      "benefits": [],
+      "recruitment_process": []
+    },
+    {
+      "job_title": "Business Analyst",
+      "job_level": "Fresher",
+      "employment_type": "Full-time",
+      "job_description": {
+        "summary": "Phân tích nhu cầu nghiệp vụ và chuyển đổi thành yêu cầu cho hệ thống phần mềm.",
+        "responsibilities": [
+          "Thu thập và phân tích yêu cầu",
+          "Trao đổi với stakeholder",
+          "Viết Business Requirement và Software Requirement",
+          "Xây dựng user story và acceptance criteria",
+          "Mô hình hóa quy trình nghiệp vụ",
+          "Hỗ trợ Product Owner và Development Team",
+          "Theo dõi phạm vi và thay đổi yêu cầu",
+          "Hỗ trợ nghiệm thu sản phẩm"
+        ]
+      },
+      "requirements": {
+        "education": [
+          "Cao đẳng",
+          "Đại học"
+        ],
+        "experience": {
+          "min_years": 0,
+          "max_years": 2,
+          "description": "Có khả năng phân tích nghiệp vụ và giao tiếp với stakeholder."
+        },
+        "skills": {
+          "technical": [
+            "Requirement Analysis",
+            "UML",
+            "BPMN",
+            "SQL",
+            "User Story",
+            "Use Case",
+            "Process Modeling"
+          ],
+          "soft": [
+            "Communication",
+            "Analytical thinking",
+            "Problem solving",
+            "Presentation"
+          ],
+          "tools": [
+            "Jira",
+            "Confluence",
+            "Figma",
+            "Draw.io",
+            "ChatGPT"
+          ],
+          "languages": [
+            "English"
+          ]
+        },
+        "certifications": []
+      },
+      "preferred_qualifications": [
+        "Product Management",
+        "Agile/Scrum",
+        "Domain Knowledge",
+        "AI-assisted Business Analysis"
+      ],
+      "domain": [
+        "IT - Business Analysis"
+      ],
+      "work_conditions": {
+        "full_time": true,
+        "remote": null
+      },
+      "benefits": [],
+      "recruitment_process": []
+    },
+    {
+      "job_title": "Database Administrator",
+      "job_level": "Fresher",
+      "employment_type": "Full-time",
+      "job_description": {
+        "summary": "Quản trị, bảo trì và tối ưu các hệ thống cơ sở dữ liệu.",
+        "responsibilities": [
+          "Cài đặt và cấu hình database",
+          "Theo dõi hiệu năng cơ sở dữ liệu",
+          "Tối ưu query và indexing",
+          "Quản lý backup và recovery",
+          "Quản lý user và quyền truy cập",
+          "Đảm bảo tính toàn vẹn và sẵn sàng của dữ liệu",
+          "Xử lý database incident",
+          "Phối hợp với Developer và Infrastructure Team"
+        ]
+      },
+      "requirements": {
+        "education": [
+          "Cao đẳng",
+          "Đại học"
+        ],
+        "experience": {
+          "min_years": 0,
+          "max_years": 2,
+          "description": "Có kiến thức về hệ quản trị cơ sở dữ liệu và SQL."
+        },
+        "skills": {
+          "technical": [
+            "SQL",
+            "MySQL",
+            "PostgreSQL",
+            "SQL Server",
+            "Oracle",
+            "Database Design",
+            "Indexing",
+            "Backup & Recovery"
+          ],
+          "soft": [
+            "Problem solving",
+            "Attention to detail",
+            "Analytical thinking",
+            "Communication"
+          ],
+          "tools": [
+            "DBeaver",
+            "pgAdmin",
+            "MySQL Workbench",
+            "Git",
+            "Docker"
+          ],
+          "languages": [
+            "English"
+          ]
+        },
+        "certifications": []
+      },
+      "preferred_qualifications": [
+        "Cloud Database",
+        "Database Security",
+        "High Availability",
+        "Data Engineering"
+      ],
+      "domain": [
+        "IT - Database"
+      ],
+      "work_conditions": {
+        "full_time": true,
+        "remote": null
+      },
+      "benefits": [],
+      "recruitment_process": []
+    }
+  ]
+}

@@ -8,6 +8,7 @@ import interviewRoutes from "./routes/interviewRoutes.js"
 import {
     startInterviewReminderScheduler
 } from "./services/interview/schedulerService.js";
+import analysisRoutes from "./routes/analysisRoutes.js";
 const app = express();
 
 app.use(cors());
@@ -18,6 +19,7 @@ app.use("/api/forget", forgotRoutes);
 app.use("/api/home", homeRoutes);
 app.use("/api/cvs", cvRoutes);
 app.use("/api/interviews", interviewRoutes);
+app.use("/api/analysis", analysisRoutes);   
 
 app.listen(3000, () => {
     console.log("Server chạy tại http://localhost:3000");

@@ -647,3 +647,178 @@ body {
 [hidden] {
     display: none !important;
 }
+
+/* ===== kết quả phân tích từ AI_CV ===== */
+
+.result-summary {
+    margin: 0 0 16px;
+    color: #4a566b;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.result-warning {
+    margin-bottom: 16px;
+    padding: 10px 14px;
+    border: 1px solid #ecd9ae;
+    border-radius: 9px;
+    background: #fdf7e8;
+}
+
+.result-warning p {
+    margin: 4px 0;
+    color: #7a5d12;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.result-section h3 small {
+    display: block;
+    margin-top: 4px;
+    color: var(--text-light);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.component-row {
+    margin-bottom: 12px;
+}
+
+.component-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    color: #4a566b;
+    font-size: 12px;
+}
+
+.component-top strong {
+    color: #263144;
+}
+
+.gap-list {
+    margin: 0;
+    padding-left: 19px;
+    color: #667287;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.gap-list em {
+    margin-left: 6px;
+    color: #8992a1;
+    font-size: 11px;
+    font-style: normal;
+}
+
+.suggestion {
+    margin-bottom: 10px;
+    padding: 12px 14px;
+    border: 1px solid #e5e2da;
+    border-left-width: 3px;
+    border-radius: 9px;
+    background: #fcfbf8;
+}
+
+.suggestion.priority-high {
+    border-left-color: #c0504d;
+}
+
+.suggestion.priority-medium {
+    border-left-color: var(--gold);
+}
+
+.suggestion.priority-low {
+    border-left-color: var(--green);
+}
+
+.suggestion-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    color: #8992a1;
+    font-size: 11px;
+}
+
+.badge {
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-weight: 700;
+}
+
+.badge-high {
+    background: #f8e4e3;
+    color: #a13a37;
+}
+
+.badge-medium {
+    background: #fbf0d8;
+    color: #8a6514;
+}
+
+.badge-low {
+    background: var(--green-light);
+    color: var(--green);
+}
+
+.suggestion p {
+    margin: 4px 0;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.suggestion-issue {
+    color: #263144;
+    font-weight: 600;
+}
+
+.suggestion-fix {
+    color: #4a566b;
+}
+
+.suggestion-example {
+    color: var(--text-light);
+    font-style: italic;
+}
+
+.keyword-title {
+    margin: 12px 0 7px;
+    color: #667287;
+    font-size: 12px;
+}
+
+.rewrite {
+    margin-bottom: 8px;
+    padding: 10px 12px;
+    border: 1px solid #e5e2da;
+    border-radius: 9px;
+    background: #fcfbf8;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.rewrite summary {
+    cursor: pointer;
+    color: #263144;
+    font-weight: 600;
+}
+
+.rewrite ul {
+    margin: 6px 0;
+    padding-left: 18px;
+    color: #667287;
+}
+
+.rewrite p {
+    margin: 6px 0;
+    color: #4a566b;
+}
+
+.btn-analyze:disabled {
+    opacity: 0.7;
+    cursor: wait;
+    transform: none;
+}
