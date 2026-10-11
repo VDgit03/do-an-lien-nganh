@@ -822,3 +822,46 @@ body {
     cursor: wait;
     transform: none;
 }
+
+
+/* ===== viết lại bằng AI ===== */
+
+.ai-box {
+    margin-bottom: 12px;
+}
+
+.btn-ai {
+    padding: 9px 16px;
+    border: 1px solid var(--green);
+    border-radius: 9px;
+    background: var(--green-light);
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-ai:hover:not(:disabled) {
+    background: var(--green);
+    color: #fff;
+}
+
+.btn-ai:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+.ai-note {
+    margin: 8px 0 0;
+    color: var(--text-light);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.ai-bullets {
+    margin: 4px 0 0;
+    padding-left: 18px;
+    color: #263144;
+    font-size: 13px;
+    line-height: 1.7;
+}

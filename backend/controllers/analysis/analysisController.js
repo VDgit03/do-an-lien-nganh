@@ -10,10 +10,19 @@ import {
 } from "../../services/analysis/analysisService.js";
 
 const MAX_JD_LENGTH = 10000;
+const isPdf = (file) => {
+    const buffer = file?.buffer;
 
-const isPdf = (buffer) =>
-    Buffer.isBuffer(buffer) &&
-    buffer.subarray(0, 5).toString("latin1") === "%PDF-";
+    if (!Buffer.isBuffer(buffer) || buffer.length === 0) {
+        return false;
+    }
+
+    // "%PDF-" có thể nằm trong 1024 byte đầu, hoặc trình duyệt khai báo là PDF
+    return (
+        buffer.subarray(0, 1024).includes("%PDF-") ||
+        file.mimetype === "application/pdf"
+    );
+};
 
 // POST /api/analysis   (multipart/form-data)
 //   cv  : file PDF (bắt buộc)
@@ -25,6 +34,7 @@ export const analyzeCV = async (req, res) => {
 
     try {
         const file = req.file;
+        console.log("[analysis] upload:", file?.originalname, file?.mimetype, file?.size, JSON.stringify(file?.buffer?.subarray(0, 16).toString("latin1")));
         const jd = String(req.body.jd ?? "").trim();
         const role = String(req.body.role ?? "").trim().toLowerCase();
         const level = String(req.body.level ?? "").trim().toLowerCase();
@@ -33,7 +43,7 @@ export const analyzeCV = async (req, res) => {
             throw new AnalysisError("Vui lòng tải CV dạng PDF.", 400);
         }
 
-        if (!isPdf(file.buffer)) {
+        if (!isPdf(file)) {
             throw new AnalysisError("File tải lên không phải PDF hợp lệ.", 400);
         }
 

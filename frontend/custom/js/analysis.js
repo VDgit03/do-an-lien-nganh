@@ -324,6 +324,7 @@ const EFFORT_LABELS = {
 };
 
 let emptyResultHtml = "";
+let lastJobDescription = "";
 
 async function analyzeCV() {
     const cvFile = document.getElementById("cvFile");
@@ -357,6 +358,8 @@ async function analyzeCV() {
     formData.append("jd", jobDescription.value.trim());
     formData.append("level", level.value);
     formData.append("role", jobField.value);
+
+    lastJobDescription = jobDescription.value.trim();
 
     setAnalyzing(true);
 
@@ -570,8 +573,8 @@ function renderAnalysisResult(data) {
 
     const rewriteItems = rewrites
         .map(
-            (item) => `
-                <details class="rewrite">
+            (item, index) => `
+                <details class="rewrite" data-index="${index}">
                     <summary>${esc(item.source || item.section)}</summary>
                     <p><strong>Hiện tại:</strong> ${esc(item.original)}</p>
                     ${
@@ -581,7 +584,9 @@ function renderAnalysisResult(data) {
                                   .join("")}</ul>`
                             : ""
                     }
-                    <p><strong>Gợi ý:</strong> ${esc(item.draft)}</p>
+                    <div class="rewrite-draft">
+                        <p><strong>Gợi ý:</strong> ${esc(item.draft)}</p>
+                    </div>
                 </details>
             `
         )
@@ -672,12 +677,29 @@ function renderAnalysisResult(data) {
                 rewriteItems
                     ? `<div class="result-section">
                            <h3>Gợi ý viết lại mô tả</h3>
+                           <div class="ai-box">
+                               <button type="button" class="btn-ai" id="aiRewriteBtn">
+                                   <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                   Viết lại bằng AI
+                               </button>
+                               <p class="ai-note">
+                                   Các mô tả (và JD nếu có) sẽ được gửi tới Google Gemini.
+                                   Với gói miễn phí, Google có thể dùng dữ liệu này để cải thiện sản phẩm.
+                               </p>
+                           </div>
                            ${rewriteItems}
                        </div>`
                     : ""
             }
         </div>
     `;
+
+    /* nút viết lại bằng AI */
+    const aiButton = document.getElementById("aiRewriteBtn");
+
+    if (aiButton) {
+        aiButton.addEventListener("click", () => rewriteWithAI(rewrites));
+    }
 
     /* chạy hiệu ứng thanh điểm */
     requestAnimationFrame(() => {
@@ -689,6 +711,103 @@ function renderAnalysisResult(data) {
     });
 
     panel.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+
+/* viết lại mô tả bằng AI (Gemini) */
+async function rewriteWithAI(rewrites) {
+    const aiButton = document.getElementById("aiRewriteBtn");
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        showMessage("Vui lòng đăng nhập lại.");
+        return;
+    }
+
+    /* server chỉ nhận tối đa 5 mô tả, mỗi mô tả tối đa 600 ký tự */
+    const items = rewrites
+        .map((item, index) => ({
+            id: `b${index}`,
+            text: String(item.original || "").slice(0, 600),
+            issues: item.issues || []
+        }))
+        .filter((item) => item.text.trim())
+        .slice(0, 5);
+
+    if (!items.length) {
+        showMessage("Không có mô tả nào để viết lại.");
+        return;
+    }
+
+    const originalHtml = aiButton.innerHTML;
+
+    aiButton.disabled = true;
+    aiButton.innerHTML =
+        '<i class="fa-solid fa-spinner fa-spin"></i> AI đang viết lại...';
+
+    try {
+        const response = await fetch(`${ANALYSIS_API_URL}/rewrite`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                bullets: items,
+                jd: lastJobDescription
+            })
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "Không thể viết lại bằng AI.");
+        }
+
+        const aiRewrites = data.data.rewrites || {};
+        const rejected = data.data.rejected || [];
+
+        items.forEach((item) => {
+            const index = item.id.slice(1);
+            const draftBox = document.querySelector(
+                `.rewrite[data-index="${index}"] .rewrite-draft`
+            );
+
+            if (!draftBox) return;
+
+            if (aiRewrites[item.id]) {
+                draftBox.innerHTML = `
+                    <p><strong>Gợi ý (AI):</strong></p>
+                    <ul class="ai-bullets">
+                        ${aiRewrites[item.id]
+                            .map((line) => `<li>${esc(line)}</li>`)
+                            .join("")}
+                    </ul>
+                `;
+            } else if (rejected.includes(item.id)) {
+                draftBox.insertAdjacentHTML(
+                    "beforeend",
+                    `<p class="ai-note">AI đề xuất số liệu không có trong CV,
+                     nên giữ bản gợi ý theo quy tắc.</p>`
+                );
+            }
+        });
+
+        aiButton.innerHTML =
+            '<i class="fa-solid fa-rotate"></i> Viết lại lần nữa';
+    } catch (error) {
+        console.error("AI REWRITE ERROR:", error);
+
+        aiButton.innerHTML = originalHtml;
+
+        showMessage(
+            error instanceof TypeError
+                ? "Không kết nối được máy chủ."
+                : error.message
+        );
+    } finally {
+        aiButton.disabled = false;
+    }
 }
 
 

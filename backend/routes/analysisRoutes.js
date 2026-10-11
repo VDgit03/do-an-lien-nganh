@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 
 import { analyzeCV } from "../controllers/analysis/analysisController.js";
+import { rewriteBullets } from "../controllers/analysis/rewriteController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
@@ -36,5 +37,8 @@ const uploadCV = (req, res, next) => {
 
 // phân tích cv
 router.post("/", authMiddleware, uploadCV, analyzeCV);
+
+// viết lại mô tả bằng AI (Gemini)
+router.post("/rewrite", authMiddleware, rewriteBullets);
 
 export default router;
