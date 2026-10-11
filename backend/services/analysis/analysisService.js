@@ -44,10 +44,17 @@ export const VALID_ROLES = [
 ];
 
 export class AnalysisError extends Error {
-    constructor(message, statusCode = 500) {
+    /**
+     * @param {string} message
+     * @param {number} [statusCode]
+     * @param {object} [extra] field bổ sung trả về cho frontend, vd { code: "NO_TEXT" }
+     */
+    constructor(message, statusCode = 500, extra = {}) {
         super(message);
         this.name = "AnalysisError";
         this.statusCode = statusCode;
+        this.code = extra.code;
+        this.extra = extra;
     }
 }
 
@@ -57,13 +64,15 @@ let running = 0;
  * Chạy pipeline AI_CV (Python) cho một file PDF.
  *
  * @param {object} options
- * @param {string} options.pdfPath  đường dẫn file PDF tạm
+ * @param {string} [options.pdfPath]  đường dẫn file PDF tạm
+ * @param {string} [options.textPath] file .txt (UTF-8) chứa văn bản CV đã có
+ *                                    sẵn (vd từ OCR); có thì bỏ qua pdfPath
  * @param {string} [options.jdPath] đường dẫn file JD (.txt, UTF-8) - bỏ trống
  *                                  thì so với career framework
  * @param {string} options.role     giá trị trong VALID_ROLES
  * @param {string} options.level    giá trị trong VALID_LEVELS
  */
-export const runCVAnalysis = ({ pdfPath, jdPath, role, level }) => {
+export const runCVAnalysis = ({ pdfPath, textPath, jdPath, role, level }) => {
     if (running >= MAX_CONCURRENT) {
         return Promise.reject(
             new AnalysisError(
@@ -75,7 +84,7 @@ export const runCVAnalysis = ({ pdfPath, jdPath, role, level }) => {
 
     const args = [
         SCRIPT_PATH,
-        "--pdf", pdfPath,
+        ...(textPath ? ["--text-file", textPath] : ["--pdf", pdfPath]),
         "--role", role,
         "--level", level
     ];
@@ -185,7 +194,8 @@ export const runCVAnalysis = ({ pdfPath, jdPath, role, level }) => {
                 reject,
                 new AnalysisError(
                     payload.error || "Không thể phân tích CV.",
-                    code === 2 ? 422 : 500
+                    code === 2 ? 422 : 500,
+                    payload.code ? { code: payload.code } : {}
                 )
             );
         });

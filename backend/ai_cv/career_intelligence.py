@@ -1186,7 +1186,13 @@ class CareerIntelligence:
 
         summary_text = self._nfc_fold(self._summary_text(profile))
         other_text = self._other_text(profile)
-        soft_text = evidence_text + "\n" + summary_text + "\n" + other_text
+        # Mục Skills cũng có thể ghi kỹ năng mềm (vd "Professional: Clear
+        # communication, teamwork"); lexicon chỉ bắt khi có từ khóa thật.
+        groups_text = self._skill_groups_text(profile)
+        soft_text = (
+            evidence_text + "\n" + summary_text + "\n" + other_text
+            + "\n" + groups_text
+        )
 
         pools = {
             "skill": [self._normalize_text(s) for s in skills if s],
@@ -1305,6 +1311,22 @@ class CareerIntelligence:
 
         return self._nfc_fold(self._DATE_RANGE_RE.sub(" ", " ".join(parts)))
 
+    def _skill_groups_text(self, profile: Dict[str, Any]) -> str:
+        """Văn bản của mục Skills (tên nhóm + giá trị), dùng để dò soft skill."""
+        groups = profile.get("skill_groups")
+        if not isinstance(groups, dict):
+            return ""
+
+        parts = []
+        for name, values in groups.items():
+            parts.append(str(name))
+            if isinstance(values, (list, tuple)):
+                parts.extend(str(v) for v in values)
+            elif values:
+                parts.append(str(values))
+
+        return self._nfc_fold(" ".join(parts))
+
     @staticmethod
     def _summary_text(profile: Dict[str, Any]) -> str:
         summary = profile.get("summary")
@@ -1353,11 +1375,56 @@ class CareerIntelligence:
                         item.get("institution"),
                     ]
                     result.extend(str(v).strip() for v in values if v)
+                    result.extend(self._infer_degree_levels(item))
                 else:
                     result.append(str(item).strip())
             return self._unique(result)
 
         return self._to_list(education)
+
+    # Từ khóa cho biết mục học vấn đã ghi rõ bậc học
+    _DEGREE_WORDS = re.compile(
+        r"đại học|cao đẳng|cử nhân|kỹ sư|thạc sĩ|cao học|tiến sĩ|học viện|"
+        r"university|college|bachelor|master|ph\.?d|engineer|institute",
+        re.IGNORECASE,
+    )
+
+    @classmethod
+    def _infer_degree_levels(cls, item: Dict[str, Any]) -> List[str]:
+        """
+        CV tạo từ form thường chỉ ghi "IT 2020-2024 / Phenikaa" mà không ghi
+        chữ "Đại học". Suy ra bậc học từ thời gian học để khớp yêu cầu
+        "Đại học / Cao đẳng" của JD (chỉ dùng khi CV không ghi rõ bậc học).
+        """
+        text = " ".join(
+            str(item.get(key) or "")
+            for key in ("degree", "field", "major", "school", "institution")
+        )
+
+        if cls._DEGREE_WORDS.search(text):
+            # Có từ khóa bậc học nhưng tiếng Anh -> bổ sung tên tiếng Việt
+            lowered = text.lower()
+            levels = []
+            if re.search(r"university|bachelor|institute", lowered):
+                levels.append("Đại học")
+            if re.search(r"college", lowered):
+                levels.append("Cao đẳng")
+            return levels
+
+        match = re.search(
+            r"((?:19|20)\d{2})\s*[-–—~to]+\s*((?:19|20)\d{2})",
+            str(item.get("date") or ""),
+        )
+        if not match:
+            return []
+
+        years = int(match.group(2)) - int(match.group(1))
+
+        if years >= 3:
+            return ["Đại học"]
+        if years == 2:
+            return ["Cao đẳng"]
+        return []
 
     def _extract_experience_years(self, profile: Dict[str, Any]) -> float:
         career = profile.get("career", {})
@@ -1716,6 +1783,15 @@ class CareerIntelligence:
 
 
 # API hàm đơn giản để module khác có thể gọi trực tiếp.
+
+# Bổ sung ánh xạ khái niệm -> từ khóa cho các ngành ngoài lập trình.
+# Chỉ thêm khi chưa có, không ghi đè mục gốc.
+from domain_lexicon import EXTRA_CONCEPT_MAP  # noqa: E402
+
+for _key, _keywords in EXTRA_CONCEPT_MAP.items():
+    CareerIntelligence.CONCEPT_MAP.setdefault(_key, _keywords)
+
+
 def analyze(
     candidate_profile: Dict[str, Any],
     requirements: Dict[str, Any],

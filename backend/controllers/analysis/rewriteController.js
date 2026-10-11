@@ -1,28 +1,10 @@
 import { AnalysisError } from "../../services/analysis/analysisService.js";
 import { rewriteBulletsWithGemini } from "../../services/analysis/geminiService.js";
+import { isAiRateLimited } from "../../services/analysis/aiRateLimit.js";
 
 const MAX_BULLETS = 5;
 const MAX_BULLET_LENGTH = 600;
 const MAX_JD_LENGTH = 6000;
-
-// Giới hạn chi phí: mỗi người dùng tối đa 10 lượt / 10 phút (trong bộ nhớ)
-const WINDOW_MS = 10 * 60 * 1000;
-const MAX_REQUESTS = 10;
-const history = new Map();
-
-const isRateLimited = (userId) => {
-    const now = Date.now();
-    const recent = (history.get(userId) || []).filter((t) => now - t < WINDOW_MS);
-
-    if (recent.length >= MAX_REQUESTS) {
-        history.set(userId, recent);
-        return true;
-    }
-
-    recent.push(now);
-    history.set(userId, recent);
-    return false;
-};
 
 // POST /api/analysis/rewrite   (JSON)
 //   bullets: [{ id, text, issues: string[] }]   (1..5 mục)
@@ -75,7 +57,7 @@ export const rewriteBullets = async (req, res) => {
             );
         }
 
-        if (isRateLimited(req.userId)) {
+        if (isAiRateLimited(req.userId)) {
             throw new AnalysisError(
                 "Bạn đã dùng AI quá nhiều lần, vui lòng thử lại sau ít phút.",
                 429

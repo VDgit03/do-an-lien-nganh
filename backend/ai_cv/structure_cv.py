@@ -54,6 +54,8 @@ SECTION_ALIASES = {
         "professional profile",
         "about me",
         "career objective",
+        "career goal",
+        "career goals",
         "objective",
         "career summary",
         "personal statement",
@@ -132,6 +134,11 @@ SECTION_ALIASES = {
         "achievement",
         "achievements",
         "accomplishments",
+        "achievements & activities",
+        "achievements and activities",
+        "activities & achievements",
+        "awards & achievements",
+        "awards and achievements",
         "giải thưởng",
         "thành tích"
     ],
@@ -140,7 +147,9 @@ SECTION_ALIASES = {
         "language",
         "languages",
         "language skills",
-        "ngôn ngữ"
+        "ngôn ngữ",
+        "ngoại ngữ",
+        "trình độ ngoại ngữ"
     ],
 
     "other": [
@@ -237,6 +246,14 @@ DATE_RANGE_PATTERN = re.compile(
         present
         |
         current
+        |
+        nay
+        |
+        hiện\s+nay
+        |
+        hiện\s+tại
+        |
+        đến\s+nay
     )
     \s*
     $
@@ -393,6 +410,14 @@ def looks_like_heading(line):
 
     # Heading rất dài thường không phải heading
     if len(words) > 8:
+        return False
+
+    # Dòng có năm (vd "IT 2020-2024") là mục kinh nghiệm/học vấn, không phải
+    # heading. Tên công ty viết tắt một từ ngắn ("FPT", "VNG") cũng vậy.
+    if re.search(r"\b(?:19|20)\d{2}\b", line):
+        return False
+
+    if len(words) == 1 and len(line) <= 4:
         return False
 
     # Tất cả uppercase
@@ -710,10 +735,11 @@ def extract_personal_information(text):
 
     if not personal["phone"]:
         for line in lines:
-            if EMAIL_PATTERN.search(line):
-                continue
+            # Một dòng có thể chứa cả email lẫn số điện thoại
+            # ("a@gmail.com 0355452903 Hà Nội"): bỏ email/URL rồi mới tìm số.
+            line = URL_PATTERN.sub(" ", EMAIL_PATTERN.sub(" ", line)).strip()
 
-            if URL_PATTERN.search(line):
+            if not line:
                 continue
 
             # FIX: các dòng ngày tháng (vd "01/2018 - 12/2022") có thể
@@ -916,6 +942,48 @@ def _is_sentence(line):
     return len(line.split()) > 12 or line.rstrip().endswith(".")
 
 
+def expand_inline_dates(lines):
+    """Tách ngày ở cuối dòng tiêu đề thành một dòng riêng (head, date)."""
+    result = []
+
+    for line in lines:
+        if re.match(r"^[•▪●◦○■□◆◇\-–—*]", line):
+            result.append(line)
+            continue
+
+        head, date_value = split_inline_date(line)
+
+        if date_value:
+            result.extend([head, date_value])
+        else:
+            result.append(line)
+
+    return result
+
+
+# Chuyên ngành viết tắt hay đứng ở dòng đầu của mục học vấn (CV tạo từ form):
+# "IT 2020-2024" rồi tên trường ở dòng sau.
+_MAJOR_ACRONYMS = {
+    "it", "cntt", "ktpm", "httt", "attt", "khmt", "ktmt", "cs", "se", "ai",
+    "ds", "is", "ce", "ict",
+}
+
+
+def _fix_major_acronym(entry):
+    institution = entry.get("institution", "").strip()
+
+    if (
+        not entry.get("major")
+        and entry.get("degree")
+        and institution.lower() in _MAJOR_ACRONYMS
+    ):
+        entry["major"] = institution
+        entry["institution"] = entry["degree"]
+        entry["degree"] = ""
+
+    return entry
+
+
 def extract_education(text):
     if not text:
         return []
@@ -928,6 +996,8 @@ def extract_education(text):
 
     if not lines:
         return []
+
+    lines = expand_inline_dates(lines)
 
     education_list = []
 
@@ -1041,9 +1111,45 @@ def extract_education(text):
         # Description
         current["description"].append(line)
 
-    return education_list
+    return [_fix_major_acronym(entry) for entry in education_list]
 
 # 12.5 EXPERIENCE
+_HEADER_TRAILING_SEPARATORS = " \t,;:|-–—·•"
+
+
+def split_inline_date(line):
+    """
+    Tách khoảng thời gian ở CUỐI dòng tiêu đề.
+
+        "Network Engineer - [Company A]  Nov 2025 - Present"
+            -> ("Network Engineer - [Company A]", "Nov 2025 - Present")
+
+    Cũng nhận ngày đặt trong ngoặc: "Company A (01/2023 - 06/2025)".
+    Trả về (line, "") nếu cuối dòng không có khoảng thời gian. Chỉ áp dụng cho
+    dòng ngắn trông như tiêu đề, không áp dụng cho câu mô tả dài.
+    """
+    text = (line or "").strip()
+
+    if not text or len(text) > 140 or text.endswith("."):
+        return line, ""
+
+    # Duyệt từ trái sang phải để lấy hậu tố DÀI NHẤT là một khoảng thời gian.
+    for match in re.finditer(r"\s+", text):
+        head = text[:match.start()].rstrip(_HEADER_TRAILING_SEPARATORS)
+        tail = text[match.end():].strip()
+
+        if not head or not tail:
+            continue
+
+        if tail[0] in "([" and tail[-1] in ")]":
+            tail = tail[1:-1].strip()
+
+        if is_date_range(tail):
+            return head, tail
+
+    return line, ""
+
+
 def extract_experience(text):
     """
     Parse work experience section thành các entry có cấu trúc.
@@ -1161,6 +1267,19 @@ def extract_experience(text):
             break
 
         is_bullet = bool(re.match(bullet_re, line))
+
+        # FIX: tiêu đề có ngày ở CUỐI dòng ("Role - Company  Nov 2025 - Present")
+        # trước đây không được nhận là entry mới -> nhiều công việc bị gộp làm
+        # một, ngày bị lẫn vào tên công ty -> số năm kinh nghiệm = 0.
+        if not is_bullet:
+            header_text, inline_date = split_inline_date(line)
+
+            if inline_date:
+                finalize_entry()
+                start_entry(inline_date)
+                current["position"] = header_text
+                header_slots_filled = 1
+                continue
 
         # FIX: entry đã có mô tả + dòng không-bullet mà 1-2 dòng sau là ngày
         # => đây là header của entry MỚI (layout header-trước-ngày).
@@ -1732,6 +1851,46 @@ def _looks_like_project_title(line):
     return line[0].isupper() or line[0].isdigit()
 
 
+# Công nghệ phổ biến: nhận ra dòng "HTML, CSS, NodeJs" đứng riêng dưới tên dự án
+_COMMON_TECH = {
+    "html", "css", "javascript", "js", "typescript", "ts", "react", "reactjs",
+    "react.js", "next.js", "nextjs", "vue", "vuejs", "vue.js", "angular",
+    "node", "nodejs", "node.js", "express", "expressjs", "python", "java",
+    "c", "c++", "c#", "php", "laravel", "go", "golang", "rust", "kotlin",
+    "swift", "flutter", "dart", "sql", "mysql", "postgresql", "mongodb",
+    "redis", "firebase", "docker", "git", "github", "linux", "aws", "azure",
+    "django", "flask", "fastapi", "spring", "spring boot", "tailwind",
+    "bootstrap", "sass", "scss", "jquery", "redux", "graphql", "rest api",
+    "figma", "tensorflow", "pytorch", "pandas", "numpy", "react native",
+}
+
+
+def _looks_like_tech_list(line):
+    parts = [
+        part.strip()
+        for part in re.split(r"[,;/|&·•]", line)
+        if part.strip()
+    ]
+
+    if not parts or len(parts) > 12:
+        return False
+
+    known = sum(part.lower() in _COMMON_TECH for part in parts)
+
+    try:
+        from domain_lexicon import EXTRA_SKILL_TAXONOMY
+        known += sum(
+            part.lower() in EXTRA_SKILL_TAXONOMY
+            and part.lower() not in _COMMON_TECH
+            for part in parts
+        )
+    except ImportError:
+        pass
+
+    # Đa số phần tử là công nghệ đã biết thì mới coi là danh sách công nghệ
+    return known >= 1 and known / len(parts) >= 0.6
+
+
 def extract_projects(text):
     if not text:
         return []
@@ -2023,12 +2182,16 @@ def extract_projects(text):
             current.get("_undated")
             and not description_lines
             and not current["role"]
+            and not current["technologies"]
             and not current.get("subtitle")
             and not _PROJECT_BULLET.match(line)
             and len(line.split()) <= 6
             and not line.rstrip().endswith((".", ":"))
         ):
-            current["subtitle"] = line
+            if not current["technologies"] and _looks_like_tech_list(line):
+                current["technologies"] = split_comma_outside_brackets(line)
+            else:
+                current["subtitle"] = line
             i += 1
             continue
 

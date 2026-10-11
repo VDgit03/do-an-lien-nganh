@@ -9,11 +9,16 @@ Cách dùng (Node gọi bằng child_process):
     python analyze_cv.py --pdf <cv.pdf> --level junior --role frontend
                          [--jd-file <jd.txt>]
 
+    # PDF dạng ảnh: Node dùng OCR (Gemini) lấy chữ trước, rồi truyền vào đây
+    python analyze_cv.py --text-file <cv.txt> --level junior --role frontend
+
 Quy ước:
     - stdout: đúng MỘT dòng JSON (UTF-8). {"success": true, ...} hoặc
       {"success": false, "error": "..."}.
     - Mọi print() của các module bên trong bị chuyển sang stderr để không
       làm hỏng JSON.
+    - JSON lỗi có thêm "code" khi là lỗi cần xử lý riêng, vd "NO_TEXT"
+      (PDF không có lớp chữ, cần OCR).
     - Có --jd-file  -> so khớp CV với JD.
       Không có JD   -> so khớp với career framework theo role + level.
 """
@@ -22,6 +27,7 @@ import argparse
 import contextlib
 import json
 import os
+import re
 import sys
 
 # Cho phép import các module cùng thư mục dù cwd là thư mục nào
@@ -61,21 +67,32 @@ LEVEL_MAP = {
 }
 
 
+# OCR hay đọc nhầm ký tự gạch đầu dòng "•" thành « » ¢ © ® ° · * hoặc chữ e/o
+# (chỉ nhận chữ e/o đứng một mình trước một từ viết hoa).
+_OCR_BULLET = re.compile(
+    r"^[ \t]*(?:[«»¢©®°·∙•●○▪■□◆◇◦*]|e(?=[ \t]+[A-Z])|o(?=[ \t]+[A-Z]))[ \t]+",
+    re.MULTILINE,
+)
+
+
+def clean_ocr_text(text):
+    """Chuẩn hóa văn bản OCR: thống nhất ký tự gạch đầu dòng thành "- "."""
+    return _OCR_BULLET.sub("- ", str(text).replace("\r\n", "\n"))
+
+
 class AnalysisError(Exception):
     """Lỗi nghiệp vụ có thông báo thân thiện để trả về người dùng."""
 
+    def __init__(self, message, code=None):
+        super().__init__(message)
+        self.code = code
 
-def run_analysis(pdf_path, jd_text, role, level):
-    # Import muộn để lỗi thiếu thư viện (vd pymupdf) được báo rõ ràng
-    try:
-        from read_cv import extract_text_from_pdf
-    except ImportError as error:
-        raise AnalysisError(
-            "Thiếu thư viện đọc PDF. Hãy chạy: "
-            "pip install -r backend/ai_cv/requirements.txt "
-            f"({error})"
-        )
 
+def run_analysis(pdf_path, jd_text, role, level, text_override=None):
+    """
+    text_override: văn bản CV đã có sẵn (vd từ OCR). Có giá trị thì bỏ qua
+    bước đọc PDF.
+    """
     from normalizer import normalize_cv_text
     from structure_cv import build_structured_cv
     from nlp_processor import CVNLPProcessor
@@ -92,19 +109,33 @@ def run_analysis(pdf_path, jd_text, role, level):
     level_key = (level or "").strip().lower()
     framework_level = LEVEL_MAP.get(level_key, level_key)
 
-    # 1. Đọc CV
-    if not os.path.isfile(pdf_path):
-        raise AnalysisError("Không tìm thấy file CV.")
+    # 1. Lấy văn bản CV
+    if text_override is not None:
+        raw_text = clean_ocr_text(text_override)
+    else:
+        # Import muộn để lỗi thiếu thư viện (vd pymupdf) được báo rõ ràng
+        try:
+            from read_cv import extract_text_from_pdf
+        except ImportError as error:
+            raise AnalysisError(
+                "Thiếu thư viện đọc PDF. Hãy chạy: "
+                "pip install -r backend/ai_cv/requirements.txt "
+                f"({error})"
+            )
 
-    try:
-        raw_text = extract_text_from_pdf(pdf_path)
-    except Exception as error:
-        raise AnalysisError(f"Không đọc được file PDF: {error}")
+        if not os.path.isfile(pdf_path):
+            raise AnalysisError("Không tìm thấy file CV.")
+
+        try:
+            raw_text = extract_text_from_pdf(pdf_path)
+        except Exception as error:
+            raise AnalysisError(f"Không đọc được file PDF: {error}")
 
     if not raw_text.strip():
         raise AnalysisError(
             "Không đọc được chữ từ PDF (có thể là bản scan/ảnh). "
-            "Hãy dùng PDF có text hoặc chạy OCR trước."
+            "Hãy dùng PDF có text hoặc chạy OCR trước.",
+            code="NO_TEXT",
         )
 
     # 2-5. Chuẩn hóa -> cấu trúc -> NLP -> Candidate Profile
@@ -158,6 +189,7 @@ def run_analysis(pdf_path, jd_text, role, level):
         "result": result,
         "advice": advice,
         "report_text": format_report(advice),
+        "ocr": text_override is not None,
     }
 
 
@@ -167,26 +199,38 @@ def main():
         sys.stdout.reconfigure(encoding="utf-8")
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--pdf", required=True)
+    parser.add_argument("--pdf", default=None)
+    parser.add_argument("--text-file", default=None)
     parser.add_argument("--jd-file", default=None)
     parser.add_argument("--role", default="")
     parser.add_argument("--level", default="")
     args = parser.parse_args()
+
+    if not args.pdf and not args.text_file:
+        parser.error("cần --pdf hoặc --text-file")
 
     jd_text = ""
     if args.jd_file:
         with open(args.jd_file, "r", encoding="utf-8") as handle:
             jd_text = handle.read()
 
+    text_override = None
+    if args.text_file:
+        with open(args.text_file, "r", encoding="utf-8") as handle:
+            text_override = handle.read()
+
     try:
         # print() bên trong pipeline -> stderr, giữ stdout sạch cho JSON
         with contextlib.redirect_stdout(sys.stderr):
             payload = run_analysis(
-                args.pdf, jd_text, args.role, args.level
+                args.pdf, jd_text, args.role, args.level,
+                text_override=text_override,
             )
         exit_code = 0
     except AnalysisError as error:
         payload = {"success": False, "error": str(error)}
+        if error.code:
+            payload["code"] = error.code
         exit_code = 2
     except Exception as error:  # lỗi không lường trước
         import traceback

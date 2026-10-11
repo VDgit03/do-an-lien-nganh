@@ -865,3 +865,33 @@ body {
     font-size: 13px;
     line-height: 1.7;
 }
+
+
+/* ===== văn bản AI đọc từ ảnh (OCR) ===== */
+
+.ocr-preview {
+    margin-bottom: 16px;
+    padding: 10px 14px;
+    border: 1px solid #e5e2da;
+    border-radius: 9px;
+    background: #fcfbf8;
+    font-size: 13px;
+}
+
+.ocr-preview summary {
+    cursor: pointer;
+    color: #263144;
+    font-weight: 600;
+}
+
+.ocr-preview pre {
+    max-height: 260px;
+    margin: 8px 0 0;
+    overflow: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: #4a566b;
+    font-family: inherit;
+    font-size: 12px;
+    line-height: 1.6;
+}

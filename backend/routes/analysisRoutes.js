@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 
 import { analyzeCV } from "../controllers/analysis/analysisController.js";
+import { sampleJd } from "../controllers/analysis/sampleJdController.js";
 import { rewriteBullets } from "../controllers/analysis/rewriteController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 
@@ -34,6 +35,9 @@ const uploadCV = (req, res, next) => {
         });
     });
 };
+
+// JD mẫu theo ngành (dữ liệu công khai, không cần đăng nhập)
+router.get("/sample-jd", sampleJd);
 
 // phân tích cv
 router.post("/", authMiddleware, uploadCV, analyzeCV);

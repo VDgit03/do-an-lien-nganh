@@ -310,7 +310,8 @@ LEVEL_EVIDENCE = {
         dict(label="Tinh thần học hỏi / hoạt động ngoài lớp",
              kw=["khóa học", "course", "coursera", "udemy", "tự học",
                  "self-learn*", "hackathon", "câu lạc bộ", "club",
-                 "open source", "cuộc thi", "competition"],
+                 "open source", "cuộc thi", "competition", "clb",
+                 "hoạt động", "ngoại khóa", "tình nguyện", "volunteer"],
              tmpl="Nêu khóa học/hackathon/CLB đã tham gia và điều bạn "
                   "làm được sau đó."),
     ],

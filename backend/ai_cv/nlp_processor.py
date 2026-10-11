@@ -1,5 +1,7 @@
 import re
 
+from domain_lexicon import EXTRA_SKILL_TAXONOMY
+
 
 class SkillNormalizer:
 
@@ -247,6 +249,11 @@ class SkillNormalizer:
 
             "microservices": "Microservices",
         }
+
+        # Bổ sung từ khóa cho các ngành ngoài lập trình (mạng, bảo mật, ...).
+        # Chỉ thêm khi chưa có, không ghi đè mục gốc.
+        for _alias, _canonical in EXTRA_SKILL_TAXONOMY.items():
+            self.skill_taxonomy.setdefault(_alias, _canonical)
 
     # =========================================================
     # 1. NORMALIZE SKILL

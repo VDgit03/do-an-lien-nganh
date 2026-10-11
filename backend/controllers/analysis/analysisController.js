@@ -8,8 +8,14 @@ import {
     VALID_LEVELS,
     VALID_ROLES
 } from "../../services/analysis/analysisService.js";
+import {
+    extractTextFromPdf,
+    isGeminiConfigured
+} from "../../services/analysis/geminiService.js";
+import { isAiRateLimited } from "../../services/analysis/aiRateLimit.js";
 
 const MAX_JD_LENGTH = 10000;
+
 const isPdf = (file) => {
     const buffer = file?.buffer;
 
@@ -25,19 +31,20 @@ const isPdf = (file) => {
 };
 
 // POST /api/analysis   (multipart/form-data)
-//   cv  : file PDF (bắt buộc)
-//   jd  : nội dung JD (tuỳ chọn; bỏ trống -> so với career framework)
-//   role: giá trị trong VALID_ROLES
+//   cv   : file PDF (bắt buộc)
+//   jd   : nội dung JD (tuỳ chọn; bỏ trống -> so với career framework)
+//   role : giá trị trong VALID_ROLES
 //   level: giá trị trong VALID_LEVELS
+//   ocr  : "1" = người dùng đồng ý gửi PDF tới Gemini để đọc chữ khi PDF là ảnh
 export const analyzeCV = async (req, res) => {
     let workDir = null;
 
     try {
         const file = req.file;
-        console.log("[analysis] upload:", file?.originalname, file?.mimetype, file?.size, JSON.stringify(file?.buffer?.subarray(0, 16).toString("latin1")));
         const jd = String(req.body.jd ?? "").trim();
         const role = String(req.body.role ?? "").trim().toLowerCase();
         const level = String(req.body.level ?? "").trim().toLowerCase();
+        const allowOcr = String(req.body.ocr ?? "") === "1";
 
         if (!file) {
             throw new AnalysisError("Vui lòng tải CV dạng PDF.", 400);
@@ -75,7 +82,45 @@ export const analyzeCV = async (req, res) => {
             await fs.writeFile(jdPath, jd, "utf8");
         }
 
-        const output = await runCVAnalysis({ pdfPath, jdPath, role, level });
+        let output;
+        let ocrText = null;
+
+        try {
+            output = await runCVAnalysis({ pdfPath, jdPath, role, level });
+        } catch (error) {
+            // Chỉ xử lý riêng PDF dạng ảnh (không có lớp chữ)
+            if (!(error instanceof AnalysisError) || error.code !== "NO_TEXT") {
+                throw error;
+            }
+
+            const canOcr = isGeminiConfigured();
+
+            // Gửi CV cho bên thứ ba cần người dùng đồng ý rõ ràng (ocr=1)
+            if (!canOcr || !allowOcr) {
+                throw new AnalysisError(
+                    canOcr
+                        ? "PDF này là ảnh nên không có chữ để phân tích. Có thể dùng AI (Gemini) để đọc chữ từ ảnh."
+                        : "PDF này là ảnh nên không có chữ để phân tích. Hãy xuất lại CV thành PDF có chữ (Export/Download as PDF).",
+                    422,
+                    { code: "NO_TEXT", canOcr }
+                );
+            }
+
+            if (isAiRateLimited(req.userId)) {
+                throw new AnalysisError(
+                    "Bạn đã dùng AI quá nhiều lần, vui lòng thử lại sau ít phút.",
+                    429
+                );
+            }
+
+            const { text } = await extractTextFromPdf(file.buffer);
+            ocrText = text;
+
+            const textPath = path.join(workDir, "cv.txt");
+            await fs.writeFile(textPath, text, "utf8");
+
+            output = await runCVAnalysis({ textPath, jdPath, role, level });
+        }
 
         return res.status(200).json({
             success: true,
@@ -83,11 +128,20 @@ export const analyzeCV = async (req, res) => {
                 mode: output.mode,
                 input: output.input,
                 result: output.result,
-                advice: output.advice
+                advice: output.advice,
+                ocr: Boolean(output.ocr),
+                // để người dùng tự kiểm tra AI đọc chữ có đúng không
+                ocrText
             }
         });
     } catch (error) {
-        const status = error instanceof AnalysisError ? error.statusCode : 500;
+        let status = error instanceof AnalysisError ? error.statusCode : 500;
+
+        // PDF dạng ảnh là trạng thái bình thường (frontend sẽ hỏi dùng OCR),
+        // không phải lỗi -> trả 200 để console không báo đỏ 422
+        if (error instanceof AnalysisError && error.code === "NO_TEXT") {
+            status = 200;
+        }
 
         if (status >= 500) {
             console.error("ANALYZE CV ERROR:", error);
@@ -98,7 +152,8 @@ export const analyzeCV = async (req, res) => {
             message:
                 status >= 500 && !(error instanceof AnalysisError)
                     ? "Có lỗi xảy ra khi phân tích CV"
-                    : error.message
+                    : error.message,
+            ...(error instanceof AnalysisError ? error.extra : {})
         });
     } finally {
         if (workDir) {

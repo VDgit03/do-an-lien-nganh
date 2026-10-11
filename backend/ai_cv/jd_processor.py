@@ -321,17 +321,27 @@ class JDProcessor:
         if experience_req:
             profile["requirements"].append(experience_req)
 
-        for item in self._extract_education(text):
-            profile["education"].append(item)
+        # Mục "Ưu tiên" chỉ là điểm cộng, không tính là yêu cầu bắt buộc
+        mandatory_text = "\n".join(
+            line
+            for name, lines in sections.items()
+            if name != "preferred"
+            for line in lines
+        ) or text
+
+        education_items = self._extract_education(mandatory_text)
+        profile["education"].extend(education_items)
+
+        for name in self._group_degree_alternatives(education_items):
             profile["requirements"].append(
                 self._make_requirement(
                     category="education",
-                    name=item,
+                    name=name,
                     source_section="raw_text",
                 )
             )
 
-        for item in self._extract_certifications(text):
+        for item in self._extract_certifications(mandatory_text):
             profile["certifications"].append(item)
             profile["requirements"].append(
                 self._make_requirement(
@@ -343,7 +353,11 @@ class JDProcessor:
 
         preferred_text = "\n".join(sections["preferred"])
         preferred_items = self._extract_skills_from_text(preferred_text)
-        candidates = preferred_items or sections["preferred"]
+        candidates = preferred_items or [
+            re.sub(r"^[\-\*\u2022]\s*", "", line).strip()
+            for line in sections["preferred"]
+            if re.sub(r"^[\-\*\u2022]\s*", "", line).strip()
+        ]
 
         for item in candidates:
             profile["preferred_qualifications"].append(
@@ -509,10 +523,26 @@ class JDProcessor:
         ]
 
         lower = text.lower()
-        return [
+        found = [
             skill for skill in taxonomy
             if self._contains_term(lower, skill.lower())
         ]
+
+        # Bổ sung từ điển các ngành ngoài lập trình (mạng, bảo mật, ...)
+        try:
+            from domain_lexicon import EXTRA_SKILL_TAXONOMY
+        except ImportError:
+            return found
+
+        seen = {name.casefold() for name in found}
+        for alias, canonical in EXTRA_SKILL_TAXONOMY.items():
+            if canonical.casefold() in seen:
+                continue
+            if self._contains_term(lower, alias):
+                seen.add(canonical.casefold())
+                found.append(canonical)
+
+        return found
 
     @classmethod
     def _infer_requirement_category(cls, name: str) -> str:
@@ -523,6 +553,9 @@ class JDProcessor:
             "docker", "kubernetes", "jupyter", "mlflow",
             "airflow", "postman", "selenium", "figma",
             "terraform", "vmware", "virtualbox", "wireshark",
+            "cisco packet tracer", "packet tracer", "gns3", "nmap",
+            "putty", "burp suite", "metasploit", "splunk", "ansible",
+            "jenkins", "grafana", "prometheus", "jira",
         }
 
         languages = {
@@ -593,6 +626,9 @@ class JDProcessor:
     def _looks_like_heading(line: str) -> bool:
         clean = str(line).strip()
 
+        # Dòng gạch đầu dòng là nội dung (vd "- CCNA"), không phải đề mục
+        if re.match(r"^[\-\*\u2022]\s+", clean):
+            return False
         if clean.endswith(":"):
             return True
         if len(clean.split()) > 8:
@@ -699,6 +735,20 @@ class JDProcessor:
         return JDProcessor._deduplicate_strings([
             value for needle, value in patterns if needle in lower
         ])
+
+    # Các bậc học phổ thông: "Đại học / Cao đẳng" là lựa chọn, không phải
+    # hai yêu cầu bắt buộc cùng lúc.
+    _DEGREE_LEVELS = ("Đại học", "Cao đẳng", "Cử nhân", "Bachelor")
+
+    @classmethod
+    def _group_degree_alternatives(cls, items: List[str]) -> List[str]:
+        levels = [item for item in items if item in cls._DEGREE_LEVELS]
+        others = [item for item in items if item not in cls._DEGREE_LEVELS]
+
+        if len(levels) < 2:
+            return list(items)
+
+        return [" hoặc ".join(levels)] + others
 
     @staticmethod
     def _extract_certifications(text: str) -> List[str]:
@@ -966,4 +1016,3 @@ class JDProcessor:
             "recruitment_process": [],
             "metadata": {"source": "unknown"},
         }
-

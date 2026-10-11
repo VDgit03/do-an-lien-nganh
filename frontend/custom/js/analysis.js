@@ -102,8 +102,16 @@ function initAnalysis() {
 
     sampleJdBtn.addEventListener(
         "click",
-        useSampleJD
+        loadSampleJD
     );
+
+    document
+        .getElementById("jobField")
+        .addEventListener("change", refreshSampleJDIfUntouched);
+
+    document
+        .getElementById("level")
+        .addEventListener("change", refreshSampleJDIfUntouched);
 
     /* xóa nội dung */
 
@@ -223,37 +231,57 @@ function updateCharacterCount() {
 }
 
 
-/* jd mẫu */
-function useSampleJD() {
-    const jobDescription = document.getElementById(
-        "jobDescription"
-    );
+/* jd mẫu: backend đọc từ it_15_job_positions.json theo ngành + cấp bậc đang chọn */
+let lastSampleJd = "";
 
-    const sampleJD = `
-        Frontend Developer - Junior
+async function loadSampleJD() {
+    const jobDescription = document.getElementById("jobDescription");
+    const jobField = document.getElementById("jobField");
+    const level = document.getElementById("level");
+    const sampleJdBtn = document.getElementById("sampleJdBtn");
 
-        Mô tả công việc:
+    sampleJdBtn.disabled = true;
 
-        - Phát triển và bảo trì giao diện website.
-        - Xây dựng giao diện bằng HTML, CSS và JavaScript.
-        - Làm việc với React.js.
-        - Kết nối và sử dụng REST API.
-        - Tối ưu giao diện trên nhiều thiết bị.
-        - Phối hợp với Backend Developer và UI/UX Designer.
+    try {
+        const query = new URLSearchParams({
+            role: jobField.value,
+            level: level.value
+        });
 
-        Yêu cầu:
+        const response = await fetch(
+            `${ANALYSIS_API_URL}/sample-jd?${query}`
+        );
 
-        - Có kiến thức về HTML, CSS, JavaScript.
-        - Có kiến thức về React.js.
-        - Hiểu cơ bản về REST API.
-        - Biết sử dụng Git/GitHub.
-        - Có khả năng làm việc nhóm.
-        - Có tư duy logic và giải quyết vấn đề.
-    `.trim();
+        const data = await response.json().catch(() => ({}));
 
-    jobDescription.value = sampleJD;
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "Không lấy được JD mẫu.");
+        }
 
-    updateCharacterCount();
+        jobDescription.value = data.data.jd;
+        lastSampleJd = data.data.jd;
+
+        updateCharacterCount();
+    } catch (error) {
+        console.error("SAMPLE JD ERROR:", error);
+
+        showMessage(
+            error instanceof TypeError
+                ? "Không kết nối được máy chủ. Hãy kiểm tra backend đã chạy chưa."
+                : error.message
+        );
+    } finally {
+        sampleJdBtn.disabled = false;
+    }
+}
+
+/* đổi ngành/cấp bậc: nếu ô JD vẫn là JD mẫu chưa sửa thì tự cập nhật theo lựa chọn mới */
+function refreshSampleJDIfUntouched() {
+    const jobDescription = document.getElementById("jobDescription");
+
+    if (lastSampleJd && jobDescription.value === lastSampleJd) {
+        loadSampleJD();
+    }
 }
 
 
@@ -304,7 +332,7 @@ const COMPONENT_LABELS = {
     skill: "Kỹ năng chuyên môn",
     soft_skill: "Kỹ năng mềm",
     tool: "Công cụ",
-    language: "Ngôn ngữ lập trình",
+    language: "Ngoại ngữ / ngôn ngữ",
     education: "Học vấn",
     certification: "Chứng chỉ",
     experience: "Kinh nghiệm",
@@ -326,7 +354,7 @@ const EFFORT_LABELS = {
 let emptyResultHtml = "";
 let lastJobDescription = "";
 
-async function analyzeCV() {
+async function analyzeCV(event, useOcr = false) {
     const cvFile = document.getElementById("cvFile");
     const jobDescription = document.getElementById("jobDescription");
     const level = document.getElementById("level");
@@ -358,6 +386,7 @@ async function analyzeCV() {
     formData.append("jd", jobDescription.value.trim());
     formData.append("level", level.value);
     formData.append("role", jobField.value);
+    formData.append("ocr", useOcr ? "1" : "0");
 
     lastJobDescription = jobDescription.value.trim();
 
@@ -381,6 +410,28 @@ async function analyzeCV() {
             setTimeout(() => {
                 window.location.href = "../../auth/index.html";
             }, 1200);
+
+            return;
+        }
+
+        /* PDF dạng ảnh: hỏi người dùng có đồng ý dùng AI đọc chữ không */
+        if (data.code === "NO_TEXT" && data.canOcr && !useOcr) {
+            const agree = window.confirm(
+                "CV này là PDF dạng ảnh nên không có chữ để phân tích.\n\n" +
+                "Dùng AI (Google Gemini) để đọc chữ từ ảnh?\n" +
+                "File CV sẽ được gửi tới Google. Với gói miễn phí, Google " +
+                "có thể dùng dữ liệu này để cải thiện sản phẩm."
+            );
+
+            if (agree) {
+                await analyzeCV(null, true);
+            } else {
+                resetResultPanel();
+
+                showMessage(
+                    "Hãy xuất lại CV thành PDF có chữ (Export/Download as PDF) rồi thử lại."
+                );
+            }
 
             return;
         }
@@ -414,7 +465,10 @@ function setAnalyzing(isAnalyzing) {
     analyzeBtn.disabled = isAnalyzing;
 
     if (isAnalyzing) {
-        analyzeBtn.dataset.html = analyzeBtn.innerHTML;
+        /* chỉ lưu nội dung gốc lần đầu (gọi lồng nhau khi OCR) */
+        if (!analyzeBtn.dataset.html) {
+            analyzeBtn.dataset.html = analyzeBtn.innerHTML;
+        }
 
         analyzeBtn.innerHTML =
             '<i class="fa-solid fa-spinner fa-spin"></i> Đang phân tích...';
@@ -430,6 +484,7 @@ function setAnalyzing(isAnalyzing) {
         `;
     } else if (analyzeBtn.dataset.html) {
         analyzeBtn.innerHTML = analyzeBtn.dataset.html;
+        delete analyzeBtn.dataset.html;
     }
 }
 
@@ -509,6 +564,13 @@ function renderAnalysisResult(data) {
 
     /* cảnh báo */
     const warnings = (result.warnings || []).concat(advice.notes || []);
+
+    if (data.ocr) {
+        warnings.unshift(
+            "CV này được AI đọc chữ từ ảnh nên có thể có sai sót nhỏ. " +
+            "Dùng PDF có chữ sẽ cho kết quả chính xác hơn."
+        );
+    }
 
     /* khoảng thiếu */
     const gaps = result.gaps || [];
@@ -630,6 +692,18 @@ function renderAnalysisResult(data) {
                     ? `<div class="result-warning">${warnings
                           .map((text) => `<p>${esc(text)}</p>`)
                           .join("")}</div>`
+                    : ""
+            }
+
+            ${
+                data.ocrText
+                    ? `<details class="ocr-preview">
+                           <summary>Xem văn bản AI đọc được từ ảnh</summary>
+                           <p class="ai-note">
+                               Nếu có chỗ đọc sai, điểm có thể lệch. Hãy dùng PDF có chữ để chính xác hơn.
+                           </p>
+                           <pre>${esc(data.ocrText)}</pre>
+                       </details>`
                     : ""
             }
 
