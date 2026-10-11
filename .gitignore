@@ -27,3 +27,6 @@ build/
 
 # test
 .test/
+
+#pycache
+/backend/ai_cv/__pycache__/
