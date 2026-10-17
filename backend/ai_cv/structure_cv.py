@@ -969,6 +969,32 @@ _MAJOR_ACRONYMS = {
 }
 
 
+_DEGREE_MAJOR_SPLIT = re.compile(
+    r"^((?:bachelor|master|associate|diploma|engineer|degree|b\.?\s?s\.?c?|"
+    r"m\.?\s?s\.?c?|cử nhân|kỹ sư|thạc sĩ|tiến sĩ|cao đẳng|đại học|trung cấp)"
+    r"(?:'s)?(?:\s+degree)?)\s*(?:,|:|-|–|—|\bof\b|\bin\b|\bchuyên ngành\b)\s*(.+)$",
+    re.IGNORECASE,
+)
+
+
+def _split_degree_major(entry):
+    """"Diploma, Computer Networks and Communications" -> degree + major."""
+    degree = (entry.get("degree") or "").strip()
+
+    if degree and not entry.get("major"):
+        match = _DEGREE_MAJOR_SPLIT.match(degree)
+
+        if match and not _is_sentence(match.group(2)):
+            entry["degree"] = match.group(1).strip()
+            major = re.sub(
+                r"^(?:science|arts|engineering|technology)\s+(?:in|of)\s+",
+                "", match.group(2).strip(), flags=re.IGNORECASE,
+            )
+            entry["major"] = major
+
+    return entry
+
+
 def _fix_major_acronym(entry):
     institution = entry.get("institution", "").strip()
 
@@ -1111,7 +1137,10 @@ def extract_education(text):
         # Description
         current["description"].append(line)
 
-    return [_fix_major_acronym(entry) for entry in education_list]
+    return [
+        _fix_major_acronym(_split_degree_major(entry))
+        for entry in education_list
+    ]
 
 # 12.5 EXPERIENCE
 _HEADER_TRAILING_SEPARATORS = " \t,;:|-–—·•"
@@ -1131,6 +1160,11 @@ def split_inline_date(line):
     text = (line or "").strip()
 
     if not text or len(text) > 140 or text.endswith("."):
+        return line, ""
+
+    # Cả dòng đã là khoảng thời gian ("Aug 2024 - Oct 2025") thì không tách:
+    # trước đây bị cắt thành "Aug" + "2024 - Oct 2025" làm hỏng mục học vấn.
+    if is_date_range(text) or is_single_date(text):
         return line, ""
 
     # Duyệt từ trái sang phải để lấy hậu tố DÀI NHẤT là một khoảng thời gian.

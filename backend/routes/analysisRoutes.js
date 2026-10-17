@@ -3,6 +3,7 @@ import multer from "multer";
 
 import { analyzeCV } from "../controllers/analysis/analysisController.js";
 import { sampleJd } from "../controllers/analysis/sampleJdController.js";
+import { fixCV } from "../controllers/analysis/fixController.js";
 import { rewriteBullets } from "../controllers/analysis/rewriteController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 
@@ -10,7 +11,6 @@ const router = express.Router();
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB, khớp với frontend
 
-// Giữ file trong RAM, controller tự ghi ra file tạm rồi xoá
 const upload = multer({
     storage: multer.memoryStorage(),
     limits: { fileSize: MAX_FILE_SIZE, files: 1 }
@@ -44,5 +44,8 @@ router.post("/", authMiddleware, uploadCV, analyzeCV);
 
 // viết lại mô tả bằng AI (Gemini)
 router.post("/rewrite", authMiddleware, rewriteBullets);
+
+// agent: tự sửa thẳng vào PDF
+router.post("/fix", authMiddleware, uploadCV, fixCV);
 
 export default router;

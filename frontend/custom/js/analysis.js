@@ -756,6 +756,11 @@ function renderAnalysisResult(data) {
                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
                                    Viết lại bằng AI
                                </button>
+                               <button type="button" class="btn-ai" id="aiFixPdfBtn">
+                                   <i class="fa-solid fa-file-pdf"></i>
+                                   AI tự sửa vào PDF
+                               </button>
+                               <div id="aiFixResult"></div>
                                <p class="ai-note">
                                    Các mô tả (và JD nếu có) sẽ được gửi tới Google Gemini.
                                    Với gói miễn phí, Google có thể dùng dữ liệu này để cải thiện sản phẩm.
@@ -773,6 +778,12 @@ function renderAnalysisResult(data) {
 
     if (aiButton) {
         aiButton.addEventListener("click", () => rewriteWithAI(rewrites));
+    }
+
+    const fixButton = document.getElementById("aiFixPdfBtn");
+
+    if (fixButton) {
+        fixButton.addEventListener("click", () => fixPdfWithAgent());
     }
 
     /* chạy hiệu ứng thanh điểm */
@@ -923,4 +934,110 @@ function showMessage(message) {
         },
         2500
     );
+}
+
+
+/* CV Agent: AI tự sửa thẳng vào file PDF */
+async function fixPdfWithAgent(useOcr = false) {
+    const button = document.getElementById("aiFixPdfBtn");
+    const box = document.getElementById("aiFixResult");
+    const cvFile = document.getElementById("cvFile");
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        showMessage("Vui lòng đăng nhập lại.");
+        return;
+    }
+
+    if (!cvFile.files.length) {
+        showMessage("Không còn file CV, vui lòng tải lại CV.");
+        return;
+    }
+
+    const formData = new FormData();
+
+    formData.append("cv", cvFile.files[0]);
+    formData.append("jd", lastJobDescription);
+    formData.append("level", document.getElementById("level").value);
+    formData.append("role", document.getElementById("jobField").value);
+    formData.append("mode", "auto");
+    formData.append("ocr", useOcr === true ? "1" : "0");
+
+    button.disabled = true;
+    box.textContent = "Agent đang sửa PDF, có thể mất tới 1 phút...";
+
+    try {
+        const response = await fetch(`${ANALYSIS_API_URL}/fix`, {
+            method: "POST",
+            headers: { Authorization: `Bearer ${token}` },
+            body: formData
+        });
+        const data = await response.json();
+
+        /* PDF dạng ảnh: xin đồng ý dùng AI đọc chữ rồi dựng lại CV sửa được */
+        if (data.code === "NO_TEXT" && data.canOcr && useOcr !== true) {
+            const agree = window.confirm(
+                "CV này là PDF dạng ảnh nên chưa sửa trực tiếp được.\n\n" +
+                "Dùng AI (Google Gemini) đọc chữ từ ảnh rồi dựng lại CV thành PDF có chữ (sửa được)?\n" +
+                "File CV sẽ được gửi tới Google. Bố cục CV mới sẽ khác bản gốc."
+            );
+
+            if (agree) {
+                button.disabled = false;
+                return fixPdfWithAgent(true);
+            }
+
+            box.textContent = "Hãy xuất lại CV thành PDF có chữ (Export/Download as PDF) rồi thử lại.";
+            return;
+        }
+
+        if (!data.success) {
+            box.textContent = data.message || "Không sửa được CV.";
+            return;
+        }
+
+        const r = data.data;
+        const lines = [];
+
+        if (r.pdfBase64) {
+            const bytes = Uint8Array.from(atob(r.pdfBase64), (c) => c.charCodeAt(0));
+            const url = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" }));
+
+            lines.push(
+                `<p><a href="${url}" download="${esc(r.fileName)}" target="_blank">` +
+                `Tải CV đã sửa (${r.applied.length} đoạn, ` +
+                `${r.mode === "inplace" ? "sửa tại chỗ" : "dựng lại bố cục"})</a></p>`
+            );
+        }
+
+        if (r.applied.length) {
+            lines.push(
+                "<p><strong>Đã sửa:</strong></p><ul>" +
+                r.applied.map((a) =>
+                    `<li><s>${esc(a.original)}</s><br>${esc((a.new || []).join(" / "))}</li>`
+                ).join("") + "</ul>"
+            );
+        }
+
+        if (r.failed.length) {
+            lines.push(`<p>${r.failed.length} đoạn không sửa được (không tìm thấy hoặc không vừa khung).</p>`);
+        }
+
+        if (r.pending.length) {
+            lines.push(
+                "<p><strong>Cần bạn điền số liệu thật trước khi sửa:</strong></p><ul>" +
+                r.pending.map((p) =>
+                    `<li>${esc(p.original)}<br>→ ${esc((p.draft || []).join(" / "))}</li>`
+                ).join("") + "</ul>"
+            );
+        }
+
+        (r.notes || []).forEach((note) => lines.push(`<p><em>${esc(note)}</em></p>`));
+
+        box.innerHTML = lines.join("") || "Không có gì để sửa.";
+    } catch {
+        box.textContent = "Không kết nối được máy chủ.";
+    } finally {
+        button.disabled = false;
+    }
 }

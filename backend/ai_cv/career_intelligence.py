@@ -826,6 +826,12 @@ class CareerIntelligence:
             if self._contains_match(target, pool):
                 return self._result("matched", "direct", option)
 
+        # 1b) Học vấn: so theo bậc học (Diploma = Cao đẳng...) và ngành liên quan.
+        if category == "education":
+            edu_result = self._evaluate_education(options, pool)
+            if edu_result:
+                return edu_result
+
         # 2) Alternatives khai báo trong JD -> chỉ đạt một phần.
         alternatives = item.get("alternatives", [])
         if isinstance(alternatives, list):
@@ -1384,10 +1390,77 @@ class CareerIntelligence:
 
     # Từ khóa cho biết mục học vấn đã ghi rõ bậc học
     _DEGREE_WORDS = re.compile(
-        r"đại học|cao đẳng|cử nhân|kỹ sư|thạc sĩ|cao học|tiến sĩ|học viện|"
-        r"university|college|bachelor|master|ph\.?d|engineer|institute",
+        r"đại học|cao đẳng|trung cấp|cử nhân|kỹ sư|thạc sĩ|cao học|tiến sĩ|"
+        r"học viện|university|college|diploma|associate|vocational|bachelor|"
+        r"master|ph\.?d|engineer|institute",
         re.IGNORECASE,
     )
+
+    # Bậc học -> thứ hạng (so sánh "đủ/thiếu một bậc" với yêu cầu của JD).
+    _LEVEL_PATTERNS = (
+        (5, re.compile(r"tiến sĩ|ph\.?d|doctora", re.IGNORECASE)),
+        (4, re.compile(r"thạc sĩ|cao học|\bmaster|\bm\.?sc\b|\bmba\b",
+                       re.IGNORECASE)),
+        (3, re.compile(
+            r"đại học|cử nhân|kỹ sư|học viện|\bbachelor|\bb\.?sc?\b|"
+            r"\buniversity|\bengineer\b|\binstitute", re.IGNORECASE)),
+        (2, re.compile(
+            r"cao đẳng|\bcollege|\bdiploma|\bassociate", re.IGNORECASE)),
+        (1, re.compile(r"trung cấp|\bvocational", re.IGNORECASE)),
+    )
+
+    # Ngành thuộc nhóm CNTT (JD ghi "Computer Science / CNTT..." thì
+    # "Computer Networks and Communications" vẫn là ngành liên quan).
+    _IT_FIELD = re.compile(
+        r"computer|information (?:technology|system|security)|\bit\b|cntt|"
+        r"công nghệ thông tin|tin học|informatics|network|mạng|phần mềm|"
+        r"software|khoa học máy tính|máy tính|an toàn thông tin|"
+        r"an ninh mạng|cyber|viễn thông|telecom|truyền thông|communication|"
+        r"hệ thống thông tin|dữ liệu|\bdata\b|\bai\b|trí tuệ nhân tạo|"
+        r"điện tử|electronic",
+        re.IGNORECASE,
+    )
+
+    @classmethod
+    def _degree_rank(cls, text: str) -> int:
+        folded = cls._nfc_fold(text)
+        for rank, pattern in cls._LEVEL_PATTERNS:
+            if pattern.search(folded):
+                return rank
+        return 0
+
+    @classmethod
+    def _evaluate_education(cls, options: List[str], pool: List[str]):
+        """
+        So khớp yêu cầu học vấn theo BẬC HỌC và NGÀNH, thay vì so chuỗi:
+        - đủ bậc hoặc cao hơn  -> matched
+        - thấp hơn đúng 1 bậc (vd yêu cầu Đại học, có Cao đẳng) -> partial
+        - ngành CNTT tương đương -> matched
+        Trả None nếu không kết luận được (để quy trình cũ xử lý tiếp).
+        """
+        candidate_text = " ".join(pool)
+        have = max(
+            (cls._degree_rank(entry) for entry in pool), default=0
+        )
+        best = None
+
+        for option in options:
+            required = cls._degree_rank(option)
+
+            if required:
+                if have >= required:
+                    return cls._result("matched", "level", option)
+                if have and have == required - 1:
+                    best = best or cls._result("partial", "level", option)
+                continue
+
+            if (
+                cls._IT_FIELD.search(cls._nfc_fold(option))
+                and cls._IT_FIELD.search(candidate_text)
+            ):
+                return cls._result("matched", "field", option)
+
+        return best
 
     @classmethod
     def _infer_degree_levels(cls, item: Dict[str, Any]) -> List[str]:
@@ -1407,7 +1480,7 @@ class CareerIntelligence:
             levels = []
             if re.search(r"university|bachelor|institute", lowered):
                 levels.append("Đại học")
-            if re.search(r"college", lowered):
+            if re.search(r"college|diploma|associate", lowered):
                 levels.append("Cao đẳng")
             return levels
 
