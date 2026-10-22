@@ -1,2686 +1,4000 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-    /* dom */
-
-    const fullNameInput =
-        document.getElementById("fullName");
-
-    const positionInput =
-        document.getElementById("position");
-
-    const summaryInput =
-        document.getElementById("summary");
-
-    const previewName =
-        document.getElementById("previewName");
-
-    const previewPosition =
-        document.getElementById("previewPosition");
-
-    const previewSummary =
-        document.getElementById("previewSummary");
-
-    const experienceList =
-        document.getElementById("experienceList");
-
-    const educationList =
-        document.getElementById("educationList");
-
-    const languageList =
-        document.getElementById("languageList");
-
-    const addExperience =
-        document.getElementById("addExperience");
-
-    const addEducation =
-        document.getElementById("addEducation");
-
-    const addLanguage =
-        document.getElementById("addLanguage");
-
-    const experiencePreview =
-        document.getElementById("experiencePreview");
-
-    const educationPreview =
-        document.getElementById("educationPreview");
-
-    const cvPreview =
-        document.getElementById("cvPreview");
-
-    const layoutButtons =
-        document.querySelectorAll(".layout-btn");
-
-    const colorButtons =
-        document.querySelectorAll(".color-btn");
-
-    const saveCvButton =
-        document.getElementById("saveCvBtn");
-
-    const skillsInput =
-        document.getElementById("skills");
-
-    const softSkillsInput =
-        document.getElementById("softSkills");
+    initCreateCV();
+});
 
 
-    /* kiểm tra preview */
+// ======================================================
+// GLOBAL
+// ======================================================
 
-    if (!cvPreview) {
-        console.error(
-            "Không tìm thấy #cvPreview"
+const API_URL =
+    "http://localhost:3000/api/cvs";
+
+let currentCVId = null;
+
+let currentColor = "#2F7867";
+
+let currentLayout = "layout1";
+
+
+// ======================================================
+// INIT
+// ======================================================
+
+async function initCreateCV() {
+
+    currentCVId =
+        new URLSearchParams(
+            window.location.search
+        ).get("id");
+
+
+    setupDynamicItems();
+
+    setupColor();
+
+    setupLayout();
+
+    setupRealtimePreview();
+
+    setupActions();
+
+    updatePreview();
+
+
+    // Edit CV
+    if (currentCVId) {
+
+        await loadCV(
+            currentCVId
         );
+
+    }
+
+}
+
+
+// ======================================================
+// ACTIONS
+// ======================================================
+
+function setupActions() {
+
+    const saveBtn =
+        document.getElementById(
+            "saveCvBtn"
+        );
+
+    const cancelBtn =
+        document.getElementById(
+            "cancelCV"
+        );
+
+
+    if (saveBtn) {
+
+        saveBtn.addEventListener(
+            "click",
+            saveCV
+        );
+
+    }
+
+
+    if (cancelBtn) {
+
+        cancelBtn.addEventListener(
+            "click",
+            () => {
+
+                window.location.href =
+                    "../home/home.html";
+
+            }
+        );
+
+    }
+
+}
+
+
+// ======================================================
+// DYNAMIC ITEMS
+// ======================================================
+
+function setupDynamicItems() {
+
+    const buttons = [
+
+        [
+            "addProfessionalSkill",
+            addProfessionalSkillItem
+        ],
+
+        [
+            "addExperience",
+            addExperienceItem
+        ],
+
+        [
+            "addEducation",
+            addEducationItem
+        ],
+
+        [
+            "addProject",
+            addProjectItem
+        ],
+
+        [
+            "addLanguage",
+            addLanguageItem
+        ],
+
+        [
+            "addActivity",
+            addActivityItem
+        ]
+
+    ];
+
+
+    buttons.forEach(
+        ([id, handler]) => {
+
+            const button =
+                document.getElementById(id);
+
+
+            if (button) {
+
+                button.addEventListener(
+                    "click",
+                    handler
+                );
+
+            }
+
+        }
+    );
+
+
+    setupRemoveButtons();
+
+    updateItemLabels();
+
+}
+
+
+// ======================================================
+// REMOVE BUTTONS
+// ======================================================
+
+function setupRemoveButtons() {
+
+    document
+        .querySelectorAll(
+            ".remove-btn"
+        )
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const item =
+                        button.closest(
+                            ".dynamic-item"
+                        );
+
+
+                    if (!item) {
+                        return;
+                    }
+
+
+                    removeDynamicItem(
+                        item
+                    );
+
+                }
+            );
+
+        });
+
+}
+
+
+function setupRemoveButtonForItem(
+    item
+) {
+
+    const button =
+        item.querySelector(
+            ".remove-btn"
+        );
+
+
+    if (!button) {
         return;
     }
 
 
-    /* xác định chế độ */
-
-    const urlParams =
-        new URLSearchParams(
-            window.location.search
-        );
-
-    const editCvId =
-        urlParams.get("id");
-
-    const isEditMode =
-        Boolean(editCvId);
-
-
-    /* biến đếm */
-
-    let experienceCount = 0;
-    let educationCount = 0;
-    let languageCount = 0;
-
-
-    /* escape html */
-
-    function escapeHTML(value) {
-
-        return String(value ?? "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }
-
-
-    /* tạo section preview */
-
-    function createPreviewSection(
-        id,
-        title
-    ) {
-
-        let section =
-            document.getElementById(id);
-
-        if (section) {
-            return section;
-        }
-
-        section =
-            document.createElement("section");
-
-        section.className =
-            "preview-section";
-
-        section.id = id;
-
-        section.innerHTML = `
-            <h2>${title}</h2>
-
-            <div class="preview-content"></div>
-        `;
-
-        const cvMain =
-            cvPreview.querySelector(".cv-main");
-
-        if (!cvMain) {
-            return null;
-        }
-
-        if (experiencePreview) {
-
-            cvMain.insertBefore(
-                section,
-                experiencePreview
-            );
-
-        } else {
-
-            cvMain.appendChild(section);
-        }
-
-        return section;
-    }
-
-
-    /* preview kỹ năng */
-
-    const skillsPreview =
-        createPreviewSection(
-            "skillsPreview",
-            "Kỹ năng"
-        );
-
-    const softSkillsPreview =
-        createPreviewSection(
-            "softSkillsPreview",
-            "Kỹ năng mềm"
-        );
-
-    const languagePreview =
-        createPreviewSection(
-            "languagePreview",
-            "Ngoại ngữ"
-        );
-
-
-    /* thông tin cá nhân */
-
-    function updatePersonalInfo() {
-
-        if (previewName) {
-
-            previewName.textContent =
-                fullNameInput?.value.trim() ||
-                "Họ và tên";
-        }
-
-        if (previewPosition) {
-
-            previewPosition.textContent =
-                positionInput?.value.trim() ||
-                "Chức danh";
-        }
-
-        if (previewSummary) {
-
-            previewSummary.textContent =
-                summaryInput?.value.trim() ||
-                "Giới thiệu bản thân";
-        }
-    }
-
-
-    fullNameInput?.addEventListener(
-        "input",
-        updatePersonalInfo
-    );
-
-    positionInput?.addEventListener(
-        "input",
-        updatePersonalInfo
-    );
-
-    summaryInput?.addEventListener(
-        "input",
-        updatePersonalInfo
-    );
-
-
-    /* phân tích thời gian */
-
-    function getTimeValue(timeRange) {
-
-        if (!timeRange) {
-            return 0;
-        }
-
-        const text =
-            String(timeRange)
-                .toLowerCase()
-                .trim();
-
-        const monthYearMatch =
-            text.match(
-                /(?:tháng\s*)?(\d{1,2})[\/\-](\d{4})/i
-            );
-
-        let year = 0;
-        let month = 1;
-
-        if (monthYearMatch) {
-
-            month =
-                Number(
-                    monthYearMatch[1]
-                );
-
-            year =
-                Number(
-                    monthYearMatch[2]
-                );
-
-        } else {
-
-            const yearMatch =
-                text.match(
-                    /\b(19|20)\d{2}\b/
-                );
-
-            if (yearMatch) {
-
-                year =
-                    Number(
-                        yearMatch[0]
-                    );
-            }
-        }
-
-        if (!year) {
-            return 0;
-        }
-
-        const value =
-            year * 100 + month;
-
-        const isCurrent =
-            text.includes("nay") ||
-            text.includes("hiện tại") ||
-            text.includes("hiện nay") ||
-            text.includes("present") ||
-            text.includes("current");
-
-        if (isCurrent) {
-
-            return (
-                100000000 +
-                value
-            );
-        }
-
-        return value;
-    }
-
-
-    /* sắp xếp mới → cũ */
-
-    function sortByNewest(items) {
-
-        return items
-            .map(
-                (item, index) => ({
-                    ...item,
-                    originalIndex: index
-                })
-            )
-            .sort(
-                (a, b) => {
-
-                    const timeA =
-                        getTimeValue(
-                            a.time_range
-                        );
-
-                    const timeB =
-                        getTimeValue(
-                            b.time_range
-                        );
-
-                    if (timeA !== timeB) {
-                        return timeB - timeA;
-                    }
-
-                    return (
-                        a.originalIndex -
-                        b.originalIndex
-                    );
-                }
-            );
-    }
-
-
-    /* kinh nghiệm */
-
-    function createExperienceItem(
-        data = {}
-    ) {
-
-        experienceCount++;
-
-        const item =
-            document.createElement("div");
-
-        item.className =
-            "dynamic-item experience-item";
-
-        item.innerHTML = `
-            <div class="dynamic-item-header">
-
-                <strong class="item-label">
-                    Mục ${experienceCount}
-                </strong>
-
-                <button
-                    type="button"
-                    class="remove-btn"
-                    data-action="remove-experience"
-                >
-                    Xóa
-                </button>
-
-            </div>
-
-            <div class="form-row">
-
-                <div class="form-group">
-
-                    <label>
-                        Chức danh
-                    </label>
-
-                    <input
-                        type="text"
-                        class="experience-position"
-                        placeholder="Backend Developer"
-                        value="${escapeHTML(
-                            data.position || ""
-                        )}"
-                    />
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        Thời gian
-                    </label>
-
-                    <input
-                        type="text"
-                        class="experience-time"
-                        placeholder="2024 – nay"
-                        value="${escapeHTML(
-                            data.time_range || ""
-                        )}"
-                    />
-
-                </div>
-
-            </div>
-
-            <div class="form-group">
-
-                <label>
-                    Công ty / tổ chức
-                </label>
-
-                <input
-                    type="text"
-                    class="experience-company"
-                    placeholder="Tên công ty / tổ chức"
-                    value="${escapeHTML(
-                        data.company || ""
-                    )}"
-                />
-
-            </div>
-
-            <div class="form-group">
-
-                <label>
-                    Mô tả công việc
-                </label>
-
-                <textarea
-                    class="experience-description"
-                    rows="4"
-                    placeholder="Mô tả công việc đã đảm nhiệm..."
-                >${escapeHTML(
-                    data.description || ""
-                )}</textarea>
-
-            </div>
-        `;
-
-        return item;
-    }
-
-
-    function updateExperienceNumbers() {
-
-        if (!experienceList) {
-            return;
-        }
-
-        const items =
-            experienceList.querySelectorAll(
-                ".experience-item"
-            );
-
-        items.forEach(
-            (item, index) => {
-
-                const label =
-                    item.querySelector(
-                        ".item-label"
-                    );
-
-                if (label) {
-
-                    label.textContent =
-                        `Mục ${index + 1}`;
-                }
-            }
-        );
-
-        experienceCount =
-            items.length;
-    }
-
-
-    function collectExperiences() {
-
-        if (!experienceList) {
-            return [];
-        }
-
-        const items =
-            experienceList.querySelectorAll(
-                ".experience-item"
-            );
-
-        const experiences = [];
-
-        items.forEach(
-            (item) => {
-
-                const position =
-                    item.querySelector(
-                        ".experience-position"
-                    )?.value.trim() || "";
-
-                const time =
-                    item.querySelector(
-                        ".experience-time"
-                    )?.value.trim() || "";
-
-                const company =
-                    item.querySelector(
-                        ".experience-company"
-                    )?.value.trim() || "";
-
-                const description =
-                    item.querySelector(
-                        ".experience-description"
-                    )?.value.trim() || "";
-
-                if (
-                    !position &&
-                    !time &&
-                    !company &&
-                    !description
-                ) {
-                    return;
-                }
-
-                experiences.push({
-
-                    position:
-                        position || null,
-
-                    time_range:
-                        time || null,
-
-                    company:
-                        company || null,
-
-                    description:
-                        description || null
-                });
-            }
-        );
-
-        return experiences;
-    }
-
-
-    function updateExperiencePreview() {
-
-        if (!experiencePreview) {
-            return;
-        }
-
-        experiencePreview.innerHTML = `
-            <h2>Kinh nghiệm</h2>
-        `;
-
-        if (!experienceList) {
-            return;
-        }
-
-        const items =
-            experienceList.querySelectorAll(
-                ".experience-item"
-            );
-
-        if (!items.length) {
-
-            experiencePreview.innerHTML += `
-                <div class="empty-line"></div>
-            `;
-
-            return;
-        }
-
-        const experiences =
-            collectExperiences();
-
-        if (!experiences.length) {
-
-            experiencePreview.innerHTML += `
-                <div class="empty-line"></div>
-            `;
-
-            return;
-        }
-
-        const sortedExperiences =
-            sortByNewest(
-                experiences
-            );
-
-        sortedExperiences.forEach(
-            (experience) => {
-
-                const previewItem =
-                    document.createElement("div");
-
-                previewItem.className =
-                    "preview-item";
-
-                previewItem.innerHTML = `
-                    <div class="preview-item-title">
-                        ${escapeHTML(
-                            experience.position ||
-                            "Vị trí công việc"
-                        )}
-                    </div>
-
-                    <div class="preview-item-info">
-                        ${escapeHTML(
-                            experience.company ||
-                            "Tên công ty"
-                        )}
-
-                        ${
-                            experience.time_range
-                                ? ` · ${escapeHTML(
-                                    experience.time_range
-                                )}`
-                                : ""
-                        }
-                    </div>
-
-                    ${
-                        experience.description
-                            ? `
-                                <div class="preview-item-description">
-                                    ${escapeHTML(
-                                        experience.description
-                                    )}
-                                </div>
-                            `
-                            : ""
-                    }
-                `;
-
-                experiencePreview.appendChild(
-                    previewItem
-                );
-            }
-        );
-    }
-
-
-    addExperience?.addEventListener(
+    button.addEventListener(
         "click",
         () => {
 
-            if (!experienceList) {
-                return;
-            }
+            removeDynamicItem(
+                item
+            );
 
-            const item =
-                createExperienceItem();
-
-            experienceList.appendChild(item);
-
-            updateExperienceNumbers();
-            updateExperiencePreview();
         }
     );
 
+}
 
-    experienceList?.addEventListener(
-        "click",
-        (event) => {
 
-            const button =
-                event.target.closest(
-                    '[data-action="remove-experience"]'
+function removeDynamicItem(
+    item
+) {
+
+    const list =
+        item.parentElement;
+
+
+    if (!list) {
+        return;
+    }
+
+
+    const items =
+        list.querySelectorAll(
+            ".dynamic-item"
+        );
+
+
+    /*
+     * Luôn giữ lại ít nhất
+     * một mục.
+     */
+    if (items.length <= 1) {
+
+        clearDynamicItem(
+            item
+        );
+
+    } else {
+
+        item.remove();
+
+    }
+
+
+    updateItemLabels();
+
+    updatePreview();
+
+}
+
+
+function clearDynamicItem(
+    item
+) {
+
+    item
+        .querySelectorAll(
+            "input, textarea"
+        )
+        .forEach(input => {
+
+            input.value = "";
+
+        });
+
+}
+
+
+// ======================================================
+// ITEM LABEL
+// ======================================================
+
+function updateItemLabels() {
+
+    const lists = [
+
+        "#professionalSkillList",
+
+        "#experienceList",
+
+        "#educationList",
+
+        "#projectList",
+
+        "#activityList"
+
+    ];
+
+
+    lists.forEach(
+        selector => {
+
+            const list =
+                document.querySelector(
+                    selector
                 );
 
-            if (!button) {
+
+            if (!list) {
                 return;
             }
 
-            const item =
-                button.closest(
-                    ".experience-item"
-                );
 
-            if (!item) {
-                return;
-            }
-
-            item.remove();
-
-            updateExperienceNumbers();
-            updateExperiencePreview();
-        }
-    );
-
-
-    experienceList?.addEventListener(
-        "input",
-        (event) => {
-
-            if (
-                event.target.matches(
-                    "input, textarea"
+            list
+                .querySelectorAll(
+                    ".dynamic-item"
                 )
-            ) {
-                updateExperiencePreview();
-            }
-        }
-    );
-
-
-    /* học vấn */
-
-    function createEducationItem(
-        data = {}
-    ) {
-
-        educationCount++;
-
-        const item =
-            document.createElement("div");
-
-        item.className =
-            "dynamic-item education-item";
-
-        item.innerHTML = `
-            <div class="dynamic-item-header">
-
-                <strong class="item-label">
-                    Mục ${educationCount}
-                </strong>
-
-                <button
-                    type="button"
-                    class="remove-btn"
-                    data-action="remove-education"
-                >
-                    Xóa
-                </button>
-
-            </div>
-
-            <div class="form-row">
-
-                <div class="form-group">
-
-                    <label>
-                        Chuyên ngành / bằng cấp
-                    </label>
-
-                    <input
-                        type="text"
-                        class="education-degree"
-                        placeholder="Công nghệ thông tin"
-                        value="${escapeHTML(
-                            data.degree || ""
-                        )}"
-                    />
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        Thời gian
-                    </label>
-
-                    <input
-                        type="text"
-                        class="education-time"
-                        placeholder="2020 – 2024"
-                        value="${escapeHTML(
-                            data.time_range || ""
-                        )}"
-                    />
-
-                </div>
-
-            </div>
-
-            <div class="form-group">
-
-                <label>
-                    Tên trường
-                </label>
-
-                <input
-                    type="text"
-                    class="education-school"
-                    placeholder="Tên trường đại học"
-                    value="${escapeHTML(
-                        data.school || ""
-                    )}"
-                />
-
-            </div>
-        `;
-
-        return item;
-    }
-
-
-    function updateEducationNumbers() {
-
-        if (!educationList) {
-            return;
-        }
-
-        const items =
-            educationList.querySelectorAll(
-                ".education-item"
-            );
-
-        items.forEach(
-            (item, index) => {
-
-                const label =
-                    item.querySelector(
-                        ".item-label"
-                    );
-
-                if (label) {
-
-                    label.textContent =
-                        `Mục ${index + 1}`;
-                }
-            }
-        );
-
-        educationCount =
-            items.length;
-    }
-
-
-    function collectEducations() {
-
-        if (!educationList) {
-            return [];
-        }
-
-        const items =
-            educationList.querySelectorAll(
-                ".education-item"
-            );
-
-        const educations = [];
-
-        items.forEach(
-            (item) => {
-
-                const degree =
-                    item.querySelector(
-                        ".education-degree"
-                    )?.value.trim() || "";
-
-                const time =
-                    item.querySelector(
-                        ".education-time"
-                    )?.value.trim() || "";
-
-                const school =
-                    item.querySelector(
-                        ".education-school"
-                    )?.value.trim() || "";
-
-                if (
-                    !degree &&
-                    !time &&
-                    !school
-                ) {
-                    return;
-                }
-
-                educations.push({
-
-                    degree:
-                        degree || null,
-
-                    time_range:
-                        time || null,
-
-                    school:
-                        school || null
-                });
-            }
-        );
-
-        return educations;
-    }
-
-
-    function updateEducationPreview() {
-
-        if (!educationPreview) {
-            return;
-        }
-
-        educationPreview.innerHTML = `
-            <h2>Học vấn</h2>
-        `;
-
-        if (!educationList) {
-            return;
-        }
-
-        const items =
-            educationList.querySelectorAll(
-                ".education-item"
-            );
-
-        if (!items.length) {
-
-            educationPreview.innerHTML += `
-                <div class="empty-line"></div>
-            `;
-
-            return;
-        }
-
-        const educations =
-            collectEducations();
-
-        if (!educations.length) {
-
-            educationPreview.innerHTML += `
-                <div class="empty-line"></div>
-            `;
-
-            return;
-        }
-
-        const sortedEducations =
-            sortByNewest(
-                educations
-            );
-
-        sortedEducations.forEach(
-            (education) => {
-
-                const previewItem =
-                    document.createElement("div");
-
-                previewItem.className =
-                    "preview-item";
-
-                previewItem.innerHTML = `
-                    <div class="preview-item-title">
-                        ${escapeHTML(
-                            education.degree ||
-                            "Chuyên ngành / bằng cấp"
-                        )}
-                    </div>
-
-                    <div class="preview-item-info">
-                        ${escapeHTML(
-                            education.school ||
-                            "Tên trường"
-                        )}
-
-                        ${
-                            education.time_range
-                                ? ` · ${escapeHTML(
-                                    education.time_range
-                                )}`
-                                : ""
-                        }
-                    </div>
-                `;
-
-                educationPreview.appendChild(
-                    previewItem
-                );
-            }
-        );
-    }
-
-
-    addEducation?.addEventListener(
-        "click",
-        () => {
-
-            if (!educationList) {
-                return;
-            }
-
-            const item =
-                createEducationItem();
-
-            educationList.appendChild(item);
-
-            updateEducationNumbers();
-            updateEducationPreview();
-        }
-    );
-
-
-    educationList?.addEventListener(
-        "click",
-        (event) => {
-
-            const button =
-                event.target.closest(
-                    '[data-action="remove-education"]'
-                );
-
-            if (!button) {
-                return;
-            }
-
-            const item =
-                button.closest(
-                    ".education-item"
-                );
-
-            if (!item) {
-                return;
-            }
-
-            item.remove();
-
-            updateEducationNumbers();
-            updateEducationPreview();
-        }
-    );
-
-
-    educationList?.addEventListener(
-        "input",
-        (event) => {
-
-            if (
-                event.target.matches(
-                    "input, textarea"
-                )
-            ) {
-                updateEducationPreview();
-            }
-        }
-    );
-
-
-    /* kỹ năng */
-
-    function collectSkillArray(input) {
-
-        if (!input) {
-            return [];
-        }
-
-        const value =
-            input.value.trim();
-
-        if (!value) {
-            return [];
-        }
-
-        return value
-            .split(",")
-            .map(
-                skill => skill.trim()
-            )
-            .filter(
-                skill => skill.length > 0
-            );
-    }
-
-
-    function collectSkills() {
-
-        return collectSkillArray(
-            skillsInput
-        ).join(", ");
-    }
-
-
-    function collectSoftSkills() {
-
-        return collectSkillArray(
-            softSkillsInput
-        ).join(", ");
-    }
-
-
-    function renderSkillPreview(
-        previewSection,
-        title,
-        skills
-    ) {
-
-        if (!previewSection) {
-            return;
-        }
-
-        previewSection.innerHTML = `
-            <h2>${title}</h2>
-
-            <div class="preview-content"></div>
-        `;
-
-        const content =
-            previewSection.querySelector(
-                ".preview-content"
-            );
-
-        if (!skills.length) {
-
-            content.innerHTML = `
-                <div class="empty-line"></div>
-            `;
-
-            return;
-        }
-
-        const skillsContainer =
-            document.createElement("div");
-
-        skillsContainer.className =
-            "preview-skills";
-
-        skills.forEach(
-            (skill) => {
-
-                const skillItem =
-                    document.createElement("span");
-
-                skillItem.className =
-                    "preview-skill";
-
-                skillItem.textContent =
-                    skill;
-
-                skillsContainer.appendChild(
-                    skillItem
-                );
-            }
-        );
-
-        content.appendChild(
-            skillsContainer
-        );
-    }
-
-
-    function updateSkillsPreview() {
-
-        renderSkillPreview(
-            skillsPreview,
-            "Kỹ năng",
-            collectSkillArray(
-                skillsInput
-            )
-        );
-    }
-
-
-    function updateSoftSkillsPreview() {
-
-        renderSkillPreview(
-            softSkillsPreview,
-            "Kỹ năng mềm",
-            collectSkillArray(
-                softSkillsInput
-            )
-        );
-    }
-
-
-    skillsInput?.addEventListener(
-        "input",
-        updateSkillsPreview
-    );
-
-    softSkillsInput?.addEventListener(
-        "input",
-        updateSoftSkillsPreview
-    );
-
-
-    /* ngoại ngữ */
-
-    function createLanguageItem(
-        data = {}
-    ) {
-
-        languageCount++;
-
-        const item =
-            document.createElement("div");
-
-        item.className =
-            "dynamic-item language-item";
-
-        item.innerHTML = `
-            <div class="dynamic-item-header">
-
-                <strong class="item-label">
-                    Mục ${languageCount}
-                </strong>
-
-                <button
-                    type="button"
-                    class="remove-btn"
-                    data-action="remove-language"
-                >
-                    Xóa
-                </button>
-
-            </div>
-
-            <div class="form-row">
-
-                <div class="form-group">
-
-                    <label>
-                        Ngôn ngữ
-                    </label>
-
-                    <input
-                        type="text"
-                        class="language-name"
-                        placeholder="Ngôn ngữ (VD: Tiếng Anh)"
-                        value="${escapeHTML(
-                            data.language_name ||
-                            data.name ||
-                            data.language ||
-                            ""
-                        )}"
-                    />
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        Trình độ
-                    </label>
-
-                    <input
-                        type="text"
-                        class="language-level"
-                        placeholder="VD: B2, N1..."
-                        value="${escapeHTML(
-                            data.level ||
-                            data.proficiency ||
-                            ""
-                        )}"
-                    />
-
-                </div>
-
-            </div>
-        `;
-
-        return item;
-    }
-
-
-    function updateLanguageNumbers() {
-
-        if (!languageList) {
-            return;
-        }
-
-        const items =
-            languageList.querySelectorAll(
-                ".language-item"
-            );
-
-        items.forEach(
-            (item, index) => {
-
-                const label =
-                    item.querySelector(
-                        ".item-label"
-                    );
-
-                if (label) {
-
-                    label.textContent =
-                        `Mục ${index + 1}`;
-                }
-            }
-        );
-
-        languageCount =
-            items.length;
-    }
-
-
-    function normalizeLanguageItems() {
-
-        if (!languageList) {
-            return;
-        }
-
-        const items =
-            languageList.querySelectorAll(
-                ".language-item"
-            );
-
-        items.forEach(
-            (item, index) => {
-
-                let header =
-                    item.querySelector(
-                        ".dynamic-item-header"
-                    );
-
-                if (!header) {
-
-                    header =
-                        document.createElement("div");
-
-                    header.className =
-                        "dynamic-item-header";
-
-                    header.innerHTML = `
-                        <strong class="item-label">
-                            Mục ${index + 1}
-                        </strong>
-
-                        <button
-                            type="button"
-                            class="remove-btn"
-                            data-action="remove-language"
-                        >
-                            Xóa
-                        </button>
-                    `;
-
-                    item.insertBefore(
-                        header,
-                        item.firstChild
-                    );
-
-                } else {
-
-                    const label =
-                        header.querySelector(
-                            ".item-label"
-                        );
-
-                    if (label) {
-
-                        label.textContent =
-                            `Mục ${index + 1}`;
-                    }
-
-                    const removeButton =
-                        header.querySelector(
-                            '[data-action="remove-language"]'
-                        );
-
-                    if (!removeButton) {
-
-                        const button =
-                            document.createElement(
-                                "button"
+                .forEach(
+                    (item, index) => {
+
+                        const label =
+                            item.querySelector(
+                                ".item-label"
                             );
 
-                        button.type = "button";
-                        button.className = "remove-btn";
-                        button.dataset.action =
-                            "remove-language";
-                        button.textContent = "Xóa";
 
-                        header.appendChild(button);
-                    }
-                }
-            }
-        );
+                        if (label) {
 
-        languageCount =
-            items.length;
-    }
+                            label.textContent =
+                                `Mục ${index + 1}`;
 
-
-    function collectLanguages() {
-
-        if (!languageList) {
-            return [];
-        }
-
-        const items =
-            languageList.querySelectorAll(
-                ".language-item"
-            );
-
-        const languages = [];
-
-        items.forEach(
-            (item) => {
-
-                const languageName =
-                    item.querySelector(
-                        ".language-name"
-                    )?.value.trim() || "";
-
-                const level =
-                    item.querySelector(
-                        ".language-level"
-                    )?.value.trim() || "";
-
-                if (
-                    !languageName &&
-                    !level
-                ) {
-                    return;
-                }
-
-                languages.push({
-
-                    language_name:
-                        languageName || null,
-
-                    level:
-                        level || null
-                });
-            }
-        );
-
-        return languages;
-    }
-
-
-    function updateLanguagePreview() {
-
-        if (!languagePreview) {
-            return;
-        }
-
-        const languages =
-            collectLanguages();
-
-        languagePreview.innerHTML = `
-            <h2>Ngoại ngữ</h2>
-
-            <div class="preview-content"></div>
-        `;
-
-        const content =
-            languagePreview.querySelector(
-                ".preview-content"
-            );
-
-        if (!languages.length) {
-
-            content.innerHTML = `
-                <div class="empty-line"></div>
-            `;
-
-            return;
-        }
-
-        languages.forEach(
-            (language) => {
-
-                const previewItem =
-                    document.createElement("div");
-
-                previewItem.className =
-                    "preview-item";
-
-                previewItem.innerHTML = `
-                    <div class="preview-item-title">
-                        ${escapeHTML(
-                            language.language_name ||
-                            "Ngôn ngữ"
-                        )}
-                    </div>
-
-                    <div class="preview-item-info">
-                        ${escapeHTML(
-                            language.level ||
-                            "Trình độ"
-                        )}
-                    </div>
-                `;
-
-                content.appendChild(
-                    previewItem
-                );
-            }
-        );
-    }
-
-
-    addLanguage?.addEventListener(
-        "click",
-        () => {
-
-            if (!languageList) {
-                return;
-            }
-
-            const item =
-                createLanguageItem();
-
-            languageList.appendChild(item);
-
-            updateLanguageNumbers();
-            updateLanguagePreview();
-        }
-    );
-
-
-    languageList?.addEventListener(
-        "click",
-        (event) => {
-
-            const button =
-                event.target.closest(
-                    '[data-action="remove-language"]'
-                );
-
-            if (!button) {
-                return;
-            }
-
-            const item =
-                button.closest(
-                    ".language-item"
-                );
-
-            if (!item) {
-                return;
-            }
-
-            item.remove();
-
-            updateLanguageNumbers();
-            updateLanguagePreview();
-        }
-    );
-
-
-    languageList?.addEventListener(
-        "input",
-        (event) => {
-
-            if (
-                event.target.matches("input")
-            ) {
-                updateLanguagePreview();
-            }
-        }
-    );
-
-
-    /* parse dữ liệu */
-
-    function parseArrayData(data) {
-
-        if (!data) {
-            return [];
-        }
-
-        if (typeof data === "string") {
-
-            try {
-
-                const parsed =
-                    JSON.parse(data);
-
-                return Array.isArray(parsed)
-                    ? parsed
-                    : [];
-
-            } catch {
-
-                return [];
-            }
-        }
-
-        return Array.isArray(data)
-            ? data
-            : [];
-    }
-
-
-    /* thu thập toàn bộ cv */
-
-    function collectCVData() {
-
-        const titleInput =
-            document.getElementById("cvTitle");
-
-        const emailInput =
-            document.getElementById("email");
-
-        const phoneInput =
-            document.getElementById("phone");
-
-        const addressInput =
-            document.getElementById("address");
-
-        const title =
-            titleInput?.value.trim() ||
-            "CV chưa đặt tên";
-
-        const fullName =
-            fullNameInput?.value.trim() || "";
-
-        const position =
-            positionInput?.value.trim() || "";
-
-        const summary =
-            summaryInput?.value.trim() || "";
-
-        const email =
-            emailInput?.value.trim() || "";
-
-        const phone =
-            phoneInput?.value.trim() || "";
-
-        const address =
-            addressInput?.value.trim() || "";
-
-        const primaryColor =
-            cvPreview.style
-                .getPropertyValue("--accent")
-                .trim() ||
-            "#2F7867";
-
-        const activeLayout =
-            document.querySelector(
-                ".layout-btn.active"
-            );
-
-        const template =
-            activeLayout?.dataset.layout ||
-            "layout1";
-
-        return {
-
-            title,
-
-            full_name:
-                fullName,
-
-            position,
-
-            summary,
-
-            skills:
-                collectSkills(),
-
-            soft_skills:
-                collectSoftSkills(),
-
-            email,
-
-            phone,
-
-            address,
-
-            primary_color:
-                primaryColor,
-
-            template,
-
-            languages:
-                collectLanguages(),
-
-            experiences:
-                collectExperiences(),
-
-            educations:
-                collectEducations()
-        };
-    }
-
-
-    /* validate */
-
-    function validateCVData(data) {
-
-        if (!data.full_name) {
-
-            alert(
-                "Vui lòng nhập họ và tên"
-            );
-
-            fullNameInput?.focus();
-
-            return false;
-        }
-
-
-        if (data.email) {
-
-            const emailRegex =
-                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-            if (
-                !emailRegex.test(
-                    data.email
-                )
-            ) {
-
-                alert(
-                    "Email không hợp lệ"
-                );
-
-                document
-                    .getElementById("email")
-                    ?.focus();
-
-                return false;
-            }
-        }
-
-
-        if (
-            data.skills &&
-            data.skills.length > 1000
-        ) {
-
-            alert(
-                "Kỹ năng chuyên môn không được vượt quá 1000 ký tự"
-            );
-
-            skillsInput?.focus();
-
-            return false;
-        }
-
-
-        if (
-            data.soft_skills &&
-            data.soft_skills.length > 1000
-        ) {
-
-            alert(
-                "Kỹ năng mềm không được vượt quá 1000 ký tự"
-            );
-
-            softSkillsInput?.focus();
-
-            return false;
-        }
-
-
-        for (
-            const experience
-            of data.experiences
-        ) {
-
-            if (
-                experience.time_range &&
-                experience.time_range.length > 100
-            ) {
-
-                alert(
-                    "Thời gian kinh nghiệm không được vượt quá 100 ký tự"
-                );
-
-                return false;
-            }
-
-            if (
-                experience.position &&
-                experience.position.length > 150
-            ) {
-
-                alert(
-                    "Chức danh kinh nghiệm không được vượt quá 150 ký tự"
-                );
-
-                return false;
-            }
-
-            if (
-                experience.company &&
-                experience.company.length > 200
-            ) {
-
-                alert(
-                    "Tên công ty không được vượt quá 200 ký tự"
-                );
-
-                return false;
-            }
-        }
-
-
-        for (
-            const education
-            of data.educations
-        ) {
-
-            if (
-                education.time_range &&
-                education.time_range.length > 100
-            ) {
-
-                alert(
-                    "Thời gian học vấn không được vượt quá 100 ký tự"
-                );
-
-                return false;
-            }
-
-            if (
-                education.degree &&
-                education.degree.length > 200
-            ) {
-
-                alert(
-                    "Bằng cấp không được vượt quá 200 ký tự"
-                );
-
-                return false;
-            }
-
-            if (
-                education.school &&
-                education.school.length > 200
-            ) {
-
-                alert(
-                    "Tên trường không được vượt quá 200 ký tự"
-                );
-
-                return false;
-            }
-        }
-
-
-        for (
-            const language
-            of data.languages
-        ) {
-
-            if (!language.language_name) {
-
-                alert(
-                    "Vui lòng nhập tên ngoại ngữ"
-                );
-
-                return false;
-            }
-
-            if (
-                language.language_name.length > 100
-            ) {
-
-                alert(
-                    "Tên ngoại ngữ không được vượt quá 100 ký tự"
-                );
-
-                return false;
-            }
-
-            if (
-                language.level &&
-                language.level.length > 100
-            ) {
-
-                alert(
-                    "Trình độ ngoại ngữ không được vượt quá 100 ký tự"
-                );
-
-                return false;
-            }
-        }
-
-
-        return true;
-    }
-
-
-    /* điền form khi edit */
-
-    function fillCVForm(cv) {
-
-        console.log(
-            "Dữ liệu CV nhận được:",
-            cv
-        );
-
-
-        const titleInput =
-            document.getElementById("cvTitle");
-
-        const emailInput =
-            document.getElementById("email");
-
-        const phoneInput =
-            document.getElementById("phone");
-
-        const addressInput =
-            document.getElementById("address");
-
-
-        if (titleInput) {
-            titleInput.value =
-                cv.title || "";
-        }
-
-        if (fullNameInput) {
-            fullNameInput.value =
-                cv.full_name || "";
-        }
-
-        if (positionInput) {
-            positionInput.value =
-                cv.position || "";
-        }
-
-        if (summaryInput) {
-            summaryInput.value =
-                cv.summary || "";
-        }
-
-        if (emailInput) {
-            emailInput.value =
-                cv.email || "";
-        }
-
-        if (phoneInput) {
-            phoneInput.value =
-                cv.phone || "";
-        }
-
-        if (addressInput) {
-            addressInput.value =
-                cv.address || "";
-        }
-
-
-        /* kỹ năng */
-
-        if (skillsInput) {
-
-            skillsInput.value =
-                cv.skills || "";
-        }
-
-        if (softSkillsInput) {
-
-            softSkillsInput.value =
-                cv.soft_skills || "";
-        }
-
-
-        /* màu */
-
-        const color =
-            cv.primary_color ||
-            "#2F7867";
-
-        cvPreview.style.setProperty(
-            "--accent",
-            color
-        );
-
-        colorButtons.forEach(
-            (button) => {
-
-                const buttonColor =
-                    button.dataset.color;
-
-                button.classList.toggle(
-                    "active",
-                    Boolean(
-                        buttonColor &&
-                        buttonColor.toLowerCase() ===
-                        color.toLowerCase()
-                    )
-                );
-            }
-        );
-
-
-        /* bố cục */
-
-        const template =
-            cv.template ||
-            "layout1";
-
-        cvPreview.classList.remove(
-            "layout1",
-            "layout2",
-            "layout3",
-            "layout4"
-        );
-
-        cvPreview.classList.add(
-            template
-        );
-
-        layoutButtons.forEach(
-            (button) => {
-
-                button.classList.toggle(
-                    "active",
-                    button.dataset.layout ===
-                    template
-                );
-            }
-        );
-
-
-        /* kinh nghiệm */
-
-        if (experienceList) {
-
-            experienceList.innerHTML = "";
-            experienceCount = 0;
-
-            const experiences =
-                parseArrayData(
-                    cv.experiences
-                );
-
-            experiences.forEach(
-                (experience) => {
-
-                    const item =
-                        createExperienceItem({
-
-                            position:
-                                experience.position,
-
-                            time_range:
-                                experience.time_range,
-
-                            company:
-                                experience.company,
-
-                            description:
-                                experience.description
-                        });
-
-                    experienceList.appendChild(
-                        item
-                    );
-                }
-            );
-
-            if (!experiences.length) {
-
-                experienceList.appendChild(
-                    createExperienceItem()
-                );
-            }
-
-            updateExperienceNumbers();
-            updateExperiencePreview();
-        }
-
-
-        /* học vấn */
-
-        if (educationList) {
-
-            educationList.innerHTML = "";
-            educationCount = 0;
-
-            const educations =
-                parseArrayData(
-                    cv.educations
-                );
-
-            educations.forEach(
-                (education) => {
-
-                    const item =
-                        createEducationItem({
-
-                            degree:
-                                education.degree,
-
-                            time_range:
-                                education.time_range,
-
-                            school:
-                                education.school
-                        });
-
-                    educationList.appendChild(
-                        item
-                    );
-                }
-            );
-
-            if (!educations.length) {
-
-                educationList.appendChild(
-                    createEducationItem()
-                );
-            }
-
-            updateEducationNumbers();
-            updateEducationPreview();
-        }
-
-
-        /* ngoại ngữ */
-
-        if (languageList) {
-
-            languageList.innerHTML = "";
-            languageCount = 0;
-
-            const languages =
-                parseArrayData(
-                    cv.languages
-                );
-
-            languages.forEach(
-                (language) => {
-
-                    const languageName =
-                        language.language_name ||
-                        language.name ||
-                        language.language ||
-                        "";
-
-                    const level =
-                        language.level ||
-                        language.proficiency ||
-                        language.language_level ||
-                        "";
-
-                    const item =
-                        createLanguageItem({
-
-                            language_name:
-                                languageName,
-
-                            level
-                        });
-
-                    languageList.appendChild(
-                        item
-                    );
-                }
-            );
-
-            if (!languages.length) {
-
-                languageList.appendChild(
-                    createLanguageItem()
-                );
-            }
-
-            updateLanguageNumbers();
-            updateLanguagePreview();
-        }
-
-
-        /* cập nhật preview */
-
-        updatePersonalInfo();
-        updateSkillsPreview();
-        updateSoftSkillsPreview();
-        updateLanguagePreview();
-
-
-        /* đổi giao diện edit */
-
-        if (saveCvButton) {
-
-            saveCvButton.textContent =
-                "Cập nhật CV";
-        }
-
-        const pageTitle =
-            document.getElementById(
-                "pageTitle"
-            );
-
-        if (pageTitle) {
-
-            pageTitle.textContent =
-                "Chỉnh sửa CV";
-        }
-    }
-
-
-    /* load cv khi edit */
-
-    async function loadCVForEdit() {
-
-        if (!isEditMode) {
-            return;
-        }
-
-        const token =
-            localStorage.getItem("token");
-
-        if (!token) {
-
-            alert(
-                "Phiên đăng nhập đã hết. Vui lòng đăng nhập lại."
-            );
-
-            window.location.href =
-                "../auth/login.html";
-
-            return;
-        }
-
-
-        if (saveCvButton) {
-
-            saveCvButton.disabled = true;
-
-            saveCvButton.textContent =
-                "Đang tải...";
-        }
-
-
-        try {
-
-            const response =
-                await fetch(
-                    `http://localhost:3000/api/cvs/${encodeURIComponent(
-                        editCvId
-                    )}`,
-                    {
-                        method: "GET",
-
-                        headers: {
-                            "Authorization":
-                                `Bearer ${token}`
                         }
+
                     }
                 );
 
-
-            if (response.status === 401) {
-
-                localStorage.removeItem(
-                    "token"
-                );
-
-                localStorage.removeItem(
-                    "userId"
-                );
-
-                alert(
-                    "Phiên đăng nhập đã hết. Vui lòng đăng nhập lại."
-                );
-
-                window.location.href =
-                    "../auth/login.html";
-
-                return;
-            }
-
-
-            let result = null;
-
-            try {
-
-                result =
-                    await response.json();
-
-            } catch {
-
-                throw new Error(
-                    "Server trả về dữ liệu không hợp lệ"
-                );
-            }
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    result?.message ||
-                    "Không thể tải CV"
-                );
-            }
-
-
-            const cv =
-                result?.data ||
-                result?.cv ||
-                result;
-
-
-            if (!cv) {
-
-                throw new Error(
-                    "Không tìm thấy dữ liệu CV"
-                );
-            }
-
-            fillCVForm(cv);
-
-        } catch (error) {
-
-            console.error(
-                "LOAD CV ERROR:",
-                error
-            );
-
-            alert(
-                error.message ||
-                "Không thể tải CV"
-            );
-
-            window.location.href =
-                "../home/home.html";
-
-        } finally {
-
-            if (saveCvButton) {
-
-                saveCvButton.disabled = false;
-
-                saveCvButton.textContent =
-                    isEditMode
-                        ? "Cập nhật CV"
-                        : "Lưu CV";
-            }
         }
+    );
+
+}
+
+
+// ======================================================
+// ADD PROFESSIONAL SKILL
+// ======================================================
+
+function addProfessionalSkillItem() {
+
+    const list =
+        document.getElementById(
+            "professionalSkillList"
+        );
+
+
+    if (!list) {
+        return;
     }
 
 
-    /* đổi bố cục */
+    const item =
+        document.createElement(
+            "div"
+        );
 
-    layoutButtons.forEach(
-        (button) => {
+
+    item.className =
+        "dynamic-item professional-skill-item";
+
+
+    item.innerHTML = `
+
+        <div class="dynamic-item-header">
+
+            <span class="item-label">
+                Mục
+            </span>
+
+            <button
+                type="button"
+                class="remove-btn"
+            >
+                Xóa
+            </button>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Vị trí / lĩnh vực
+            </label>
+
+            <input
+                type="text"
+                class="professional-skill-position"
+                placeholder="Frontend Developer"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Công nghệ sử dụng
+            </label>
+
+            <input
+                type="text"
+                class="professional-skill-technologies"
+                placeholder="HTML, CSS, JavaScript, React..."
+            >
+
+            <small class="form-hint">
+                Ngăn cách các công nghệ bằng dấu phẩy.
+            </small>
+
+        </div>
+
+    `;
+
+
+    list.appendChild(
+        item
+    );
+
+
+    setupRemoveButtonForItem(
+        item
+    );
+
+    setupRealtimeForElement(
+        item
+    );
+
+    updateItemLabels();
+
+    updatePreview();
+
+}
+
+
+// ======================================================
+// ADD EXPERIENCE
+// ======================================================
+
+function addExperienceItem() {
+
+    const list =
+        document.getElementById(
+            "experienceList"
+        );
+
+
+    if (!list) {
+        return;
+    }
+
+
+    const item =
+        document.createElement(
+            "div"
+        );
+
+
+    item.className =
+        "dynamic-item experience-item";
+
+
+    item.innerHTML = `
+
+        <div class="dynamic-item-header">
+
+            <span class="item-label">
+                Mục
+            </span>
+
+            <button
+                type="button"
+                class="remove-btn"
+            >
+                Xóa
+            </button>
+
+        </div>
+
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label>
+                    Chức danh
+                </label>
+
+                <input
+                    type="text"
+                    class="experience-position"
+                    placeholder="Backend Developer"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Thời gian
+                </label>
+
+                <input
+                    type="text"
+                    class="experience-time"
+                    placeholder="2024 – nay"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Công ty / tổ chức
+            </label>
+
+            <input
+                type="text"
+                class="experience-company"
+                placeholder="Tên công ty / tổ chức"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Mô tả công việc
+            </label>
+
+            <textarea
+                class="experience-description"
+                rows="4"
+                placeholder="Mô tả công việc đã đảm nhiệm..."
+            ></textarea>
+
+        </div>
+
+    `;
+
+
+    list.appendChild(
+        item
+    );
+
+
+    setupRemoveButtonForItem(
+        item
+    );
+
+    setupRealtimeForElement(
+        item
+    );
+
+    updateItemLabels();
+
+    updatePreview();
+
+}
+
+
+// ======================================================
+// ADD EDUCATION
+// ======================================================
+
+function addEducationItem() {
+
+    const list =
+        document.getElementById(
+            "educationList"
+        );
+
+
+    if (!list) {
+        return;
+    }
+
+
+    const item =
+        document.createElement(
+            "div"
+        );
+
+
+    item.className =
+        "dynamic-item education-item";
+
+
+    item.innerHTML = `
+
+        <div class="dynamic-item-header">
+
+            <span class="item-label">
+                Mục
+            </span>
+
+            <button
+                type="button"
+                class="remove-btn"
+            >
+                Xóa
+            </button>
+
+        </div>
+
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label>
+                    Chuyên ngành / bằng cấp
+                </label>
+
+                <input
+                    type="text"
+                    class="education-degree"
+                    placeholder="Công nghệ thông tin"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Thời gian
+                </label>
+
+                <input
+                    type="text"
+                    class="education-time"
+                    placeholder="2020 – 2024"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Tên trường
+            </label>
+
+            <input
+                type="text"
+                class="education-school"
+                placeholder="Tên trường đại học"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                GPA
+            </label>
+
+            <input
+                type="number"
+                class="education-gpa"
+                min="0"
+                max="4"
+                step="0.01"
+                placeholder="Ví dụ: 3.03"
+            >
+
+        </div>
+
+    `;
+
+
+    list.appendChild(
+        item
+    );
+
+
+    setupRemoveButtonForItem(
+        item
+    );
+
+    setupRealtimeForElement(
+        item
+    );
+
+    updateItemLabels();
+
+    updatePreview();
+
+}
+
+
+// ======================================================
+// ADD PROJECT
+// ======================================================
+
+function addProjectItem() {
+
+    const list =
+        document.getElementById(
+            "projectList"
+        );
+
+
+    if (!list) {
+        return;
+    }
+
+
+    const item =
+        document.createElement(
+            "div"
+        );
+
+
+    item.className =
+        "dynamic-item project-item";
+
+
+    item.innerHTML = `
+
+        <div class="dynamic-item-header">
+
+            <span class="item-label">
+                Mục
+            </span>
+
+            <button
+                type="button"
+                class="remove-btn"
+            >
+                Xóa
+            </button>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Tên dự án
+            </label>
+
+            <input
+                type="text"
+                class="project-name"
+                placeholder="CV Studio"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Công nghệ sử dụng
+            </label>
+
+            <input
+                type="text"
+                class="project-technologies"
+                placeholder="HTML, CSS, JavaScript, Node.js, MySQL..."
+            >
+
+            <small class="form-hint">
+                Ngăn cách các công nghệ bằng dấu phẩy.
+            </small>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Mô tả dự án
+            </label>
+
+            <textarea
+                class="project-description"
+                rows="4"
+                placeholder="Mô tả ngắn gọn về dự án, chức năng và công việc bạn đã thực hiện..."
+            ></textarea>
+
+        </div>
+
+    `;
+
+
+    list.appendChild(
+        item
+    );
+
+
+    setupRemoveButtonForItem(
+        item
+    );
+
+    setupRealtimeForElement(
+        item
+    );
+
+    updateItemLabels();
+
+    updatePreview();
+
+}
+
+
+// ======================================================
+// ADD LANGUAGE
+// ======================================================
+
+function addLanguageItem() {
+
+    const list =
+        document.getElementById(
+            "languageList"
+        );
+
+
+    if (!list) {
+        return;
+    }
+
+
+    const item =
+        document.createElement(
+            "div"
+        );
+
+
+    item.className =
+        "dynamic-item language-item";
+
+
+    item.innerHTML = `
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label>
+                    Ngôn ngữ
+                </label>
+
+                <input
+                    type="text"
+                    class="language-name"
+                    placeholder="Ví dụ: Tiếng Anh"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Trình độ
+                </label>
+
+                <input
+                    type="text"
+                    class="language-level"
+                    placeholder="Ví dụ: B2, N1..."
+                >
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    list.appendChild(
+        item
+    );
+
+
+    setupRealtimeForElement(
+        item
+    );
+
+}
+
+
+// ======================================================
+// ADD ACTIVITY
+// ======================================================
+
+function addActivityItem() {
+
+    const list =
+        document.getElementById(
+            "activityList"
+        );
+
+
+    if (!list) {
+        return;
+    }
+
+
+    const item =
+        document.createElement(
+            "div"
+        );
+
+
+    item.className =
+        "dynamic-item activity-item";
+
+
+    item.innerHTML = `
+
+        <div class="dynamic-item-header">
+
+            <span class="item-label">
+                Mục
+            </span>
+
+            <button
+                type="button"
+                class="remove-btn"
+            >
+                Xóa
+            </button>
+
+        </div>
+
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label>
+                    Tên hoạt động
+                </label>
+
+                <input
+                    type="text"
+                    class="activity-name"
+                    placeholder="CLB Lập trình"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Năm
+                </label>
+
+                <input
+                    type="text"
+                    class="activity-year"
+                    placeholder="2024 – 2025"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Mô tả
+            </label>
+
+            <textarea
+                class="activity-description"
+                rows="4"
+                placeholder="Mô tả hoạt động, vai trò hoặc thành tích..."
+            ></textarea>
+
+        </div>
+
+    `;
+
+
+    list.appendChild(
+        item
+    );
+
+
+    setupRemoveButtonForItem(
+        item
+    );
+
+    setupRealtimeForElement(
+        item
+    );
+
+    updateItemLabels();
+
+    updatePreview();
+
+}
+
+
+// ======================================================
+// COLOR
+// ======================================================
+
+function setupColor() {
+
+    const buttons =
+        document.querySelectorAll(
+            ".color-btn"
+        );
+
+
+    buttons.forEach(
+        button => {
 
             button.addEventListener(
                 "click",
-                (event) => {
+                () => {
 
-                    event.preventDefault();
+                    currentColor =
+                        button.dataset.color ||
+                        "#2F7867";
+
+
+                    buttons.forEach(
+                        btn => {
+
+                            btn.classList.remove(
+                                "active"
+                            );
+
+                        }
+                    );
+
+
+                    button.classList.add(
+                        "active"
+                    );
+
+
+                    applyColor();
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+function applyColor() {
+
+    const preview =
+        document.getElementById(
+            "cvPreview"
+        );
+
+
+    if (!preview) {
+        return;
+    }
+
+
+    preview.style.setProperty(
+        "--primary-color",
+        currentColor
+    );
+
+
+    const header =
+        preview.querySelector(
+            ".cv-header"
+        );
+
+
+    if (header) {
+
+        header.style.backgroundColor =
+            currentColor;
+
+    }
+
+}
+
+
+// ======================================================
+// LAYOUT
+// ======================================================
+
+function setupLayout() {
+
+    const buttons =
+        document.querySelectorAll(
+            ".layout-btn"
+        );
+
+
+    buttons.forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
 
                     const layout =
                         button.dataset.layout;
+
 
                     if (!layout) {
                         return;
                     }
 
-                    layoutButtons.forEach(
-                        (btn) => {
+
+                    currentLayout =
+                        layout;
+
+
+                    buttons.forEach(
+                        btn => {
+
                             btn.classList.remove(
                                 "active"
                             );
+
                         }
                     );
+
 
                     button.classList.add(
                         "active"
                     );
 
-                    cvPreview.classList.remove(
-                        "layout1",
-                        "layout2",
-                        "layout3",
-                        "layout4"
-                    );
 
-                    cvPreview.classList.add(
-                        layout
-                    );
+                    applyLayout();
+
                 }
             );
+
         }
     );
 
-
-    /* đổi màu */
-
-    colorButtons.forEach(
-        (button) => {
-
-            button.addEventListener(
-                "click",
-                (event) => {
-
-                    event.preventDefault();
-
-                    const color =
-                        button.dataset.color;
-
-                    if (!color) {
-                        return;
-                    }
-
-                    cvPreview.style.setProperty(
-                        "--accent",
-                        color
-                    );
-
-                    colorButtons.forEach(
-                        (btn) => {
-                            btn.classList.remove(
-                                "active"
-                            );
-                        }
-                    );
-
-                    button.classList.add(
-                        "active"
-                    );
-                }
-            );
-        }
-    );
+}
 
 
-    /* lưu cv */
+function applyLayout() {
 
-    async function saveCV() {
-
-        const token =
-            localStorage.getItem("token");
-
-        if (!token) {
-
-            alert(
-                "Phiên đăng nhập đã hết. Vui lòng đăng nhập lại."
-            );
-
-            window.location.href =
-                "../auth/login.html";
-
-            return;
-        }
-
-
-        const cvData =
-            collectCVData();
-
-
-        console.log(
-            "Dữ liệu CV gửi lên:",
-            cvData
+    const preview =
+        document.getElementById(
+            "cvPreview"
         );
 
 
-        if (!validateCVData(cvData)) {
-            return;
-        }
+    if (!preview) {
+        return;
+    }
 
 
-        if (saveCvButton) {
-
-            saveCvButton.disabled = true;
-
-            saveCvButton.dataset.oldText =
-                saveCvButton.textContent;
-
-            saveCvButton.textContent =
-                isEditMode
-                    ? "Đang cập nhật..."
-                    : "Đang lưu...";
-        }
+    preview.classList.remove(
+        "layout1",
+        "layout2",
+        "layout3",
+        "layout4"
+    );
 
 
-        try {
+    preview.classList.add(
+        currentLayout
+    );
 
-            const url =
-                isEditMode
-                    ? `http://localhost:3000/api/cvs/${encodeURIComponent(
-                        editCvId
-                    )}`
-                    : "http://localhost:3000/api/cvs";
-
-            const method =
-                isEditMode
-                    ? "PUT"
-                    : "POST";
+}
 
 
-            const response =
-                await fetch(
-                    url,
-                    {
-                        method,
+// ======================================================
+// REALTIME
+// ======================================================
 
-                        headers: {
-                            "Content-Type":
-                                "application/json",
+function setupRealtimePreview() {
 
-                            "Authorization":
-                                `Bearer ${token}`
-                        },
+    document
+        .querySelectorAll(
+            ".editor input, .editor textarea"
+        )
+        .forEach(
+            element => {
 
-                        body:
-                            JSON.stringify(
-                                cvData
-                            )
+                element.addEventListener(
+                    "input",
+                    updatePreview
+                );
+
+            }
+        );
+
+}
+
+
+function setupRealtimeForElement(
+    element
+) {
+
+    element
+        .querySelectorAll(
+            "input, textarea"
+        )
+        .forEach(
+            input => {
+
+                input.addEventListener(
+                    "input",
+                    updatePreview
+                );
+
+            }
+        );
+
+}
+
+
+// ======================================================
+// UPDATE PREVIEW
+// ======================================================
+
+function updatePreview() {
+
+    updateBasicPreview();
+
+    updateExperiencePreview();
+
+    updateEducationPreview();
+
+    updateSoftSkillPreview();
+
+    updateProfessionalSkillPreview();
+
+    updateProjectPreview();
+
+    updateLanguagePreview();
+
+    updateActivityPreview();
+
+    applyColor();
+
+}
+
+
+// ======================================================
+// BASIC PREVIEW
+// ======================================================
+
+function updateBasicPreview() {
+
+    const name =
+        getValue("fullName") ||
+        "Họ và tên";
+
+
+    const position =
+        getValue("position") ||
+        "Chức danh";
+
+
+    const summary =
+        getValue("summary") ||
+        "Giới thiệu bản thân";
+
+
+    const previewName =
+        document.getElementById(
+            "previewName"
+        );
+
+
+    const previewPosition =
+        document.getElementById(
+            "previewPosition"
+        );
+
+
+    const previewSummary =
+        document.getElementById(
+            "previewSummary"
+        );
+
+
+    if (previewName) {
+
+        previewName.textContent =
+            name;
+
+    }
+
+
+    if (previewPosition) {
+
+        previewPosition.textContent =
+            position;
+
+    }
+
+
+    if (previewSummary) {
+
+        previewSummary.textContent =
+            summary;
+
+    }
+
+}
+
+
+// ======================================================
+// EXPERIENCE PREVIEW
+// ======================================================
+
+function updateExperiencePreview() {
+
+    const section =
+        document.getElementById(
+            "experiencePreview"
+        );
+
+
+    if (!section) {
+        return;
+    }
+
+
+    const items =
+        getExperiences();
+
+
+    let html =
+        "<h2>Kinh nghiệm</h2>";
+
+
+    const validItems =
+        items.filter(
+            item =>
+                item.position ||
+                item.time_range ||
+                item.company ||
+                item.description
+        );
+
+
+    if (!validItems.length) {
+
+        section.innerHTML =
+            html +
+            '<div class="empty-line"></div>';
+
+        return;
+
+    }
+
+
+    validItems.forEach(
+        item => {
+
+            html += `
+
+                <div class="preview-item">
+
+                    ${
+                        item.position
+                            ? `<strong>${escapeHTML(item.position)}</strong>`
+                            : ""
                     }
+
+                    ${
+                        item.time_range
+                            ? `<span>${escapeHTML(item.time_range)}</span>`
+                            : ""
+                    }
+
+                    ${
+                        item.company
+                            ? `<div>${escapeHTML(item.company)}</div>`
+                            : ""
+                    }
+
+                    ${
+                        item.description
+                            ? `<p>${formatText(item.description)}</p>`
+                            : ""
+                    }
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    section.innerHTML =
+        html;
+
+}
+
+
+// ======================================================
+// EDUCATION PREVIEW
+// ======================================================
+
+function updateEducationPreview() {
+
+    const section =
+        document.getElementById(
+            "educationPreview"
+        );
+
+
+    if (!section) {
+        return;
+    }
+
+
+    const items =
+        getEducations();
+
+
+    let html =
+        "<h2>Học vấn</h2>";
+
+
+    const validItems =
+        items.filter(
+            item =>
+                item.degree ||
+                item.time_range ||
+                item.school ||
+                item.gpa
+        );
+
+
+    if (!validItems.length) {
+
+        section.innerHTML =
+            html +
+            '<div class="empty-line"></div>';
+
+        return;
+
+    }
+
+
+    validItems.forEach(
+        item => {
+
+            html += `
+
+                <div class="preview-item">
+
+                    ${
+                        item.degree
+                            ? `<strong>${escapeHTML(item.degree)}</strong>`
+                            : ""
+                    }
+
+                    ${
+                        item.time_range
+                            ? `<span>${escapeHTML(item.time_range)}</span>`
+                            : ""
+                    }
+
+                    ${
+                        item.school
+                            ? `<div>${escapeHTML(item.school)}</div>`
+                            : ""
+                    }
+
+                    ${
+                        item.gpa !== ""
+                            ? `<p>GPA: ${escapeHTML(item.gpa)}</p>`
+                            : ""
+                    }
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    section.innerHTML =
+        html;
+
+}
+
+
+// ======================================================
+// SOFT SKILL PREVIEW
+// ======================================================
+
+function updateSoftSkillPreview() {
+
+    const section =
+        document.getElementById(
+            "softSkillPreview"
+        );
+
+
+    if (!section) {
+        return;
+    }
+
+
+    const value =
+        getValue("softSkills");
+
+
+    const skills =
+        splitComma(value);
+
+
+    let html =
+        "<h2>Kỹ năng mềm</h2>";
+
+
+    if (!skills.length) {
+
+        section.innerHTML =
+            html +
+            '<div class="empty-line"></div>';
+
+        return;
+
+    }
+
+
+    html += `
+
+        <p>
+            ${escapeHTML(
+                skills.join(", ")
+            )}
+        </p>
+
+    `;
+
+
+    section.innerHTML =
+        html;
+
+}
+
+
+// ======================================================
+// PROFESSIONAL SKILL PREVIEW
+// ======================================================
+
+function updateProfessionalSkillPreview() {
+
+    const section =
+        document.getElementById(
+            "professionalSkillPreview"
+        );
+
+
+    if (!section) {
+        return;
+    }
+
+
+    const items =
+        getProfessionalSkills();
+
+
+    let html =
+        "<h2>Kỹ năng chuyên môn</h2>";
+
+
+    const validItems =
+        items.filter(
+            item =>
+                item.position ||
+                item.technologies
+        );
+
+
+    if (!validItems.length) {
+
+        section.innerHTML =
+            html +
+            '<div class="empty-line"></div>';
+
+        return;
+
+    }
+
+
+    validItems.forEach(
+        item => {
+
+            const technologies =
+                splitComma(
+                    item.technologies
                 );
 
 
-            const responseText =
-                await response.text();
+            html += `
 
-            let result = {};
+                <div class="preview-item">
 
-            try {
+                    ${
+                        item.position
+                            ? `<strong>${escapeHTML(item.position)}</strong>`
+                            : ""
+                    }
 
-                result =
-                    responseText
-                        ? JSON.parse(
-                            responseText
-                        )
-                        : {};
+                    ${
+                        technologies.length
+                            ? `
+                                <p>
+                                    ${escapeHTML(
+                                        technologies.join(", ")
+                                    )}
+                                </p>
+                            `
+                            : ""
+                    }
 
-            } catch {
+                </div>
 
-                throw new Error(
-                    responseText ||
-                    `Server trả về dữ liệu không hợp lệ (${response.status})`
+            `;
+
+        }
+    );
+
+
+    section.innerHTML =
+        html;
+
+}
+
+
+// ======================================================
+// PROJECT PREVIEW
+// ======================================================
+
+function updateProjectPreview() {
+
+    const section =
+        document.getElementById(
+            "projectPreview"
+        );
+
+
+    if (!section) {
+        return;
+    }
+
+
+    const items =
+        getProjects();
+
+
+    let html =
+        "<h2>Dự án</h2>";
+
+
+    const validItems =
+        items.filter(
+            item =>
+                item.project_name ||
+                item.technologies ||
+                item.description
+        );
+
+
+    if (!validItems.length) {
+
+        section.innerHTML =
+            html +
+            '<div class="empty-line"></div>';
+
+        return;
+
+    }
+
+
+    validItems.forEach(
+        item => {
+
+            const technologies =
+                splitComma(
+                    item.technologies
                 );
-            }
 
 
-            if (response.status === 401) {
+            html += `
 
-                localStorage.removeItem(
-                    "token"
-                );
+                <div class="preview-item">
 
-                localStorage.removeItem(
-                    "userId"
-                );
+                    ${
+                        item.project_name
+                            ? `<strong>${escapeHTML(item.project_name)}</strong>`
+                            : ""
+                    }
 
-                alert(
-                    "Phiên đăng nhập đã hết. Vui lòng đăng nhập lại."
-                );
+                    ${
+                        technologies.length
+                            ? `
+                                <p>
+                                    ${escapeHTML(
+                                        technologies.join(", ")
+                                    )}
+                                </p>
+                            `
+                            : ""
+                    }
 
-                window.location.href =
-                    "../auth/login.html";
+                    ${
+                        item.description
+                            ? `<p>${formatText(item.description)}</p>`
+                            : ""
+                    }
 
-                return;
-            }
+                </div>
+
+            `;
+
+        }
+    );
 
 
-            if (!response.ok) {
+    section.innerHTML =
+        html;
 
-                throw new Error(
-                    result?.message ||
-                    (
-                        isEditMode
-                            ? "Không thể cập nhật CV"
-                            : "Không thể lưu CV"
+}
+
+
+// ======================================================
+// LANGUAGE PREVIEW
+// ======================================================
+
+function updateLanguagePreview() {
+
+    const section =
+        document.getElementById(
+            "languagePreview"
+        );
+
+
+    if (!section) {
+        return;
+    }
+
+
+    const items =
+        getLanguages();
+
+
+    let html =
+        "<h2>Ngoại ngữ</h2>";
+
+
+    if (!items.length) {
+
+        section.innerHTML =
+            html +
+            '<div class="empty-line"></div>';
+
+        return;
+
+    }
+
+
+    items.forEach(
+        item => {
+
+            html += `
+
+                <div class="preview-item">
+
+                    ${
+                        item.name
+                            ? `<strong>${escapeHTML(item.name)}</strong>`
+                            : ""
+                    }
+
+                    ${
+                        item.level
+                            ? `<span>${escapeHTML(item.level)}</span>`
+                            : ""
+                    }
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    section.innerHTML =
+        html;
+
+}
+
+
+// ======================================================
+// ACTIVITY PREVIEW
+// ======================================================
+
+function updateActivityPreview() {
+
+    const section =
+        document.getElementById(
+            "activityPreview"
+        );
+
+
+    if (!section) {
+        return;
+    }
+
+
+    const items =
+        getActivities();
+
+
+    let html =
+        "<h2>Hoạt động</h2>";
+
+
+    const validItems =
+        items.filter(
+            item =>
+                item.activity_name ||
+                item.activity_year ||
+                item.description
+        );
+
+
+    if (!validItems.length) {
+
+        section.innerHTML =
+            html +
+            '<div class="empty-line"></div>';
+
+        return;
+
+    }
+
+
+    validItems.forEach(
+        item => {
+
+            html += `
+
+                <div class="preview-item">
+
+                    ${
+                        item.activity_name
+                            ? `<strong>${escapeHTML(item.activity_name)}</strong>`
+                            : ""
+                    }
+
+                    ${
+                        item.activity_year
+                            ? `<span>${escapeHTML(item.activity_year)}</span>`
+                            : ""
+                    }
+
+                    ${
+                        item.description
+                            ? `<p>${formatText(item.description)}</p>`
+                            : ""
+                    }
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    section.innerHTML =
+        html;
+
+}
+
+
+// ======================================================
+// GET EXPERIENCES
+// ======================================================
+
+function getExperiences() {
+
+    return Array.from(
+        document.querySelectorAll(
+            ".experience-item"
+        )
+    ).map(
+        item => ({
+
+            position:
+                getItemValue(
+                    item,
+                    ".experience-position"
+                ),
+
+            time_range:
+                getItemValue(
+                    item,
+                    ".experience-time"
+                ),
+
+            company:
+                getItemValue(
+                    item,
+                    ".experience-company"
+                ),
+
+            description:
+                getItemValue(
+                    item,
+                    ".experience-description"
+                )
+
+        })
+    );
+
+}
+
+
+// ======================================================
+// GET EDUCATIONS
+// ======================================================
+
+function getEducations() {
+
+    return Array.from(
+        document.querySelectorAll(
+            ".education-item"
+        )
+    ).map(
+        item => ({
+
+            degree:
+                getItemValue(
+                    item,
+                    ".education-degree"
+                ),
+
+            time_range:
+                getItemValue(
+                    item,
+                    ".education-time"
+                ),
+
+            school:
+                getItemValue(
+                    item,
+                    ".education-school"
+                ),
+
+            gpa:
+                getItemValue(
+                    item,
+                    ".education-gpa"
+                )
+
+        })
+    );
+
+}
+
+
+// ======================================================
+// GET PROFESSIONAL SKILLS
+// ======================================================
+
+function getProfessionalSkills() {
+
+    return Array.from(
+        document.querySelectorAll(
+            ".professional-skill-item"
+        )
+    ).map(
+        item => ({
+
+            position:
+                getItemValue(
+                    item,
+                    ".professional-skill-position"
+                ),
+
+            technologies:
+                getItemValue(
+                    item,
+                    ".professional-skill-technologies"
+                )
+
+        })
+    );
+
+}
+
+
+// ======================================================
+// GET PROJECTS
+// ======================================================
+
+function getProjects() {
+
+    return Array.from(
+        document.querySelectorAll(
+            ".project-item"
+        )
+    ).map(
+        item => ({
+
+            project_name:
+                getItemValue(
+                    item,
+                    ".project-name"
+                ),
+
+            technologies:
+                getItemValue(
+                    item,
+                    ".project-technologies"
+                ),
+
+            description:
+                getItemValue(
+                    item,
+                    ".project-description"
+                )
+
+        })
+    );
+
+}
+
+
+// ======================================================
+// GET LANGUAGES
+// ======================================================
+
+function getLanguages() {
+
+    return Array.from(
+        document.querySelectorAll(
+            ".language-item"
+        )
+    ).map(
+        item => ({
+
+            name:
+                getItemValue(
+                    item,
+                    ".language-name"
+                ),
+
+            level:
+                getItemValue(
+                    item,
+                    ".language-level"
+                )
+
+        })
+    ).filter(
+        item =>
+            item.name ||
+            item.level
+    );
+
+}
+
+
+// ======================================================
+// GET ACTIVITIES
+// ======================================================
+
+function getActivities() {
+
+    return Array.from(
+        document.querySelectorAll(
+            ".activity-item"
+        )
+    ).map(
+        item => ({
+
+            activity_name:
+                getItemValue(
+                    item,
+                    ".activity-name"
+                ),
+
+            activity_year:
+                getItemValue(
+                    item,
+                    ".activity-year"
+                ),
+
+            description:
+                getItemValue(
+                    item,
+                    ".activity-description"
+                )
+
+        })
+    );
+
+}
+
+
+// ======================================================
+// GET VALUE
+// ======================================================
+
+function getValue(id) {
+
+    const element =
+        document.getElementById(id);
+
+
+    if (!element) {
+        return "";
+    }
+
+
+    return element.value.trim();
+
+}
+
+
+// ======================================================
+// GET ITEM VALUE
+// ======================================================
+
+function getItemValue(
+    item,
+    selector
+) {
+
+    const element =
+        item.querySelector(
+            selector
+        );
+
+
+    if (!element) {
+        return "";
+    }
+
+
+    return element.value.trim();
+
+}
+
+
+// ======================================================
+// SPLIT COMMA
+// ======================================================
+
+function splitComma(value) {
+
+    if (!value) {
+        return [];
+    }
+
+
+    return value
+        .split(",")
+        .map(
+            item =>
+                item.trim()
+        )
+        .filter(Boolean);
+
+}
+
+
+// ======================================================
+// FORMAT TEXT
+// ======================================================
+
+function formatText(value) {
+
+    return escapeHTML(value)
+        .replace(
+            /\n/g,
+            "<br>"
+        );
+
+}
+
+
+// ======================================================
+// ESCAPE HTML
+// ======================================================
+
+function escapeHTML(value) {
+
+    return String(
+        value ?? ""
+    )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+// ======================================================
+// ESCAPE ATTRIBUTE
+// ======================================================
+
+function escapeAttribute(value) {
+
+    return String(
+        value ?? ""
+    )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        );
+
+}
+
+
+// ======================================================
+// COLLECT CV DATA
+// ======================================================
+
+function collectCVData() {
+
+    return {
+
+        // ==============================================
+        // MAIN CV
+        // ==============================================
+
+        title:
+            getValue("cvTitle"),
+
+        full_name:
+            getValue("fullName"),
+
+        position:
+            getValue("position"),
+
+        summary:
+            getValue("summary"),
+
+        email:
+            getValue("email"),
+
+        phone:
+            getValue("phone"),
+
+        address:
+            getValue("address"),
+
+        git_link:
+            getValue("gitLink"),
+
+        /*
+         * Một chuỗi TEXT:
+         * Giao tiếp, Làm việc nhóm, ...
+         */
+        soft_skills:
+            getValue("softSkills"),
+
+        primary_color:
+            currentColor,
+
+        template:
+            currentLayout,
+
+
+        // ==============================================
+        // PROFESSIONAL SKILLS
+        // ==============================================
+
+        professional_skills:
+            getProfessionalSkills()
+                .filter(
+                    item =>
+                        item.position ||
+                        item.technologies
+                ),
+
+
+        // ==============================================
+        // EXPERIENCES
+        // ==============================================
+
+        experiences:
+            getExperiences()
+                .filter(
+                    item =>
+                        item.position ||
+                        item.time_range ||
+                        item.company ||
+                        item.description
+                ),
+
+
+        // ==============================================
+        // EDUCATIONS
+        // ==============================================
+
+        educations:
+            getEducations()
+                .filter(
+                    item =>
+                        item.degree ||
+                        item.time_range ||
+                        item.school ||
+                        item.gpa
+                ),
+
+
+        // ==============================================
+        // PROJECTS
+        // ==============================================
+
+        projects:
+            getProjects()
+                .filter(
+                    item =>
+                        item.project_name ||
+                        item.technologies ||
+                        item.description
+                ),
+
+
+        // ==============================================
+        // LANGUAGES
+        // ==============================================
+
+        languages:
+            getLanguages(),
+
+
+        // ==============================================
+        // ACTIVITIES
+        // ==============================================
+
+        activities:
+            getActivities()
+                .filter(
+                    item =>
+                        item.activity_name ||
+                        item.activity_year ||
+                        item.description
+                )
+
+    };
+
+}
+
+
+// ======================================================
+// VALIDATE CV
+// ======================================================
+
+function validateCV(data) {
+
+    if (!data.title) {
+
+        alert(
+            "Vui lòng nhập tên CV."
+        );
+
+
+        document
+            .getElementById(
+                "cvTitle"
+            )
+            ?.focus();
+
+
+        return false;
+
+    }
+
+
+    if (!data.full_name) {
+
+        alert(
+            "Vui lòng nhập họ và tên."
+        );
+
+
+        document
+            .getElementById(
+                "fullName"
+            )
+            ?.focus();
+
+
+        return false;
+
+    }
+
+
+    if (
+        data.email &&
+        !isValidEmail(
+            data.email
+        )
+    ) {
+
+        alert(
+            "Email không hợp lệ."
+        );
+
+
+        document
+            .getElementById(
+                "email"
+            )
+            ?.focus();
+
+
+        return false;
+
+    }
+
+
+    // GPA frontend check
+
+    for (
+        const education
+        of data.educations
+    ) {
+
+        if (
+            education.gpa !== "" &&
+            (
+                Number.isNaN(
+                    Number(
+                        education.gpa
                     )
-                );
-            }
+                ) ||
+                Number(
+                    education.gpa
+                ) < 0 ||
+                Number(
+                    education.gpa
+                ) > 4
+            )
+        ) {
+
+            alert(
+                "GPA phải nằm trong khoảng từ 0 đến 4."
+            );
+
+            return false;
+
+        }
+
+    }
 
 
-            console.log(
-                isEditMode
-                    ? "CV đã cập nhật:"
-                    : "CV đã lưu:",
-                result?.data
+    return true;
+
+}
+
+
+// ======================================================
+// EMAIL
+// ======================================================
+
+function isValidEmail(
+    email
+) {
+
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        .test(email);
+
+}
+
+
+// ======================================================
+// SAVE CV
+// ======================================================
+
+async function saveCV() {
+
+    const token =
+        localStorage.getItem(
+            "token"
+        );
+
+
+    if (!token) {
+
+        alert(
+            "Phiên đăng nhập đã hết. Vui lòng đăng nhập lại."
+        );
+
+
+        window.location.href =
+            "../../auth/auth.html";
+
+
+        return;
+
+    }
+
+
+    const data =
+        collectCVData();
+
+
+    if (!validateCV(data)) {
+        return;
+    }
+
+
+    const isEdit =
+        Boolean(
+            currentCVId
+        );
+
+
+    const url =
+        isEdit
+            ? `${API_URL}/${currentCVId}`
+            : API_URL;
+
+
+    const method =
+        isEdit
+            ? "PUT"
+            : "POST";
+
+
+    const saveButton =
+        document.getElementById(
+            "saveCvBtn"
+        );
+
+
+    if (saveButton) {
+
+        saveButton.disabled =
+            true;
+
+        saveButton.textContent =
+            "Đang lưu...";
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                url,
+                {
+
+                    method,
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${token}`
+
+                    },
+
+                    body:
+                        JSON.stringify(
+                            data
+                        )
+
+                }
             );
 
 
-            const savedId =
-                result?.data?.id ||
-                editCvId;
+        if (
+            response.status === 401
+        ) {
 
-
-            if (savedId) {
-
-                localStorage.setItem(
-                    "currentCvId",
-                    savedId
-                );
-            }
-
-
-            sessionStorage.setItem(
-                "toastMessage",
-                isEditMode
-                    ? "Cập nhật CV thành công!"
-                    : "Lưu CV thành công!"
+            localStorage.removeItem(
+                "token"
             );
 
+
+            window.location.href =
+                "../../auth/auth.html";
+
+
+            return;
+
+        }
+
+
+        const result =
+            await response
+                .json()
+                .catch(
+                    () => ({})
+                );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.message ||
+                "Không thể lưu CV."
+            );
+
+        }
+
+
+        showToast(
+            isEdit
+                ? "Cập nhật thành công"
+                : "Tạo CV thành công",
+            isEdit
+                ? "CV của bạn đã được cập nhật"
+                : "CV của bạn đã được tạo"
+        );
+
+        setTimeout(() => {
 
             window.location.href =
                 "../home/home.html";
 
-        } catch (error) {
+        }, 1000);
 
-            console.error(
-                "SAVE CV ERROR:",
-                error
-            );
 
-            alert(
-                error.message ||
-                (
-                    isEditMode
-                        ? "Có lỗi xảy ra khi cập nhật CV"
-                        : "Có lỗi xảy ra khi lưu CV"
-                )
-            );
+    } catch (error) {
 
-        } finally {
+        console.error(
+            "SAVE CV ERROR:",
+            error
+        );
 
-            if (saveCvButton) {
 
-                saveCvButton.disabled = false;
+        alert(
+            error.message ||
+            "Có lỗi xảy ra khi lưu CV."
+        );
 
-                saveCvButton.textContent =
-                    saveCvButton.dataset.oldText ||
-                    (
-                        isEditMode
-                            ? "Cập nhật CV"
-                            : "Lưu CV"
-                    );
-            }
+
+    } finally {
+
+        if (saveButton) {
+
+            saveButton.disabled =
+                false;
+
+            saveButton.textContent =
+                "Lưu CV";
+
         }
+
+    }
+
+}
+
+
+// ======================================================
+// LOAD CV
+// ======================================================
+
+async function loadCV(
+    id
+) {
+
+    const token =
+        localStorage.getItem(
+            "token"
+        );
+
+
+    if (!token) {
+
+        window.location.href =
+            "../../auth/auth.html";
+
+        return;
+
     }
 
 
-    /* gắn nút lưu */
+    try {
 
-    saveCvButton?.addEventListener(
-        "click",
-        saveCV
+        const response =
+            await fetch(
+                `${API_URL}/${id}`,
+                {
+
+                    method: "GET",
+
+                    headers: {
+
+                        "Authorization":
+                            `Bearer ${token}`
+
+                    }
+
+                }
+            );
+
+
+        if (
+            response.status === 401
+        ) {
+
+            localStorage.removeItem(
+                "token"
+            );
+
+
+            window.location.href =
+                "../../auth/auth.html";
+
+
+            return;
+
+        }
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.message ||
+                "Không thể lấy thông tin CV."
+            );
+
+        }
+
+
+        /*
+         * Backend controller trả:
+         *
+         * {
+         *   success: true,
+         *   data: {...}
+         * }
+         */
+
+        const cv =
+            result.data;
+
+
+        if (!cv) {
+
+            throw new Error(
+                "Dữ liệu CV không tồn tại."
+            );
+
+        }
+
+
+        fillForm(
+            cv
+        );
+
+
+        updatePreview();
+
+
+    } catch (error) {
+
+        console.error(
+            "LOAD CV ERROR:",
+            error
+        );
+
+
+        alert(
+            error.message ||
+            "Không thể tải CV."
+        );
+
+    }
+
+}
+
+
+// ======================================================
+// FILL FORM
+// ======================================================
+
+function fillForm(
+    cv
+) {
+
+    // ==============================================
+    // MAIN CV
+    // ==============================================
+
+    setValue(
+        "cvTitle",
+        cv.title
+    );
+
+    setValue(
+        "fullName",
+        cv.full_name
+    );
+
+    setValue(
+        "position",
+        cv.position
+    );
+
+    setValue(
+        "summary",
+        cv.summary
+    );
+
+    setValue(
+        "email",
+        cv.email
+    );
+
+    setValue(
+        "phone",
+        cv.phone
+    );
+
+    setValue(
+        "address",
+        cv.address
+    );
+
+    setValue(
+        "gitLink",
+        cv.git_link
+    );
+
+    setValue(
+        "softSkills",
+        cv.soft_skills
     );
 
 
-    /* khởi tạo ngoại ngữ */
+    // ==============================================
+    // COLOR
+    // ==============================================
 
-    normalizeLanguageItems();
+    currentColor =
+        cv.primary_color ||
+        "#2F7867";
 
 
-    /* cv mới */
+    setActiveColor(
+        currentColor
+    );
+
+
+    // ==============================================
+    // LAYOUT
+    // ==============================================
+
+    currentLayout =
+        cv.template ||
+        "layout1";
+
+
+    setActiveLayoutButton(
+        currentLayout
+    );
+
+
+    applyLayout();
+
+    applyColor();
+
+
+    // ==============================================
+    // PROFESSIONAL SKILLS
+    // ==============================================
+
+    fillProfessionalSkills(
+        cv.professional_skills ||
+        []
+    );
+
+
+    // ==============================================
+    // EXPERIENCES
+    // ==============================================
+
+    fillExperiences(
+        cv.experiences ||
+        []
+    );
+
+
+    // ==============================================
+    // EDUCATIONS
+    // ==============================================
+
+    fillEducations(
+        cv.educations ||
+        []
+    );
+
+
+    // ==============================================
+    // PROJECTS
+    // ==============================================
+
+    fillProjects(
+        cv.projects ||
+        []
+    );
+
+
+    // ==============================================
+    // LANGUAGES
+    // ==============================================
+
+    fillLanguages(
+        cv.languages ||
+        []
+    );
+
+
+    // ==============================================
+    // ACTIVITIES
+    // ==============================================
+
+    fillActivities(
+        cv.activities ||
+        []
+    );
+
+}
+
+
+// ======================================================
+// SET VALUE
+// ======================================================
+
+function setValue(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(
+            id
+        );
+
+
+    if (!element) {
+        return;
+    }
+
+
+    element.value =
+        value ?? "";
+
+}
+
+
+// ======================================================
+// FILL PROFESSIONAL SKILLS
+// ======================================================
+
+function fillProfessionalSkills(
+    items
+) {
+
+    const list =
+        document.getElementById(
+            "professionalSkillList"
+        );
+
+
+    if (!list) {
+        return;
+    }
+
+
+    list.innerHTML = "";
+
 
     if (
-        !isEditMode &&
-        experienceList &&
-        experienceList.children.length === 0
+        !Array.isArray(items) ||
+        items.length === 0
     ) {
 
-        experienceList.appendChild(
-            createExperienceItem()
-        );
+        addProfessionalSkillItem();
+
+        return;
+
     }
+
+
+    items.forEach(
+        item => {
+
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+
+            wrapper.className =
+                "dynamic-item professional-skill-item";
+
+
+            wrapper.innerHTML = `
+
+                <div class="dynamic-item-header">
+
+                    <span class="item-label">
+                        Mục
+                    </span>
+
+                    <button
+                        type="button"
+                        class="remove-btn"
+                    >
+                        Xóa
+                    </button>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Vị trí / lĩnh vực
+                    </label>
+
+                    <input
+                        type="text"
+                        class="professional-skill-position"
+                        value="${escapeAttribute(
+                            item.position
+                        )}"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Công nghệ sử dụng
+                    </label>
+
+                    <input
+                        type="text"
+                        class="professional-skill-technologies"
+                        value="${escapeAttribute(
+                            item.technologies
+                        )}"
+                    >
+
+                    <small class="form-hint">
+                        Ngăn cách các công nghệ bằng dấu phẩy.
+                    </small>
+
+                </div>
+
+            `;
+
+
+            list.appendChild(
+                wrapper
+            );
+
+
+            setupRemoveButtonForItem(
+                wrapper
+            );
+
+            setupRealtimeForElement(
+                wrapper
+            );
+
+        }
+    );
+
+
+    updateItemLabels();
+
+}
+
+
+// ======================================================
+// FILL EXPERIENCES
+// ======================================================
+
+function fillExperiences(
+    items
+) {
+
+    const list =
+        document.getElementById(
+            "experienceList"
+        );
+
+
+    if (!list) {
+        return;
+    }
+
+
+    list.innerHTML = "";
 
 
     if (
-        !isEditMode &&
-        educationList &&
-        educationList.children.length === 0
+        !Array.isArray(items) ||
+        items.length === 0
     ) {
 
-        educationList.appendChild(
-            createEducationItem()
-        );
+        addExperienceItem();
+
+        return;
+
     }
+
+
+    items.forEach(
+        item => {
+
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+
+            wrapper.className =
+                "dynamic-item experience-item";
+
+
+            wrapper.innerHTML = `
+
+                <div class="dynamic-item-header">
+
+                    <span class="item-label">
+                        Mục
+                    </span>
+
+                    <button
+                        type="button"
+                        class="remove-btn"
+                    >
+                        Xóa
+                    </button>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label>
+                            Chức danh
+                        </label>
+
+                        <input
+                            type="text"
+                            class="experience-position"
+                            value="${escapeAttribute(
+                                item.position
+                            )}"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Thời gian
+                        </label>
+
+                        <input
+                            type="text"
+                            class="experience-time"
+                            value="${escapeAttribute(
+                                item.time_range
+                            )}"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Công ty / tổ chức
+                    </label>
+
+                    <input
+                        type="text"
+                        class="experience-company"
+                        value="${escapeAttribute(
+                            item.company
+                        )}"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Mô tả công việc
+                    </label>
+
+                    <textarea
+                        class="experience-description"
+                        rows="4"
+                    >${escapeHTML(
+                        item.description
+                    )}</textarea>
+
+                </div>
+
+            `;
+
+
+            list.appendChild(
+                wrapper
+            );
+
+
+            setupRemoveButtonForItem(
+                wrapper
+            );
+
+            setupRealtimeForElement(
+                wrapper
+            );
+
+        }
+    );
+
+
+    updateItemLabels();
+
+}
+
+
+// ======================================================
+// FILL EDUCATIONS
+// ======================================================
+
+function fillEducations(
+    items
+) {
+
+    const list =
+        document.getElementById(
+            "educationList"
+        );
+
+
+    if (!list) {
+        return;
+    }
+
+
+    list.innerHTML = "";
 
 
     if (
-        !isEditMode &&
-        languageList &&
-        languageList.children.length === 0
+        !Array.isArray(items) ||
+        items.length === 0
     ) {
 
-        languageList.appendChild(
-            createLanguageItem()
+        addEducationItem();
+
+        return;
+
+    }
+
+
+    items.forEach(
+        item => {
+
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+
+            wrapper.className =
+                "dynamic-item education-item";
+
+
+            wrapper.innerHTML = `
+
+                <div class="dynamic-item-header">
+
+                    <span class="item-label">
+                        Mục
+                    </span>
+
+                    <button
+                        type="button"
+                        class="remove-btn"
+                    >
+                        Xóa
+                    </button>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label>
+                            Chuyên ngành / bằng cấp
+                        </label>
+
+                        <input
+                            type="text"
+                            class="education-degree"
+                            value="${escapeAttribute(
+                                item.degree
+                            )}"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Thời gian
+                        </label>
+
+                        <input
+                            type="text"
+                            class="education-time"
+                            value="${escapeAttribute(
+                                item.time_range
+                            )}"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Tên trường
+                    </label>
+
+                    <input
+                        type="text"
+                        class="education-school"
+                        value="${escapeAttribute(
+                            item.school
+                        )}"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        GPA
+                    </label>
+
+                    <input
+                        type="number"
+                        class="education-gpa"
+                        min="0"
+                        max="4"
+                        step="0.01"
+                        value="${escapeAttribute(
+                            item.gpa
+                        )}"
+                    >
+
+                </div>
+
+            `;
+
+
+            list.appendChild(
+                wrapper
+            );
+
+
+            setupRemoveButtonForItem(
+                wrapper
+            );
+
+            setupRealtimeForElement(
+                wrapper
+            );
+
+        }
+    );
+
+
+    updateItemLabels();
+
+}
+
+
+// ======================================================
+// FILL PROJECTS
+// ======================================================
+
+function fillProjects(
+    items
+) {
+
+    const list =
+        document.getElementById(
+            "projectList"
         );
+
+
+    if (!list) {
+        return;
     }
 
 
-    /* khởi tạo số lượng */
-
-    updateExperienceNumbers();
-    updateEducationNumbers();
-    updateLanguageNumbers();
+    list.innerHTML = "";
 
 
-    /* khởi tạo preview */
+    if (
+        !Array.isArray(items) ||
+        items.length === 0
+    ) {
 
-    updatePersonalInfo();
-    updateSkillsPreview();
-    updateSoftSkillsPreview();
-    updateLanguagePreview();
-    updateExperiencePreview();
-    updateEducationPreview();
+        addProjectItem();
 
+        return;
 
-    /* load cv edit */
-
-    if (isEditMode) {
-        loadCVForEdit();
     }
 
-});
+
+    items.forEach(
+        item => {
+
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+
+            wrapper.className =
+                "dynamic-item project-item";
+
+
+            wrapper.innerHTML = `
+
+                <div class="dynamic-item-header">
+
+                    <span class="item-label">
+                        Mục
+                    </span>
+
+                    <button
+                        type="button"
+                        class="remove-btn"
+                    >
+                        Xóa
+                    </button>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Tên dự án
+                    </label>
+
+                    <input
+                        type="text"
+                        class="project-name"
+                        value="${escapeAttribute(
+                            item.project_name
+                        )}"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Công nghệ sử dụng
+                    </label>
+
+                    <input
+                        type="text"
+                        class="project-technologies"
+                        value="${escapeAttribute(
+                            item.technologies
+                        )}"
+                    >
+
+                    <small class="form-hint">
+                        Ngăn cách các công nghệ bằng dấu phẩy.
+                    </small>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Mô tả dự án
+                    </label>
+
+                    <textarea
+                        class="project-description"
+                        rows="4"
+                    >${escapeHTML(
+                        item.description
+                    )}</textarea>
+
+                </div>
+
+            `;
+
+
+            list.appendChild(
+                wrapper
+            );
+
+
+            setupRemoveButtonForItem(
+                wrapper
+            );
+
+            setupRealtimeForElement(
+                wrapper
+            );
+
+        }
+    );
+
+
+    updateItemLabels();
+
+}
+
+
+// ======================================================
+// FILL LANGUAGES
+// ======================================================
+
+function fillLanguages(
+    items
+) {
+
+    const list =
+        document.getElementById(
+            "languageList"
+        );
+
+
+    if (!list) {
+        return;
+    }
+
+
+    list.innerHTML = "";
+
+
+    if (
+        !Array.isArray(items) ||
+        items.length === 0
+    ) {
+
+        addLanguageItem();
+
+        return;
+
+    }
+
+
+    items.forEach(
+        item => {
+
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+
+            wrapper.className =
+                "dynamic-item language-item";
+
+
+            wrapper.innerHTML = `
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label>
+                            Ngôn ngữ
+                        </label>
+
+                        <input
+                            type="text"
+                            class="language-name"
+                            value="${escapeAttribute(
+                                item.name
+                            )}"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Trình độ
+                        </label>
+
+                        <input
+                            type="text"
+                            class="language-level"
+                            value="${escapeAttribute(
+                                item.level
+                            )}"
+                        >
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            list.appendChild(
+                wrapper
+            );
+
+
+            setupRealtimeForElement(
+                wrapper
+            );
+
+        }
+    );
+
+}
+
+
+// ======================================================
+// FILL ACTIVITIES
+// ======================================================
+
+function fillActivities(
+    items
+) {
+
+    const list =
+        document.getElementById(
+            "activityList"
+        );
+
+
+    if (!list) {
+        return;
+    }
+
+
+    list.innerHTML = "";
+
+
+    if (
+        !Array.isArray(items) ||
+        items.length === 0
+    ) {
+
+        addActivityItem();
+
+        return;
+
+    }
+
+
+    items.forEach(
+        item => {
+
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+
+            wrapper.className =
+                "dynamic-item activity-item";
+
+
+            wrapper.innerHTML = `
+
+                <div class="dynamic-item-header">
+
+                    <span class="item-label">
+                        Mục
+                    </span>
+
+                    <button
+                        type="button"
+                        class="remove-btn"
+                    >
+                        Xóa
+                    </button>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label>
+                            Tên hoạt động
+                        </label>
+
+                        <input
+                            type="text"
+                            class="activity-name"
+                            value="${escapeAttribute(
+                                item.activity_name
+                            )}"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Năm
+                        </label>
+
+                        <input
+                            type="text"
+                            class="activity-year"
+                            value="${escapeAttribute(
+                                item.activity_year
+                            )}"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Mô tả
+                    </label>
+
+                    <textarea
+                        class="activity-description"
+                        rows="4"
+                    >${escapeHTML(
+                        item.description
+                    )}</textarea>
+
+                </div>
+
+            `;
+
+
+            list.appendChild(
+                wrapper
+            );
+
+
+            setupRemoveButtonForItem(
+                wrapper
+            );
+
+            setupRealtimeForElement(
+                wrapper
+            );
+
+        }
+    );
+
+
+    updateItemLabels();
+
+}
+
+
+// ======================================================
+// SET ACTIVE COLOR
+// ======================================================
+
+function setActiveColor(
+    color
+) {
+
+    const buttons =
+        document.querySelectorAll(
+            ".color-btn"
+        );
+
+
+    let found = false;
+
+
+    buttons.forEach(
+        button => {
+
+            const buttonColor =
+                button.dataset.color;
+
+
+            const isActive =
+                buttonColor &&
+                buttonColor.toLowerCase() ===
+                String(color).toLowerCase();
+
+
+            button.classList.toggle(
+                "active",
+                isActive
+            );
+
+
+            if (isActive) {
+
+                found = true;
+
+            }
+
+        }
+    );
+
+
+    if (!found) {
+
+        currentColor =
+            "#2F7867";
+
+    }
+
+}
+
+
+// ======================================================
+// SET ACTIVE LAYOUT
+// ======================================================
+
+function setActiveLayoutButton(
+    layout
+) {
+
+    document
+        .querySelectorAll(
+            ".layout-btn"
+        )
+        .forEach(
+            button => {
+
+                button.classList.toggle(
+                    "active",
+                    button.dataset.layout ===
+                    layout
+                );
+
+            }
+        );
+
+}
+
+
+// ======================================================
+// TOAST
+// ======================================================
+function showToast(title, message) {
+
+    const toastArea =
+        document.getElementById("toastArea");
+
+    if (!toastArea) {
+        return;
+    }
+
+    const toast =
+        document.createElement("div");
+
+    toast.className = "toast";
+
+    toast.innerHTML = `
+        <i class="fa-solid fa-circle-check"></i>
+
+        <div>
+            <strong>
+                ${escapeHTML(title)}
+            </strong>
+
+            <p>
+                ${escapeHTML(message)}
+            </p>
+        </div>
+    `;
+
+    toastArea.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 2000);
+}
