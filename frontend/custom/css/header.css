@@ -2,14 +2,55 @@
     min-height: 100vh;
     
 }
-.theme-option {
-    cursor: pointer;
+
+/* LANGUAGE OPTIONS */
+
+.language-options {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
 }
 
-.theme-option.active {
-    background: #2f7867;
-    color: #fff;
+.language-option {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    padding: 10px 8px;
+
+    border: 1px solid var(--border-color, #e3e0d7);
+    border-radius: 8px;
+
+    background: var(--card-bg, #ffffff);
+    color: var(--text-color, #171e2e);
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+
+    cursor: pointer;
+    transition: 0.2s ease;
 }
+
+.language-option:hover {
+    border-color: #2f7867;
+    background: var(--surface-secondary, #f3f1eb);
+}
+
+.language-option.active {
+    border-color: #2f7867;
+    background: rgba(47, 120, 103, 0.1);
+    color: #2f7867;
+    font-weight: 700;
+}
+
+.language-option:focus-visible {
+    outline: 2px solid #2f7867;
+    outline-offset: 2px;
+}
+
 
 
 /* main */

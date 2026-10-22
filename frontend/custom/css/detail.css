@@ -795,20 +795,13 @@ body {
 }
 
 
-/* thanh trang trí dưới chức danh */
-
-.layout3 .cv-position::after {
-    content: "";
-
+/* Thanh dưới chức danh */
+.layout3 .cv-position-line {
     display: block;
-
     width: 42px;
     height: 4px;
-
     margin: 18px auto 0;
-
     border-radius: 3px;
-
     background: var(--cv-color);
 }
 
@@ -907,11 +900,13 @@ body {
 
 /* tiêu đề section */
 
+/* Tiêu đề section - layout 3 */
 .layout3 .cv-section-title {
-    position: relative;
+    position: static;
+    display: block;
 
     margin: 0 0 14px;
-    padding: 0 0 9px;
+    padding: 0;
 
     border: none;
 
@@ -920,24 +915,20 @@ body {
     font-weight: 700;
 
     letter-spacing: 1.2px;
-    text-align: left;
+    line-height: 1.5;
 
+    text-align: left;
     color: #555;
 }
 
-.layout3 .cv-section-title::after {
-    content: "";
-
+/* Thanh dưới tiêu đề mục */
+.layout3 .cv-section-line {
     display: block;
-
     width: 50px;
     height: 2px;
-
     margin-top: 7px;
-
     background: var(--cv-color);
 }
-
 
 /* item */
 
@@ -1411,5 +1402,82 @@ body {
     #cv-document * {
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
+    }
+}
+/* =========================================
+   FIX PDF - LAYOUT 2: HAI CỘT
+========================================= */
+
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    html,
+    body {
+        width: 210mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+    }
+
+    .detail-page {
+        width: 210mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .cv-detail-wrapper {
+        display: block !important;
+        width: 210mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    #cv-document {
+        width: 210mm !important;
+        min-height: 297mm !important;
+        margin: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        overflow: visible !important;
+    }
+
+    /* Giữ nguyên hai cột của CV */
+    #cv-document.layout2 .cv-two-column {
+        display: grid !important;
+        grid-template-columns: 65mm minmax(0, 1fr) !important;
+        width: 210mm !important;
+        min-height: 297mm !important;
+    }
+
+    /* Không ép sidebar thành một trang riêng */
+    #cv-document.layout2 .cv-sidebar {
+        width: auto !important;
+        min-width: 0 !important;
+        min-height: 0 !important;
+        height: 100% !important;
+        break-inside: auto;
+        page-break-inside: auto;
+    }
+
+    #cv-document.layout2 .cv-main {
+        min-width: 0 !important;
+        overflow-wrap: anywhere;
+    }
+
+    #cv-document .cv-section-title {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    #cv-document .experience-item,
+    #cv-document .education-item,
+    #cv-document .project-item,
+    #cv-document .activity-item {
+        break-inside: avoid;
+        page-break-inside: avoid;
     }
 }
