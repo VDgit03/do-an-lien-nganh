@@ -23,11 +23,6 @@ export const sendInterviewReminders = async () => {
 
     try {
 
-        console.log(
-            "[MAIL] Đang kiểm tra lịch..."
-        );
-
-
         const [rows] = await db.execute(
             `
             SELECT
