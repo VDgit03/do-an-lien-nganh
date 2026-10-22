@@ -1,14 +1,14 @@
 document.addEventListener(
     "DOMContentLoaded",
     () => {
-
         initDetailCV();
-
     }
 );
 
 
-// khởi tạo
+// ======================================================
+// KHỞI TẠO
+// ======================================================
 
 async function initDetailCV() {
 
@@ -18,17 +18,13 @@ async function initDetailCV() {
     if (!token) {
 
         window.location.href =
-            "../../auth/auth.html";
+            "../auth/index.html";
 
         return;
-
     }
-
-
 
     const id =
         getCVIdFromURL();
-
 
     if (!id) {
 
@@ -38,30 +34,25 @@ async function initDetailCV() {
 
         setTimeout(
             () => {
-
                 window.location.href =
                     "../home/home.html";
-
             },
             1200
         );
 
         return;
-
     }
 
-
-    await loadCV(id, token);
-
+    await loadCV(
+        id,
+        token
+    );
 }
 
 
-// components
-
-
-
-
-// lấy id cv
+// ======================================================
+// LẤY ID CV TỪ URL
+// ======================================================
 
 function getCVIdFromURL() {
 
@@ -71,11 +62,12 @@ function getCVIdFromURL() {
         );
 
     return params.get("id");
-
 }
 
 
-// tải cv
+// ======================================================
+// LOAD CV
+// ======================================================
 
 async function loadCV(
     id,
@@ -91,10 +83,8 @@ async function loadCV(
                     method: "GET",
 
                     headers: {
-
                         "Authorization":
                             `Bearer ${token}`
-
                     }
                 }
             );
@@ -105,7 +95,6 @@ async function loadCV(
             logout();
 
             return;
-
         }
 
 
@@ -119,7 +108,6 @@ async function loadCV(
                 result.message ||
                 "Không thể lấy CV"
             );
-
         }
 
 
@@ -132,7 +120,6 @@ async function loadCV(
             throw new Error(
                 "Không tìm thấy CV"
             );
-
         }
 
 
@@ -153,29 +140,42 @@ async function loadCV(
         );
 
 
-        document.getElementById(
-            "cv-title"
-        ).textContent =
-            "Không thể tải CV";
+        const title =
+            document.getElementById(
+                "cv-title"
+            );
+
+        const meta =
+            document.getElementById(
+                "cv-meta"
+            );
 
 
-        document.getElementById(
-            "cv-meta"
-        ).textContent =
-            error.message;
+        if (title) {
+
+            title.textContent =
+                "Không thể tải CV";
+        }
+
+
+        if (meta) {
+
+            meta.textContent =
+                error.message;
+        }
 
 
         showToast(
             error.message ||
             "Không thể tải CV"
         );
-
     }
-
 }
 
 
-// hiển thị cv
+// ======================================================
+// HIỂN THỊ CV
+// ======================================================
 
 function renderCV(cv) {
 
@@ -185,31 +185,53 @@ function renderCV(cv) {
         );
 
 
+    if (!documentEl) {
+        return;
+    }
+
+
     const template =
-        cv.template ||
-        "layout1";
+        [
+            "layout1",
+            "layout2",
+            "layout3",
+            "layout4"
+        ].includes(cv.template)
+            ? cv.template
+            : "layout1";
 
 
     const color =
         cv.primary_color ||
         "#2f7867";
 
-
-    documentEl.className =
-        `cv-document ${template}`;
-
-
     documentEl.style.setProperty(
         "--cv-color",
         color
     );
 
+    documentEl.style.setProperty(
+        "--cv-color-soft",
+        hexToRgba(color, 0.10)
+    );
 
-    document.getElementById(
-        "cv-title"
-    ).textContent =
-        cv.title ||
-        "CV chưa đặt tên";
+        documentEl.className =
+            `cv-document ${template}`;
+
+
+
+    const title =
+        document.getElementById(
+            "cv-title"
+        );
+
+
+    if (title) {
+
+        title.textContent =
+            cv.title ||
+            "CV chưa đặt tên";
+    }
 
 
     const updated =
@@ -218,10 +240,17 @@ function renderCV(cv) {
         );
 
 
-    document.getElementById(
-        "cv-meta"
-    ).textContent =
-        `Bố cục: ${getTemplateName(template)} · Cập nhật ${updated}`;
+    const meta =
+        document.getElementById(
+            "cv-meta"
+        );
+
+
+    if (meta) {
+
+        meta.textContent =
+            `Bố cục: ${getTemplateName(template)} · Cập nhật ${updated}`;
+    }
 
 
     if (template === "layout2") {
@@ -230,7 +259,6 @@ function renderCV(cv) {
             renderLayout2(cv);
 
         return;
-
     }
 
 
@@ -240,7 +268,6 @@ function renderCV(cv) {
             renderLayout3(cv);
 
         return;
-
     }
 
 
@@ -250,22 +277,21 @@ function renderCV(cv) {
             renderLayout4(cv);
 
         return;
-
     }
 
 
     documentEl.innerHTML =
         renderLayout1(cv);
-
 }
 
 
-// layout 1
+// ======================================================
+// LAYOUT 1 - CỔ ĐIỂN
+// ======================================================
 
 function renderLayout1(cv) {
 
     return `
-
         <div class="cv-content">
 
             ${renderHeader(cv)}
@@ -274,22 +300,26 @@ function renderLayout1(cv) {
 
             ${renderExperience(cv)}
 
+            ${renderProjects(cv)}
+
             ${renderEducation(cv)}
 
-            ${renderSkills(cv)}
+            ${renderProfessionalSkills(cv)}
 
             ${renderSoftSkills(cv)}
 
             ${renderLanguages(cv)}
 
+            ${renderActivities(cv)}
+
         </div>
-
     `;
-
 }
 
 
-// layout 2
+// ======================================================
+// LAYOUT 2 - HAI CỘT
+// ======================================================
 
 function renderLayout2(cv) {
 
@@ -298,15 +328,14 @@ function renderLayout2(cv) {
 
             <aside class="cv-sidebar">
 
-                ${renderHeader(cv, true, true)}
+                ${renderSidebarHeader(cv)}
 
-                ${renderSkills(cv)}
-
-                ${renderSoftSkills(cv)}
+                ${renderProfessionalSkills(cv)}
 
                 ${renderLanguages(cv)}
 
             </aside>
+
 
             <main class="cv-main">
 
@@ -314,7 +343,13 @@ function renderLayout2(cv) {
 
                 ${renderExperience(cv)}
 
+                ${renderProjects(cv)}
+
                 ${renderEducation(cv)}
+
+                ${renderSoftSkills(cv)}
+
+                ${renderActivities(cv)}
 
             </main>
 
@@ -323,12 +358,13 @@ function renderLayout2(cv) {
 }
 
 
-// layout 3
+// ======================================================
+// LAYOUT 3 - TỐI GIẢN
+// ======================================================
 
 function renderLayout3(cv) {
 
     return `
-
         <div class="cv-content">
 
             ${renderHeader(cv)}
@@ -337,27 +373,30 @@ function renderLayout3(cv) {
 
             ${renderExperience(cv)}
 
+            ${renderProjects(cv)}
+
             ${renderEducation(cv)}
 
-            ${renderSkills(cv)}
+            ${renderProfessionalSkills(cv)}
 
             ${renderSoftSkills(cv)}
 
             ${renderLanguages(cv)}
 
+            ${renderActivities(cv)}
+
         </div>
-
     `;
-
 }
 
 
-// layout 4
+// ======================================================
+// LAYOUT 4 - DÒNG THỜI GIAN
+// ======================================================
 
 function renderLayout4(cv) {
 
     return `
-
         <div class="cv-content">
 
             ${renderHeader(cv)}
@@ -366,22 +405,148 @@ function renderLayout4(cv) {
 
             ${renderExperience(cv)}
 
+            ${renderProjects(cv)}
+
             ${renderEducation(cv)}
 
-            ${renderSkills(cv)}
+            ${renderProfessionalSkills(cv)}
 
             ${renderSoftSkills(cv)}
 
             ${renderLanguages(cv)}
 
+            ${renderActivities(cv)}
+
         </div>
-
     `;
-
 }
 
 
-// header
+function renderSidebarHeader(cv) {
+
+    const name =
+        cv.full_name ||
+        "Chưa có tên";
+
+    const firstLetter =
+        name
+            .trim()
+            .charAt(0)
+            .toUpperCase();
+
+
+    return `
+        <header class="cv-header cv-sidebar-header">
+
+            <div class="cv-avatar">
+                ${escapeHTML(firstLetter)}
+            </div>
+
+
+            <h1 class="cv-name">
+                ${escapeHTML(name)}
+            </h1>
+
+
+            ${
+                cv.position
+                    ?
+                    `
+                        <div class="cv-position">
+                            ${escapeHTML(cv.position)}
+                        </div>
+                        <span class="cv-position-line"></span>
+                    `
+                    :
+                    ""
+            }
+
+
+            <div class="contact-list">
+
+                ${
+                    cv.email
+                        ?
+                        `
+                            <div class="contact-item">
+
+                                <i class="fa-regular fa-envelope"></i>
+
+                                <span>
+                                    ${escapeHTML(cv.email)}
+                                </span>
+
+                            </div>
+                        `
+                        :
+                        ""
+                }
+
+
+                ${
+                    cv.phone
+                        ?
+                        `
+                            <div class="contact-item">
+
+                                <i class="fa-solid fa-phone"></i>
+
+                                <span>
+                                    ${escapeHTML(cv.phone)}
+                                </span>
+
+                            </div>
+                        `
+                        :
+                        ""
+                }
+
+
+                ${
+                    cv.address
+                        ?
+                        `
+                            <div class="contact-item">
+
+                                <i class="fa-solid fa-location-dot"></i>
+
+                                <span>
+                                    ${escapeHTML(cv.address)}
+                                </span>
+
+                            </div>
+                        `
+                        :
+                        ""
+                }
+
+
+                ${
+                    cv.git_link
+                        ?
+                        `
+                            <div class="contact-item">
+
+                                <i class="fa-brands fa-github"></i>
+
+                                <span>
+                                    ${escapeHTML(cv.git_link)}
+                                </span>
+
+                            </div>
+                        `
+                        :
+                        ""
+                }
+
+            </div>
+
+        </header>
+    `;
+}
+// ======================================================
+// HEADER
+// ======================================================
 
 function renderHeader(
     cv,
@@ -399,70 +564,114 @@ function renderHeader(
                 )}
             </h1>
 
+
             ${
-                showPosition && cv.position
+                showPosition &&
+                cv.position
                 ?
                 `
-                <div class="cv-position">
-                    ${escapeHTML(cv.position)}
-                </div>
+                    <div class="cv-position">
+                        ${escapeHTML(
+                            cv.position
+                        )}
+                    </div>
+                    <span class="cv-position-line"></span>
                 `
                 :
                 ""
             }
 
+
             ${
                 showContact
                 ?
                 `
-                <div class="contact-list">
+                    <div class="contact-list">
 
-                    ${
-                        cv.email
-                        ?
-                        `
-                        <div class="contact-item">
-                            <i class="fa-regular fa-envelope"></i>
-                            <span>
-                                ${escapeHTML(cv.email)}
-                            </span>
-                        </div>
-                        `
-                        :
-                        ""
-                    }
+                        ${
+                            cv.email
+                            ?
+                            `
+                                <div class="contact-item">
 
-                    ${
-                        cv.phone
-                        ?
-                        `
-                        <div class="contact-item">
-                            <i class="fa-solid fa-phone"></i>
-                            <span>
-                                ${escapeHTML(cv.phone)}
-                            </span>
-                        </div>
-                        `
-                        :
-                        ""
-                    }
+                                    <i class="fa-regular fa-envelope"></i>
 
-                    ${
-                        cv.address
-                        ?
-                        `
-                        <div class="contact-item">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <span>
-                                ${escapeHTML(cv.address)}
-                            </span>
-                        </div>
-                        `
-                        :
-                        ""
-                    }
+                                    <span>
+                                        ${escapeHTML(
+                                            cv.email
+                                        )}
+                                    </span>
 
-                </div>
+                                </div>
+                            `
+                            :
+                            ""
+                        }
+
+
+                        ${
+                            cv.phone
+                            ?
+                            `
+                                <div class="contact-item">
+
+                                    <i class="fa-solid fa-phone"></i>
+
+                                    <span>
+                                        ${escapeHTML(
+                                            cv.phone
+                                        )}
+                                    </span>
+
+                                </div>
+                            `
+                            :
+                            ""
+                        }
+
+
+                        ${
+                            cv.address
+                            ?
+                            `
+                                <div class="contact-item">
+
+                                    <i class="fa-solid fa-location-dot"></i>
+
+                                    <span>
+                                        ${escapeHTML(
+                                            cv.address
+                                        )}
+                                    </span>
+
+                                </div>
+                            `
+                            :
+                            ""
+                        }
+
+
+                        ${
+                            cv.git_link
+                            ?
+                            `
+                                <div class="contact-item">
+
+                                    <i class="fa-brands fa-github"></i>
+
+                                    <span>
+                                        ${escapeHTML(
+                                            cv.git_link
+                                        )}
+                                    </span>
+
+                                </div>
+                            `
+                            :
+                            ""
+                        }
+
+                    </div>
                 `
                 :
                 ""
@@ -473,60 +682,60 @@ function renderHeader(
 }
 
 
-// giới thiệu
+// ======================================================
+// GIỚI THIỆU
+// ======================================================
 
 function renderSummary(cv) {
 
     if (!cv.summary) {
-
         return "";
-
     }
 
 
     return `
-
         <section class="cv-section">
 
             <div class="cv-section-title">
                 Giới thiệu
+                <span class="cv-section-line"></span>
             </div>
 
 
             <div class="cv-summary">
-
-                ${formatText(cv.summary)}
-
+                ${formatText(
+                    cv.summary
+                )}
             </div>
 
         </section>
-
     `;
-
 }
 
 
-// kinh nghiệm
+// ======================================================
+// KINH NGHIỆM
+// ======================================================
 
 function renderExperience(cv) {
 
     const experiences =
-        cv.experiences || [];
+        Array.isArray(cv.experiences)
+            ? cv.experiences
+            : [];
 
 
     if (experiences.length === 0) {
-
         return "";
-
     }
 
 
     return `
-
         <section class="cv-section">
 
             <div class="cv-section-title">
                 Kinh nghiệm làm việc
+                <span class="cv-section-line"></span>
             </div>
 
 
@@ -543,11 +752,11 @@ function renderExperience(cv) {
                                     experience.position
                                     ?
                                     `
-                                    <div class="experience-position">
-                                        ${escapeHTML(
-                                            experience.position
-                                        )}
-                                    </div>
+                                        <div class="experience-position">
+                                            ${escapeHTML(
+                                                experience.position
+                                            )}
+                                        </div>
                                     `
                                     :
                                     ""
@@ -558,11 +767,11 @@ function renderExperience(cv) {
                                     experience.company
                                     ?
                                     `
-                                    <div class="experience-company">
-                                        ${escapeHTML(
-                                            experience.company
-                                        )}
-                                    </div>
+                                        <div class="experience-company">
+                                            ${escapeHTML(
+                                                experience.company
+                                            )}
+                                        </div>
                                     `
                                     :
                                     ""
@@ -575,11 +784,11 @@ function renderExperience(cv) {
                                 experience.time_range
                                 ?
                                 `
-                                <div class="experience-time">
-                                    ${escapeHTML(
-                                        experience.time_range
-                                    )}
-                                </div>
+                                    <div class="experience-time">
+                                        ${escapeHTML(
+                                            experience.time_range
+                                        )}
+                                    </div>
                                 `
                                 :
                                 ""
@@ -592,11 +801,11 @@ function renderExperience(cv) {
                             experience.description
                             ?
                             `
-                            <div class="experience-description">
-                                ${formatText(
-                                    experience.description
-                                )}
-                            </div>
+                                <div class="experience-description">
+                                    ${formatText(
+                                        experience.description
+                                    )}
+                                </div>
                             `
                             :
                             ""
@@ -608,33 +817,33 @@ function renderExperience(cv) {
             ).join("")}
 
         </section>
-
     `;
-
 }
 
 
-// học vấn
+// ======================================================
+// HỌC VẤN
+// ======================================================
 
 function renderEducation(cv) {
 
     const educations =
-        cv.educations || [];
+        Array.isArray(cv.educations)
+            ? cv.educations
+            : [];
 
 
     if (educations.length === 0) {
-
         return "";
-
     }
 
 
     return `
-
         <section class="cv-section">
 
             <div class="cv-section-title">
                 Học vấn
+                <span class="cv-section-line"></span>
             </div>
 
 
@@ -651,11 +860,11 @@ function renderEducation(cv) {
                                     education.degree
                                     ?
                                     `
-                                    <div class="education-degree">
-                                        ${escapeHTML(
-                                            education.degree
-                                        )}
-                                    </div>
+                                        <div class="education-degree">
+                                            ${escapeHTML(
+                                                education.degree
+                                            )}
+                                        </div>
                                     `
                                     :
                                     ""
@@ -666,11 +875,28 @@ function renderEducation(cv) {
                                     education.school
                                     ?
                                     `
-                                    <div class="education-school">
-                                        ${escapeHTML(
-                                            education.school
-                                        )}
-                                    </div>
+                                        <div class="education-school">
+                                            ${escapeHTML(
+                                                education.school
+                                            )}
+                                        </div>
+                                    `
+                                    :
+                                    ""
+                                }
+
+
+                                ${
+                                    education.gpa !== null &&
+                                    education.gpa !== undefined &&
+                                    education.gpa !== ""
+                                    ?
+                                    `
+                                        <div class="education-gpa">
+                                            GPA: ${escapeHTML(
+                                                education.gpa
+                                            )}
+                                        </div>
                                     `
                                     :
                                     ""
@@ -683,11 +909,11 @@ function renderEducation(cv) {
                                 education.time_range
                                 ?
                                 `
-                                <div class="education-time">
-                                    ${escapeHTML(
-                                        education.time_range
-                                    )}
-                                </div>
+                                    <div class="education-time">
+                                        ${escapeHTML(
+                                            education.time_range
+                                        )}
+                                    </div>
                                 `
                                 :
                                 ""
@@ -701,60 +927,89 @@ function renderEducation(cv) {
             ).join("")}
 
         </section>
-
     `;
-
 }
 
 
-// kỹ năng
+// ======================================================
+// KỸ NĂNG CHUYÊN MÔN
+// ======================================================
 
-function renderSkills(cv) {
+function renderProfessionalSkills(cv) {
 
     const skills =
-        parseSkills(
-            cv.skills
+        Array.isArray(cv.professional_skills)
+            ? cv.professional_skills
+            : [];
+
+    const validSkills =
+        skills.filter(
+            skill =>
+                skill &&
+                (
+                    skill.position ||
+                    skill.technologies
+                )
         );
 
-
-    if (skills.length === 0) {
-
+    if (validSkills.length === 0) {
         return "";
-
     }
 
-
     return `
-
         <section class="cv-section">
 
             <div class="cv-section-title">
-                Kỹ năng
+                Kỹ năng chuyên môn
+                <span class="cv-section-line"></span>
             </div>
 
+            <div class="professional-skills-list">
 
-            <div class="tags">
+                ${validSkills.map(skill => `
 
-                ${skills.map(
-                    skill => `
+                    <div class="professional-skill-item">
 
-                        <span class="tag">
-                            ${escapeHTML(skill)}
-                        </span>
+                        ${
+                            skill.position
+                                ? `
+                                    <span class="professional-skill-position">
+                                        ${escapeHTML(skill.position)}
+                                    </span>
+                                  `
+                                : ""
+                        }
 
-                    `
-                ).join("")}
+                        ${
+                            skill.position && skill.technologies
+                                ? `<span class="professional-skill-separator">: </span>`
+                                : ""
+                        }
+
+                        ${
+                            skill.technologies
+                                ? `
+                                    <span class="professional-skill-technologies">
+                                        ${renderCommaText(skill.technologies)}
+                                    </span>
+                                  `
+                                : ""
+                        }
+
+                    </div>
+
+                `).join("")}
 
             </div>
 
         </section>
-
     `;
-
 }
 
 
-// kỹ năng mềm
+// ======================================================
+// KỸ NĂNG MỀM
+// ======================================================
 
 function renderSoftSkills(cv) {
 
@@ -765,18 +1020,16 @@ function renderSoftSkills(cv) {
 
 
     if (skills.length === 0) {
-
         return "";
-
     }
 
 
     return `
-
         <section class="cv-section">
 
             <div class="cv-section-title">
                 Kỹ năng mềm
+                <span class="cv-section-line"></span>
             </div>
 
 
@@ -795,33 +1048,130 @@ function renderSoftSkills(cv) {
             </div>
 
         </section>
-
     `;
-
 }
 
 
-// ngoại ngữ
+// ======================================================
+// DỰ ÁN
+// ======================================================
 
-function renderLanguages(cv) {
+function renderProjects(cv) {
 
-    const languages =
-        cv.languages || [];
+    const projects =
+        Array.isArray(cv.projects)
+            ? cv.projects
+            : [];
 
 
-    if (languages.length === 0) {
+    const validProjects =
+        projects.filter(
+            project =>
+                project &&
+                (
+                    project.project_name ||
+                    project.technologies ||
+                    project.description
+                )
+        );
 
+
+    if (validProjects.length === 0) {
         return "";
-
     }
 
 
     return `
+        <section class="cv-section">
 
+            <div class="cv-section-title">
+                Dự án
+                <span class="cv-section-line"></span>
+            </div>
+
+
+            ${validProjects.map(
+                project => `
+
+                    <div class="project-item">
+
+                        ${
+                            project.project_name
+                            ?
+                            `
+                                <div class="project-name">
+                                    ${escapeHTML(
+                                        project.project_name
+                                    )}
+                                </div>
+                            `
+                            :
+                            ""
+                        }
+
+
+                        ${
+                            project.technologies
+                            ?
+                            `
+                                <div class="project-technologies">
+                                    ${renderCommaText(
+                                        project.technologies
+                                    )}
+                                </div>
+                            `
+                            :
+                            ""
+                        }
+
+
+                        ${
+                            project.description
+                            ?
+                            `
+                                <div class="project-description">
+                                    ${formatText(
+                                        project.description
+                                    )}
+                                </div>
+                            `
+                            :
+                            ""
+                        }
+
+                    </div>
+
+                `
+            ).join("")}
+
+        </section>
+    `;
+}
+
+
+// ======================================================
+// NGOẠI NGỮ
+// ======================================================
+
+function renderLanguages(cv) {
+
+    const languages =
+        Array.isArray(cv.languages)
+            ? cv.languages
+            : [];
+
+
+    if (languages.length === 0) {
+        return "";
+    }
+
+
+    return `
         <section class="cv-section">
 
             <div class="cv-section-title">
                 Ngoại ngữ
+                <span class="cv-section-line"></span>
             </div>
 
 
@@ -836,10 +1186,16 @@ function renderLanguages(cv) {
                             language.language ||
                             "";
 
+
                         const level =
                             language.level ||
                             language.proficiency ||
                             "";
+
+
+                        if (!name && !level) {
+                            return "";
+                        }
 
 
                         const text =
@@ -853,28 +1209,126 @@ function renderLanguages(cv) {
                         return `
 
                             <span class="tag">
-
                                 ${escapeHTML(
                                     text
                                 )}
-
                             </span>
 
                         `;
-
                     }
                 ).join("")}
 
             </div>
 
         </section>
-
     `;
-
 }
 
 
-// thao tác
+// ======================================================
+// HOẠT ĐỘNG
+// ======================================================
+
+function renderActivities(cv) {
+
+    const activities =
+        Array.isArray(cv.activities)
+            ? cv.activities
+            : [];
+
+
+    const validActivities =
+        activities.filter(
+            activity =>
+                activity &&
+                (
+                    activity.activity_name ||
+                    activity.activity_year ||
+                    activity.description
+                )
+        );
+
+
+    if (validActivities.length === 0) {
+        return "";
+    }
+
+
+    return `
+        <section class="cv-section">
+
+            <div class="cv-section-title">
+                Hoạt động
+                <span class="cv-section-line"></span>
+            </div>
+
+
+            ${validActivities.map(
+                activity => `
+
+                    <div class="activity-item">
+
+                        <div class="activity-head">
+
+                            ${
+                                activity.activity_name
+                                ?
+                                `
+                                    <div class="activity-name">
+                                        ${escapeHTML(
+                                            activity.activity_name
+                                        )}
+                                    </div>
+                                `
+                                :
+                                ""
+                            }
+
+
+                            ${
+                                activity.activity_year
+                                ?
+                                `
+                                    <div class="activity-year">
+                                        ${escapeHTML(
+                                            activity.activity_year
+                                        )}
+                                    </div>
+                                `
+                                :
+                                ""
+                            }
+
+                        </div>
+
+
+                        ${
+                            activity.description
+                            ?
+                            `
+                                <div class="activity-description">
+                                    ${formatText(
+                                        activity.description
+                                    )}
+                                </div>
+                            `
+                            :
+                            ""
+                        }
+
+                    </div>
+
+                `
+            ).join("")}
+
+        </section>
+    `;
+}
+
+
+// ======================================================
+// ACTIONS
+// ======================================================
 
 function setupActions(
     cv,
@@ -885,7 +1339,9 @@ function setupActions(
         cv.id;
 
 
-    // sửa
+    // ==================================================
+    // EDIT
+    // ==================================================
 
     const editBtn =
         document.getElementById(
@@ -900,13 +1356,13 @@ function setupActions(
 
                 window.location.href =
                     `create_cv.html?id=${id}`;
-
             };
-
     }
 
 
-    // xóa
+    // ==================================================
+    // DELETE
+    // ==================================================
 
     const deleteBtn =
         document.getElementById(
@@ -923,13 +1379,13 @@ function setupActions(
                     id,
                     token
                 );
-
             };
-
     }
 
 
-    // nhân bản
+    // ==================================================
+    // DUPLICATE
+    // ==================================================
 
     const duplicateBtn =
         document.getElementById(
@@ -946,13 +1402,13 @@ function setupActions(
                     cv,
                     token
                 );
-
             };
-
     }
 
 
-    // pdf
+    // ==================================================
+    // PDF
+    // ==================================================
 
     const downloadBtn =
         document.getElementById(
@@ -968,15 +1424,14 @@ function setupActions(
                 downloadPDF(
                     cv
                 );
-
             };
-
     }
-
 }
 
 
-// xóa
+// ======================================================
+// XÓA CV
+// ======================================================
 
 async function deleteCurrentCV(
     id,
@@ -990,9 +1445,7 @@ async function deleteCurrentCV(
 
 
     if (!confirmed) {
-
         return;
-
     }
 
 
@@ -1005,10 +1458,8 @@ async function deleteCurrentCV(
                     method: "DELETE",
 
                     headers: {
-
                         "Authorization":
                             `Bearer ${token}`
-
                     }
                 }
             );
@@ -1019,7 +1470,6 @@ async function deleteCurrentCV(
             logout();
 
             return;
-
         }
 
 
@@ -1033,12 +1483,12 @@ async function deleteCurrentCV(
                 result.message ||
                 "Không thể xóa CV"
             );
-
         }
 
 
         showToast(
-            "Đã xóa CV"
+            "Đã xóa CV",
+            "Thao tác thành công"
         );
 
 
@@ -1065,13 +1515,13 @@ async function deleteCurrentCV(
             error.message ||
             "Không thể xóa CV"
         );
-
     }
-
 }
 
 
-// nhân bản
+// ======================================================
+// NHÂN BẢN CV
+// ======================================================
 
 async function duplicateCV(
     cv,
@@ -1086,44 +1536,173 @@ async function duplicateCV(
                 `${cv.title || "CV"} - Bản sao`,
 
             full_name:
-                cv.full_name,
+                cv.full_name || "",
 
             position:
-                cv.position,
+                cv.position || "",
 
             summary:
-                cv.summary,
-
-            skills:
-                cv.skills,
-
-            soft_skills:
-                cv.soft_skills,
+                cv.summary || "",
 
             email:
-                cv.email,
+                cv.email || "",
 
             phone:
-                cv.phone,
+                cv.phone || "",
 
             address:
-                cv.address,
+                cv.address || "",
+
+            git_link:
+                cv.git_link || "",
+
+            soft_skills:
+                cv.soft_skills || "",
 
             primary_color:
-                cv.primary_color,
+                cv.primary_color || "#2F7867",
 
             template:
-                cv.template,
+                cv.template || "layout1",
 
+
+            // kỹ năng chuyên môn
+            professional_skills:
+                Array.isArray(
+                    cv.professional_skills
+                )
+                    ?
+                    cv.professional_skills.map(
+                        skill => ({
+                            position:
+                                skill.position || "",
+
+                            technologies:
+                                skill.technologies || ""
+                        })
+                    )
+                    :
+                    [],
+
+
+            // kinh nghiệm
             experiences:
-                cv.experiences || [],
+                Array.isArray(
+                    cv.experiences
+                )
+                    ?
+                    cv.experiences.map(
+                        experience => ({
+                            position:
+                                experience.position || "",
 
+                            time_range:
+                                experience.time_range || "",
+
+                            company:
+                                experience.company || "",
+
+                            description:
+                                experience.description || ""
+                        })
+                    )
+                    :
+                    [],
+
+
+            // học vấn
             educations:
-                cv.educations || [],
+                Array.isArray(
+                    cv.educations
+                )
+                    ?
+                    cv.educations.map(
+                        education => ({
+                            degree:
+                                education.degree || "",
 
+                            time_range:
+                                education.time_range || "",
+
+                            school:
+                                education.school || "",
+
+                            gpa:
+                                education.gpa === null ||
+                                education.gpa === undefined
+                                    ?
+                                    null
+                                    :
+                                    education.gpa
+                        })
+                    )
+                    :
+                    [],
+
+
+            // dự án
+            projects:
+                Array.isArray(
+                    cv.projects
+                )
+                    ?
+                    cv.projects.map(
+                        project => ({
+                            project_name:
+                                project.project_name || "",
+
+                            technologies:
+                                project.technologies || "",
+
+                            description:
+                                project.description || ""
+                        })
+                    )
+                    :
+                    [],
+
+
+            // ngoại ngữ
             languages:
-                cv.languages || []
+                Array.isArray(
+                    cv.languages
+                )
+                    ?
+                    cv.languages.map(
+                        language => ({
+                            name:
+                                language.name ||
+                                language.language_name ||
+                                "",
 
+                            level:
+                                language.level || ""
+                        })
+                    )
+                    :
+                    [],
+
+
+            // hoạt động
+            activities:
+                Array.isArray(
+                    cv.activities
+                )
+                    ?
+                    cv.activities.map(
+                        activity => ({
+                            activity_name:
+                                activity.activity_name || "",
+
+                            activity_year:
+                                activity.activity_year || "",
+
+                            description:
+                                activity.description || ""
+                        })
+                    )
+                    :
+                    []
         };
 
 
@@ -1134,22 +1713,27 @@ async function duplicateCV(
                     method: "POST",
 
                     headers: {
-
                         "Content-Type":
                             "application/json",
 
                         "Authorization":
                             `Bearer ${token}`
-
                     },
 
                     body:
                         JSON.stringify(
                             duplicateData
                         )
-
                 }
             );
+
+
+        if (response.status === 401) {
+
+            logout();
+
+            return;
+        }
 
 
         const result =
@@ -1162,12 +1746,12 @@ async function duplicateCV(
                 result.message ||
                 "Không thể nhân bản CV"
             );
-
         }
 
 
         showToast(
-            "Đã nhân bản CV"
+            "Đã nhân bản CV",
+            "Thao tác thành công"
         );
 
 
@@ -1194,74 +1778,367 @@ async function duplicateCV(
             error.message ||
             "Không thể nhân bản CV"
         );
-
     }
-
 }
 
 
-// pdf
+// ======================================================
+// PDF
+// ======================================================
 
-function downloadPDF(cv) {
+// ======================================================
+// TẢI PDF TRỰC TIẾP
+// ======================================================
 
-    const element =
-        document.getElementById(
-            "cv-document"
-        );
-
+async function downloadPDF(cv) {
+    const element = document.getElementById("cv-document");
 
     if (!element) {
-
-        showToast(
-            "Không tìm thấy nội dung CV"
-        );
-
+        showToast("Lỗi", "Không tìm thấy nội dung CV");
         return;
-
     }
 
+    if (typeof html2canvas === "undefined") {
+        showToast("Lỗi", "Chưa tải được thư viện html2canvas-pro");
+        return;
+    }
 
-    // đặt tiêu đề cho file pdf
+    if (!window.jspdf?.jsPDF) {
+        showToast("Lỗi", "Chưa tải được thư viện PDF");
+        return;
+    }
 
-    const oldTitle =
-        document.title;
+    // Lưu giá trị và độ ưu tiên CSS ban đầu để khôi phục chính xác.
+    const properties = [
+        "width",
+        "min-width",
+        "max-width",
+        "min-height",
+        "height",
+        "margin",
+        "transform",
+        "transform-origin",
+        "overflow",
+        "box-sizing",
+        "flex",
+        "align-self"
+    ];
 
+    const oldStyles = {};
 
-    document.title =
-        sanitizeFilename(
-            cv?.title ||
-            "CV"
+    properties.forEach(property => {
+        oldStyles[property] = {
+            value: element.style.getPropertyValue(property),
+            priority: element.style.getPropertyPriority(property)
+        };
+    });
+
+    const restoreStyles = () => {
+        properties.forEach(property => {
+            const old = oldStyles[property];
+
+            if (old.value) {
+                element.style.setProperty(
+                    property,
+                    old.value,
+                    old.priority
+                );
+            } else {
+                element.style.removeProperty(property);
+            }
+        });
+    };
+
+    try {
+        showToast("Đang tạo PDF", "Vui lòng chờ trong giây lát...");
+
+        // Chờ font tải xong trước khi chụp.
+        if (document.fonts?.ready) {
+            await document.fonts.ready;
+        }
+
+        // A4 tại 96 DPI xấp xỉ 794 × 1123 px.
+        // flex: none giúp tránh phần tử bị co chiều rộng.
+        const forcedStyles = {
+            width: "794px",
+            "min-width": "794px",
+            "max-width": "794px",
+            "min-height": "1123px",
+            height: "auto",
+            margin: "0 auto",
+            transform: "none",
+            "transform-origin": "top left",
+            overflow: "visible",
+            "box-sizing": "border-box",
+            flex: "0 0 794px",
+            "align-self": "flex-start"
+        };
+
+        Object.entries(forcedStyles).forEach(([property, value]) => {
+            element.style.setProperty(property, value, "important");
+        });
+
+        // Giữ màu chủ đạo khi xuất layout 3.
+        if (element.classList.contains("layout3")) {
+            const color = cv?.primary_color || "#2f7867";
+
+            element.style.setProperty("--cv-color", color);
+
+            if (typeof hexToRgba === "function") {
+                element.style.setProperty(
+                    "--cv-color-soft",
+                    hexToRgba(color, 0.1)
+                );
+            }
+        }
+
+        // Đợi trình duyệt áp dụng kích thước và render lại.
+        await new Promise(resolve => {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(resolve);
+            });
+        });
+
+        console.log("PDF - kích thước trước khi chụp:", {
+            width: element.getBoundingClientRect().width,
+            height: element.getBoundingClientRect().height,
+            scrollWidth: element.scrollWidth,
+            scrollHeight: element.scrollHeight
+        });
+
+        // Chụp CV thành canvas.
+        const canvas = await html2canvas(element, {
+            scale: 2,
+            useCORS: true,
+            allowTaint: false,
+            backgroundColor: "#ffffff",
+            logging: false,
+            imageTimeout: 15000,
+            scrollX: 0,
+            scrollY: 0,
+            windowWidth: Math.max(
+                document.documentElement.clientWidth,
+                794
+            ),
+            windowHeight: Math.max(
+                document.documentElement.clientHeight,
+                element.scrollHeight
+            )
+        });
+
+        if (!canvas.width || !canvas.height) {
+            throw new Error("Không tạo được ảnh CV.");
+        }
+
+        console.log("PDF - kích thước canvas:", {
+            width: canvas.width,
+            height: canvas.height
+        });
+
+        // Lấy các điểm ngắt trang TRƯỚC khi khôi phục CSS.
+        const elementRect = element.getBoundingClientRect();
+
+        const scaleY = canvas.height / elementRect.height;
+
+        const breakPoints = [];
+
+        const breakSelectors = [
+            ".cv-section",
+            ".cv-item",
+            ".experience-item",
+            ".education-item",
+            ".project-item",
+            ".activity-item",
+            ".language-item",
+            ".professional-skill-item"
+        ].join(",");
+
+        element.querySelectorAll(breakSelectors).forEach(item => {
+            const rect = item.getBoundingClientRect();
+
+            const bottom = Math.round(
+                (rect.bottom - elementRect.top) * scaleY
+            );
+
+            if (bottom > 0 && bottom < canvas.height) {
+                breakPoints.push(bottom);
+            }
+        });
+
+        const uniqueBreakPoints = [
+            ...new Set(breakPoints)
+        ].sort((a, b) => a - b);
+
+        // Khôi phục giao diện ngay sau khi đã chụp và lấy điểm ngắt.
+        restoreStyles();
+
+        // Khởi tạo PDF A4.
+        const { jsPDF } = window.jspdf;
+
+        const pdf = new jsPDF({
+            orientation: "portrait",
+            unit: "mm",
+            format: "a4",
+            compress: true
+        });
+
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+
+        // Quy đổi chiều cao trang A4 sang pixel canvas.
+        const ratio = pageWidth / canvas.width;
+
+        const pageCanvasHeight = Math.floor(
+            pageHeight / ratio
         );
 
+        let currentY = 0;
+        let pageIndex = 0;
 
-    // mở hộp thoại in của trình duyệt
+        // Cắt canvas theo từng trang A4.
+        // ======================================================
+// TẠO PDF - GIỮ CV TRÊN 1 TRANG A4 NẾU VỪA
+// ======================================================
 
-    window.print();
+const totalHeightMM = canvas.height * ratio;
 
+if (totalHeightMM <= pageHeight + 1) {
+    // CV vừa một trang A4: không chia canvas thành nhiều trang.
+    const imageData = canvas.toDataURL("image/jpeg", 0.98);
 
-    // khôi phục tiêu đề trang
+    // Căn giữa theo chiều ngang, giữ nguyên tỷ lệ ảnh.
+    const imageWidth = pageWidth;
+    const imageHeight = totalHeightMM;
 
-    setTimeout(
-        () => {
-
-            document.title =
-                oldTitle;
-
-        },
-        1000
+    pdf.addImage(
+        imageData,
+        "JPEG",
+        0,
+        0,
+        imageWidth,
+        imageHeight,
+        undefined,
+        "FAST"
     );
+} else {
+    // CV dài hơn A4: chia thành nhiều trang.
+    let currentY = 0;
+    let pageIndex = 0;
 
+    while (currentY < canvas.height) {
+        const maxPageY = Math.min(
+            currentY + pageCanvasHeight,
+            canvas.height
+        );
+
+        let pageEnd = maxPageY;
+
+        // Ưu tiên ngắt ở cuối section nếu có điểm ngắt phù hợp.
+        if (maxPageY < canvas.height) {
+            const minBreakY =
+                currentY + pageCanvasHeight * 0.65;
+
+            const possibleBreaks = uniqueBreakPoints.filter(
+                point =>
+                    point >= minBreakY &&
+                    point <= maxPageY
+            );
+
+            if (possibleBreaks.length > 0) {
+                pageEnd = possibleBreaks[possibleBreaks.length - 1];
+            }
+        }
+
+        const sliceHeight = pageEnd - currentY;
+
+        if (sliceHeight <= 0) {
+            break;
+        }
+
+        const pageCanvas = document.createElement("canvas");
+        pageCanvas.width = canvas.width;
+        pageCanvas.height = sliceHeight;
+
+        const ctx = pageCanvas.getContext("2d");
+
+        if (!ctx) {
+            throw new Error("Không thể xử lý ảnh PDF.");
+        }
+
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
+
+        ctx.drawImage(
+            canvas,
+            0,
+            currentY,
+            canvas.width,
+            sliceHeight,
+            0,
+            0,
+            canvas.width,
+            sliceHeight
+        );
+
+        if (pageIndex > 0) {
+            pdf.addPage("a4", "portrait");
+        }
+
+        pdf.addImage(
+            pageCanvas.toDataURL("image/jpeg", 0.98),
+            "JPEG",
+            0,
+            0,
+            pageWidth,
+            sliceHeight * ratio,
+            undefined,
+            "FAST"
+        );
+
+        currentY = pageEnd;
+        pageIndex++;
+    }
 }
 
+        // Đặt tên file.
+        const rawName =
+            cv?.title ||
+            cv?.full_name ||
+            "CV";
 
-// hàm hỗ trợ
+        const fileName = String(rawName)
+            .trim()
+            .replace(/[<>:"/\\|?*\x00-\x1F]/g, "_")
+            .replace(/\s+/g, "_");
+
+        pdf.save(`${fileName}.pdf`);
+
+        showToast("Thành công", "Đã tải CV xuống PDF.");
+
+        console.log("PDF - số trang:", pageIndex);
+
+    } catch (error) {
+        console.error("PDF ERROR:", error);
+
+        showToast(
+            "Lỗi",
+            error.message || "Không thể xuất PDF. Vui lòng thử lại."
+        );
+
+    } finally {
+        // Đảm bảo giao diện luôn trở về trạng thái ban đầu.
+        restoreStyles();
+    }
+}
+
+// ======================================================
+// PARSE SKILLS
+// ======================================================
 
 function parseSkills(value) {
 
     if (!value) {
-
         return [];
-
     }
 
 
@@ -1273,7 +2150,6 @@ function parseSkills(value) {
                     String(item).trim()
             )
             .filter(Boolean);
-
     }
 
 
@@ -1284,9 +2160,12 @@ function parseSkills(value) {
                 item.trim()
         )
         .filter(Boolean);
-
 }
 
+
+// ======================================================
+// FORMAT TEXT
+// ======================================================
 
 function formatText(value) {
 
@@ -1296,16 +2175,42 @@ function formatText(value) {
         /\n/g,
         "<br>"
     );
-
 }
 
+
+// ======================================================
+// FORMAT COMMA TEXT
+// ======================================================
+
+function renderCommaText(value) {
+
+    const items =
+        parseSkills(value);
+
+
+    if (items.length === 0) {
+        return "";
+    }
+
+
+    return items
+        .map(
+            item =>
+                escapeHTML(item)
+        )
+        .join(", ");
+}
+
+
+// ======================================================
+// FORMAT DATE
+// ======================================================
 
 function formatDate(value) {
 
     if (!value) {
 
         return "--/--/----";
-
     }
 
 
@@ -1313,12 +2218,13 @@ function formatDate(value) {
         new Date(value);
 
 
-    if (Number.isNaN(
-        date.getTime()
-    )) {
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
 
         return value;
-
     }
 
 
@@ -1339,9 +2245,12 @@ function formatDate(value) {
 
 
     return `${day}/${month}/${year}`;
-
 }
 
+
+// ======================================================
+// TEMPLATE NAME
+// ======================================================
 
 function getTemplateName(
     template
@@ -1360,16 +2269,18 @@ function getTemplateName(
 
         layout4:
             "Dòng thời gian"
-
     };
 
 
     return names[
         template
     ] || "Cổ điển";
-
 }
 
+
+// ======================================================
+// SANITIZE FILENAME
+// ======================================================
 
 function sanitizeFilename(
     value
@@ -1382,14 +2293,19 @@ function sanitizeFilename(
             ""
         )
 
-        .trim() ||
+        .trim()
 
-        "CV";
-
+        || "CV";
 }
 
 
-function escapeHTML(value) {
+// ======================================================
+// ESCAPE HTML
+// ======================================================
+
+function escapeHTML(
+    value
+) {
 
     return String(value)
 
@@ -1417,66 +2333,86 @@ function escapeHTML(value) {
             /'/g,
             "&#039;"
         );
-
 }
 
+function hexToRgba(hex, alpha = 0.1) {
 
-// toast
+    hex = String(hex || "").replace("#", "");
 
-function showToast(
-    message
-) {
+    if (hex.length === 3) {
+        hex = hex
+            .split("")
+            .map(char => char + char)
+            .join("");
+    }
 
-    const toastArea =
-        document.getElementById(
-            "toastArea"
-        );
+    if (!/^[0-9a-fA-F]{6}$/.test(hex)) {
+        return `rgba(47, 120, 103, ${alpha})`;
+    }
 
+    const r = parseInt(
+        hex.substring(0, 2),
+        16
+    );
+
+    const g = parseInt(
+        hex.substring(2, 4),
+        16
+    );
+
+    const b = parseInt(
+        hex.substring(4, 6),
+        16
+    );
+
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+function showToast(title, message) {
+
+    if (message === undefined) {
+        message = "Thao tác thành công";
+    }
+
+    let toastArea =
+        document.getElementById("toastArea");
 
     if (!toastArea) {
 
-        return;
+        toastArea =
+            document.createElement("div");
 
+        toastArea.id = "toastArea";
+        toastArea.className = "toast-area";
+
+        document.body.appendChild(
+            toastArea
+        );
     }
 
-
     const toast =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
-
-    toast.className =
-        "toast";
-
+    toast.className = "toast";
 
     toast.innerHTML = `
-
         <i class="fa-solid fa-circle-check"></i>
 
         <div>
-
             <strong>
-                ${escapeHTML(message)}
+                ${escapeHTML(title)}
             </strong>
 
+            <p>
+                ${escapeHTML(message)}
+            </p>
         </div>
 
+        <div class="toast-progress"></div>
     `;
 
+    toastArea.appendChild(toast);
 
-    toastArea.appendChild(
-        toast
-    );
-
-
-    setTimeout(
-        () => {
-
-            toast.remove();
-
-        },
-        2000
-    );
-
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
 }
