@@ -10,6 +10,7 @@
             href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&family=Syne:wght@700;800&display=swap"
             rel="stylesheet"
         />
+
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -37,7 +38,7 @@
 
                         <p>
                             Theo dõi các buổi phỏng vấn sắp tới. Bạn có thể bật
-                            nhắc nhở qua email trước 1 giờ.
+                            nhắc nhở qua email trước 5 giờ.
                         </p>
                     </div>
 
@@ -51,21 +52,14 @@
                     </button>
                 </div>
 
-                <!-- LỊCH GẦN NHẤT -->
-                <section class="nearest-interview" id="nearestInterview">
-                    <!-- JS render -->
-                </section>
+                <section
+                    class="nearest-interview"
+                    id="nearestInterview"
+                ></section>
 
-                <!-- DANH SÁCH LỊCH -->
-                <section class="interview-list" id="interviewList">
-                    <!-- JS render -->
-                </section>
+                <section class="interview-list" id="interviewList"></section>
             </div>
         </main>
-
-        <!-- ============================= -->
-        <!-- POPUP THÊM / SỬA LỊCH -->
-        <!-- ============================= -->
 
         <div class="modal-overlay" id="interviewModal">
             <div class="interview-modal">
@@ -88,7 +82,6 @@
                 <form id="interviewForm">
                     <input type="hidden" id="interviewId" />
 
-                    <!-- CÔNG TY -->
                     <div class="form-group">
                         <label for="company"> Công ty </label>
 
@@ -104,7 +97,6 @@
                         </div>
                     </div>
 
-                    <!-- VỊ TRÍ -->
                     <div class="form-group">
                         <label for="position"> Vị trí ứng tuyển </label>
 
@@ -120,7 +112,6 @@
                         </div>
                     </div>
 
-                    <!-- NGÀY + GIỜ -->
                     <div class="form-row">
                         <div class="form-group">
                             <label for="date"> Ngày phỏng vấn </label>
@@ -156,7 +147,6 @@
                         </div>
                     </div>
 
-                    <!-- ONLINE -->
                     <div class="form-group" id="linkGroup">
                         <label for="link">Link phỏng vấn</label>
 
@@ -172,7 +162,6 @@
                         </div>
                     </div>
 
-                    <!-- OFFLINE -->
                     <div
                         class="form-group"
                         id="locationGroup"
@@ -192,7 +181,6 @@
                         </div>
                     </div>
 
-                    <!-- GHI CHÚ -->
                     <div class="form-group">
                         <label for="note"> Ghi chú </label>
 
@@ -203,7 +191,6 @@
                         ></textarea>
                     </div>
 
-                    <!-- REMINDER -->
                     <label class="reminder-option">
                         <input type="checkbox" id="reminder" checked />
 
@@ -211,10 +198,9 @@
                             <i class="fa-solid fa-check"></i>
                         </span>
 
-                        <span> Gửi email nhắc nhở trước 1 giờ </span>
+                        <span> Gửi email nhắc nhở trước 5 giờ </span>
                     </label>
 
-                    <!-- BUTTON -->
                     <div class="modal-actions">
                         <button
                             type="button"
@@ -234,7 +220,6 @@
         </div>
     </body>
     <script src="../js/function.js"></script>
-    <script src="../js/theme.js"></script>
     <script src="../js/header.js"></script>
     <script src="../js/interview.js"></script>
 </html>
