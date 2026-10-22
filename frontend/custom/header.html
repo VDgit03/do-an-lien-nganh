@@ -24,29 +24,29 @@
 
         <!-- DROPDOWN -->
         <div class="user-dropdown" id="user-dropdown">
-            <!-- MÀU CHỦ ĐẠO -->
-
-            <!-- CHẾ ĐỘ -->
+            <!-- NGÔN NGỮ -->
             <div class="dropdown-section">
-                <div class="dropdown-label">Chế độ hiển thị</div>
+                <div class="dropdown-label" data-i18n="settings.language">
+                    Ngôn ngữ
+                </div>
 
-                <div class="theme-options">
+                <div class="language-options">
                     <button
                         type="button"
-                        class="theme-option"
-                        data-theme="light"
+                        class="language-option"
+                        data-set-language="vi"
+                        aria-pressed="true"
                     >
-                        <i class="fa-solid fa-sun"></i>
-                        Sáng
+                        <span>Vietnamese</span>
                     </button>
 
                     <button
                         type="button"
-                        class="theme-option"
-                        data-theme="dark"
+                        class="language-option"
+                        data-set-language="en"
+                        aria-pressed="false"
                     >
-                        <i class="fa-regular fa-moon"></i>
-                        Tối
+                        <span>English</span>
                     </button>
                 </div>
             </div>
