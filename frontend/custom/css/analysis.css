@@ -895,3 +895,145 @@ body {
     font-size: 12px;
     line-height: 1.6;
 }
+
+/* ========================================
+   ANALYSIS PAGE - FORM / RESULT VIEWS
+======================================== */
+
+/* Form: một cột, giống ảnh 1 */
+.analysis-layout.is-form-view {
+    display: grid;
+    grid-template-columns: minmax(0, 773px);
+    justify-content: start;
+    gap: 0;
+}
+
+.analysis-layout.is-form-view .analysis-form {
+    width: 100%;
+}
+
+.analysis-layout.is-form-view .analysis-result {
+    display: none;
+}
+
+/* Kết quả: chiếm toàn bộ chiều rộng nội dung */
+.analysis-layout.is-result-view {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    align-items: start;
+}
+
+.analysis-layout.is-result-view .analysis-form {
+    display: none;
+}
+
+.analysis-layout.is-result-view .analysis-result {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    padding: 24px 26px 30px;
+    border-radius: 14px;
+}
+
+/* Thanh điều hướng kết quả */
+.result-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.result-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    border: none;
+    background: transparent;
+    color: #62718a;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.result-back-btn:hover {
+    color: var(--green);
+}
+
+.result-toolbar-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.result-toolbar-actions .btn-analyze,
+.result-toolbar-actions .btn-clear {
+    min-height: 44px;
+}
+
+/* Kết quả dùng hết chiều rộng */
+.analysis-layout.is-result-view .result-content {
+    width: 100%;
+    max-width: none;
+}
+
+.analysis-layout.is-result-view .result-header {
+    align-items: center;
+}
+
+.analysis-layout.is-result-view .result-section {
+    margin-top: 24px;
+    padding-top: 22px;
+}
+
+.analysis-layout.is-result-view .result-section h3 {
+    font-size: 15px;
+}
+
+.analysis-layout.is-result-view .component-row {
+    margin-bottom: 16px;
+}
+
+/* Không để trạng thái đang phân tích quá thấp */
+.analysis-layout.is-result-view .result-empty {
+    min-height: 300px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .analysis-layout.is-form-view {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .analysis-layout.is-result-view .analysis-result {
+        padding: 20px 16px;
+    }
+
+    .result-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .result-toolbar-actions {
+        width: 100%;
+    }
+
+    .result-toolbar-actions button {
+        flex: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .result-toolbar-actions {
+        flex-direction: column;
+    }
+
+    .result-toolbar-actions button {
+        width: 100%;
+    }
+}
