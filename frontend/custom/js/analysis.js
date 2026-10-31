@@ -231,7 +231,7 @@ function updateCharacterCount() {
 }
 
 
-/* jd mẫu: backend đọc từ it_15_job_positions.json theo ngành + cấp bậc đang chọn */
+/* jd mẫu: backend trả JD soạn sẵn trong data/sample_jds.json theo ngành + cấp bậc đang chọn */
 let lastSampleJd = "";
 
 async function loadSampleJD() {
