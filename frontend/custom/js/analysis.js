@@ -10,7 +10,9 @@ document.addEventListener(
 /* init */
 function initAnalysis() {
     emptyResultHtml =
-        document.querySelector(".analysis-result").innerHTML;
+    document.querySelector(".analysis-result").innerHTML;
+
+initAnalysisView();
 
     const cvFile = document.getElementById("cvFile");
 
@@ -351,8 +353,84 @@ const EFFORT_LABELS = {
     high: "cần học/làm thêm"
 };
 
+
 let emptyResultHtml = "";
 let lastJobDescription = "";
+let lastAnalysisData = null;
+
+let originalAnalysisHeading = "";
+let originalAnalysisDescription = "";
+
+function initAnalysisView() {
+    const layout = document.querySelector(".analysis-layout");
+    const form = document.querySelector(".analysis-form");
+    const panel = document.querySelector(".analysis-result");
+    const heading = document.querySelector(".analysis-heading h1");
+    const description = document.querySelector(".analysis-heading p");
+
+    originalAnalysisHeading = heading.textContent;
+    originalAnalysisDescription = description.textContent;
+
+    layout.classList.add("is-form-view");
+    layout.classList.remove("is-result-view");
+
+    form.hidden = false;
+    panel.hidden = true;
+}
+
+function showAnalysisResultView() {
+    const layout = document.querySelector(".analysis-layout");
+    const form = document.querySelector(".analysis-form");
+    const panel = document.querySelector(".analysis-result");
+    const heading = document.querySelector(".analysis-heading h1");
+    const description = document.querySelector(".analysis-heading p");
+
+    layout.classList.remove("is-form-view");
+    layout.classList.add("is-result-view");
+
+    form.hidden = true;
+    panel.hidden = false;
+
+    heading.textContent = "Kết quả phân tích";
+
+    const role = document.getElementById("jobField");
+    const level = document.getElementById("level");
+
+    const roleText = role.options[role.selectedIndex].text;
+    const levelText = level.options[level.selectedIndex].text;
+
+    description.textContent =
+        `${roleText} · ${levelText} · Kết quả phân tích CV`;
+}
+
+function showAnalysisFormView() {
+    const layout = document.querySelector(".analysis-layout");
+    const form = document.querySelector(".analysis-form");
+    const panel = document.querySelector(".analysis-result");
+    const heading = document.querySelector(".analysis-heading h1");
+    const description = document.querySelector(".analysis-heading p");
+
+    layout.classList.remove("is-result-view");
+    layout.classList.add("is-form-view");
+
+    form.hidden = false;
+    panel.hidden = true;
+
+    heading.textContent = originalAnalysisHeading;
+    description.textContent = originalAnalysisDescription;
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function startNewAnalysis() {
+    clearAnalysis();
+    lastAnalysisData = null;
+    lastJobDescription = "";
+
+    showAnalysisFormView();
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
 
 async function analyzeCV(event, useOcr = false) {
     const cvFile = document.getElementById("cvFile");
@@ -440,8 +518,12 @@ async function analyzeCV(event, useOcr = false) {
             throw new Error(data.message || "Không thể phân tích CV.");
         }
 
+        lastAnalysisData = data.data;
+
+        showAnalysisResultView();
         renderAnalysisResult(data.data);
-    } catch (error) {
+
+window.scrollTo({ top: 0, behavior: "smooth" });    } catch (error) {
         console.error("ANALYZE CV ERROR:", error);
 
         resetResultPanel();
@@ -465,6 +547,7 @@ function setAnalyzing(isAnalyzing) {
     analyzeBtn.disabled = isAnalyzing;
 
     if (isAnalyzing) {
+        showAnalysisResultView();
         /* chỉ lưu nội dung gốc lần đầu (gọi lồng nhau khi OCR) */
         if (!analyzeBtn.dataset.html) {
             analyzeBtn.dataset.html = analyzeBtn.innerHTML;
@@ -655,6 +738,20 @@ function renderAnalysisResult(data) {
         .join("");
 
     panel.innerHTML = `
+        <div class="result-toolbar">
+            <button type="button" class="result-back-btn" id="backToAnalysisBtn">
+                <i class="fa-solid fa-arrow-left"></i>
+                Quay lại
+            </button>
+
+            <div class="result-toolbar-actions">
+
+                <button type="button" class="btn-analyze" id="newAnalysisBtn">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Phân tích CV khác
+                </button>
+            </div>
+        </div>
         <div class="result-content">
             <div class="result-header">
                 <div>
@@ -772,7 +869,21 @@ function renderAnalysisResult(data) {
             }
         </div>
     `;
+    document
+        .getElementById("backToAnalysisBtn")
+        .addEventListener("click", showAnalysisFormView);
 
+    document
+        .getElementById("analyzeAgainBtn")
+        .addEventListener("click", () => {
+            if (lastAnalysisData) {
+                analyzeCV();
+            }
+        });
+
+    document
+        .getElementById("newAnalysisBtn")
+        .addEventListener("click", startNewAnalysis);
     /* nút viết lại bằng AI */
     const aiButton = document.getElementById("aiRewriteBtn");
 

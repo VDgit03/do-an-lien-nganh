@@ -149,22 +149,28 @@ const sendReminderEmail = async (
         "Bạn";
 
 
-    const interviewDate =
-        new Date(
-            `${interview.interview_date}T00:00:00`
-        );
+    const rawDate = interview.interview_date;
 
+    let interviewDate;
 
-    const formattedDate =
-        interviewDate.toLocaleDateString(
-            "vi-VN",
-            {
-                weekday: "long",
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric"
-            }
-        );
+    if (rawDate instanceof Date) {
+        interviewDate = rawDate;
+    } else {
+        const dateString = String(rawDate).slice(0, 10);
+        const [year, month, day] = dateString.split("-").map(Number);
+
+        interviewDate = new Date(year, month - 1, day);
+    }
+
+    const formattedDate = interviewDate.toLocaleDateString(
+        "vi-VN",
+        {
+            weekday: "long",
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric"
+        }
+    );
 
 
     const interviewTime =
