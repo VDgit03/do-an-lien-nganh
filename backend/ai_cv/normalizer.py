@@ -17,6 +17,11 @@ def normalize_text(text):
     # rời), làm mọi phép so khớp với từ khóa NFC bị hỏng.
     text = unicodedata.normalize("NFC", text)
 
+    # FIX: PDF hay chứa ký tự vô hình (BOM, zero-width) sau nhãn, vd "Database\ufeff:"
+    # -> tên nhóm kỹ năng bị lẫn ký tự lạ. Bỏ chúng; NBSP đổi thành dấu cách.
+    text = re.sub(r"[\ufeff\u200b\u200c\u200d\u2060]", "", text)
+    text = text.replace("\u00a0", " ")
+
     # Chuẩn hóa khoảng trắng
     lines = text.split("\n")
 

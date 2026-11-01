@@ -855,7 +855,7 @@ function renderAnalysisResult(data) {
                                </button>
                                <button type="button" class="btn-ai" id="aiFixPdfBtn">
                                    <i class="fa-solid fa-file-pdf"></i>
-                                   AI tự sửa vào PDF
+                                   AI tự sửa và tạo PDF
                                </button>
                                <div id="aiFixResult"></div>
                                <p class="ai-note">
@@ -888,7 +888,7 @@ function renderAnalysisResult(data) {
     const fixButton = document.getElementById("aiFixPdfBtn");
 
     if (fixButton) {
-        fixButton.addEventListener("click", () => fixPdfWithAgent());
+        fixButton.addEventListener("click", () => openCvDraft());
     }
 
     /* chạy hiệu ứng thanh điểm */

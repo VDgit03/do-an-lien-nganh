@@ -838,6 +838,7 @@ def extract_personal_information(text):
                     piece
                     and not EMAIL_PATTERN.search(piece)
                     and not URL_PATTERN.search(piece)
+                    and not personal["address"]
                     and (
                         _CITY_ONLY.match(piece)
                         or (
@@ -849,6 +850,28 @@ def extract_personal_information(text):
                     personal["address"] = piece
                     break
             if personal["address"]:
+                break
+
+    # FIX: địa chỉ kiểu "14 Ha Tri 3 Ha Cau Ha Noi" (không có từ khoá đường/phố)
+    # nằm riêng một dòng trong khối thông tin cá nhân: bắt đầu bằng số nhà, >= 3
+    # từ, có chữ, không phải ngày/số điện thoại/email/link.
+    if not personal["address"]:
+        for line in lines[:15]:
+            if detect_section_heading(line) in ("experience", "education",
+                                                "projects", "skills",
+                                                "summary"):
+                break
+            value = line.strip()
+            if (
+                re.match(r"^\d{1,4}[A-Za-z]?(?:[/-]\d+)?\s+\D", value)
+                and len(value.split()) >= 3
+                and len(re.findall(r"[^\W\d_]", value)) >= 8
+                and not EMAIL_PATTERN.search(value)
+                and not URL_PATTERN.search(value)
+                and not is_date_range(value)
+                and not is_single_date(value)
+            ):
+                personal["address"] = value
                 break
 
     return personal
@@ -1692,6 +1715,30 @@ def split_skill_label(line):
     if "&" in label or _SKILL_LABEL_WORDS.search(label):
         return label, value
 
+    # Nhãn "trơn" không chứa từ khoá quen thuộc: "IT Operations:", "Professional:",
+    # "Soft Skills:"... Trước đây bị coi là phần tiếp theo của nhóm trước nên nhiều
+    # nhóm bị gộp thành một đoạn dài. Chỉ nhận khi nhãn ngắn (<= 3 từ), mỗi từ
+    # viết hoa chữ đầu (hoặc toàn hoa) và không có dấu câu (khác "e.g.:", "Note.:").
+    # "Java: 3 years", "Python: Advanced" là kỹ năng + mức độ, không phải nhóm.
+    proficiency = re.match(
+        r"^(?:\d|(?:basic|beginner|intermediate|advanced|expert|good|fair|"
+        r"native|fluent|cơ bản|khá|tốt|thành thạo)\b)",
+        value,
+        flags=re.IGNORECASE,
+    )
+
+    if (
+        value
+        and not proficiency
+        and len(label.split()) <= 3
+        and not re.search(r"[.,;!?]", label)
+        and all(
+            word[0].isupper() or word[0] in "&/+-"
+            for word in label.split()
+        )
+    ):
+        return label, value
+
     return None
 
 
@@ -2302,7 +2349,22 @@ def extract_projects(text):
                 url = extract_url(repository_value)
 
                 if url:
+                    # FIX: URL dài bị PDF xuống dòng ("...-FA25-" / "Group4-HR...")
+                    # trước đây bị cắt mất phần sau. Nối các dòng tiếp theo khi URL
+                    # kết thúc bằng "-", "_" hoặc "/" và dòng sau là một token liền.
+                    j = i + 1
+                    while (
+                        url.endswith(("-", "_", "/"))
+                        and j < len(lines)
+                        and re.fullmatch(r"[\w\-./%?=&#]+", lines[j].strip())
+                    ):
+                        url += lines[j].strip()
+                        j += 1
                     current["repository"] = url
+                    repository_seen = False
+                    i = j
+                    repository_seen = False
+                    continue
                 else:
                     current["repository"] = repository_value
 
