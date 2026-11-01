@@ -1180,6 +1180,9 @@ class CareerIntelligence:
         languages += self._languages_from_skill_groups(profile)
         education = self._extract_education(profile)
         certifications = self._extract_certifications(profile)
+        # Chứng chỉ ngoại ngữ (IELTS/TOEIC/JLPT...) chứng minh có ngoại ngữ đó.
+        # Trước đây JD yêu cầu "Tiếng Anh" vẫn bị báo thiếu dù CV có TOEIC 800.
+        languages += self._languages_from_certifications(certifications)
 
         experience = self._to_dict_list(profile.get("experience"))
         projects = self._to_dict_list(profile.get("projects"))
@@ -1271,6 +1274,24 @@ class CareerIntelligence:
             result += [
                 str(v) for v in values if self._SPOKEN_RE.search(str(v))
             ]
+        return result
+
+    _CERT_LANGUAGE = (
+        (r"\b(?:ielts|toeic|toefl|cambridge|aptis|pet|fce|cae|vstep)\b",
+         ["English", "Tiếng Anh"]),
+        (r"\b(?:jlpt|noken|nat-?test)\b", ["Japanese", "Tiếng Nhật"]),
+        (r"\b(?:topik|eps-?topik)\b", ["Korean", "Tiếng Hàn"]),
+        (r"\b(?:hsk|hskk|tocfl)\b", ["Chinese", "Tiếng Trung"]),
+        (r"\b(?:delf|dalf|tcf)\b", ["French", "Tiếng Pháp"]),
+        (r"\b(?:testdaf|goethe|telc)\b", ["German", "Tiếng Đức"]),
+    )
+
+    def _languages_from_certifications(self, certifications: List[str]):
+        result: List[str] = []
+        for cert in certifications:
+            for pattern, names in self._CERT_LANGUAGE:
+                if re.search(pattern, str(cert), flags=re.IGNORECASE):
+                    result += [n for n in names if n not in result]
         return result
 
     def _language_names(self, value: Any) -> List[str]:

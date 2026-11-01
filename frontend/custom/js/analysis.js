@@ -869,22 +869,16 @@ function renderAnalysisResult(data) {
             }
         </div>
     `;
-    document
-        .getElementById("backToAnalysisBtn")
-        .addEventListener("click", showAnalysisFormView);
+    document.getElementById("backToAnalysisBtn")
+        ?.addEventListener("click", showAnalysisFormView);
 
-    document
-        .getElementById("analyzeAgainBtn")
-        .addEventListener("click", () => {
-            if (lastAnalysisData) {
-                analyzeCV();
-            }
-        });
+    document.getElementById("newAnalysisBtn")
+        ?.addEventListener("click", startNewAnalysis);
 
-    document
-        .getElementById("newAnalysisBtn")
-        .addEventListener("click", startNewAnalysis);
-    /* nút viết lại bằng AI */
+    document.getElementById("analyzeAgainBtn")
+        ?.addEventListener("click", () => { if (lastAnalysisData) analyzeCV(); });
+    
+        /* nút viết lại bằng AI */
     const aiButton = document.getElementById("aiRewriteBtn");
 
     if (aiButton) {

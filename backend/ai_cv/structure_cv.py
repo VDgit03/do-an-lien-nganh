@@ -420,6 +420,12 @@ def looks_like_heading(line):
     if len(words) == 1 and len(line) <= 4:
         return False
 
+    # "IELTS 6.5", "TOEIC 800", "JLPT N2": chứng chỉ/điểm số, không phải heading.
+    if len(words) >= 2 and re.search(
+        r"(?:\b[A-Za-z]\d|\d+(?:[.,]\d+)?\+?)$", line
+    ):
+        return False
+
     # Tất cả uppercase
     letters = [
         char for char in line
@@ -819,6 +825,32 @@ def extract_personal_information(text):
                 personal["address"] = line
                 break
 
+    # FIX: dòng liên hệ gộp "Email: ... | Phone: ... | Hà Nội" -> địa chỉ nằm
+    # trong một mảnh của dòng nên heuristic theo cả dòng không bắt được.
+    if not personal["address"]:
+        for line in lines[:12]:
+            if detect_section_heading(line) in ("experience", "education",
+                                                "projects", "skills"):
+                break
+            for piece in re.split(r"\s*[|•·]\s*", line):
+                piece = piece.strip()
+                if (
+                    piece
+                    and not EMAIL_PATTERN.search(piece)
+                    and not URL_PATTERN.search(piece)
+                    and (
+                        _CITY_ONLY.match(piece)
+                        or (
+                            len(re.split(r"\s*[|•·]\s*", line)) > 1
+                            and looks_like_address(piece)
+                        )
+                    )
+                ):
+                    personal["address"] = piece
+                    break
+            if personal["address"]:
+                break
+
     return personal
 
 
@@ -923,8 +955,26 @@ def split_credentials(text):
     return "\n".join(kept), certs, langs
 
 
+_SCHOOL_PREFIX = re.compile(
+    r"^(?:đại học|học viện|trường|cao đẳng|university|college|institute|"
+    r"academy|school)\b",
+    re.IGNORECASE,
+)
+
+_CITY_ONLY = re.compile(
+    r"^(?:tp\.?\s*|thành phố\s*|tỉnh\s*)?(?:hà nội|ha noi|hanoi|hồ chí minh|"
+    r"ho chi minh|hcmc|tp\.?\s*hcm|hcm|"
+    r"sài gòn|đà nẵng|da nang|hải phòng|cần thơ|huế|việt nam|vietnam)$",
+    re.IGNORECASE,
+)
+
+
 def _split_institution_degree(line):
-    """"HUST – B.S. in IT" -> ("HUST", "B.S. in IT") nếu vế phải là bằng cấp."""
+    """"HUST – B.S. in IT" -> ("HUST", "B.S. in IT") nếu vế phải là bằng cấp.
+
+    "Đại học Phenikaa - Công nghệ thông tin" -> trả (trường, "") và để
+    extract_education đưa vế phải vào `major` (xem _split_school_major).
+    """
     parts = re.split(r"\s+[–—|-]\s+", line, maxsplit=1)
 
     if (
@@ -933,6 +983,31 @@ def _split_institution_degree(line):
         and _DEGREE_WORDS.search(parts[1])
     ):
         return parts[0].strip(), parts[1].strip()
+
+    return line, ""
+
+
+def _split_school_major(line):
+    """"Đại học Phenikaa - Công nghệ thông tin" -> ("Đại học Phenikaa", "Công nghệ thông tin").
+
+    Chỉ tách khi vế trái là tên trường và vế phải không phải bằng cấp/địa điểm.
+    """
+    parts = re.split(r"\s+[–—|-]\s+", line.strip(), maxsplit=1)
+
+    if len(parts) != 2:
+        return line, ""
+
+    left, right = parts[0].strip(), parts[1].strip()
+
+    if (
+        left
+        and right
+        and _SCHOOL_PREFIX.match(left)
+        and not _DEGREE_WORDS.search(right)
+        and not _CITY_ONLY.match(right)
+        and not _is_sentence(right)
+    ):
+        return left, right
 
     return line, ""
 
@@ -949,6 +1024,24 @@ def expand_inline_dates(lines):
     for line in lines:
         if re.match(r"^[•▪●◦○■□◆◇\-–—*]", line):
             result.append(line)
+            continue
+
+        # "09/2019 - 06/2023 | GPA: 3.2/4.0" -> tách từng phần để không mất ngày
+        pieces = [
+            piece.strip()
+            for piece in re.split(r"\s*[|•·]\s*", line)
+            if piece.strip()
+        ]
+        if len(pieces) > 1 and any(
+            is_date_range(piece) or is_single_date(piece)
+            for piece in pieces
+        ):
+            for piece in pieces:
+                head, date_value = split_inline_date(piece)
+                if date_value:
+                    result.extend([head, date_value])
+                else:
+                    result.append(piece)
             continue
 
         head, date_value = split_inline_date(line)
@@ -1107,11 +1200,15 @@ def extract_education(text):
         if current is None:
 
             institution, degree = _split_institution_degree(line)
+            major = ""
+
+            if not degree:
+                institution, major = _split_school_major(line)
 
             current = {
                 "institution": institution,
                 "degree": degree,
-                "major": "",
+                "major": major,
                 "date": "",
                 "gpa": "",
                 "description": []
@@ -1241,11 +1338,37 @@ def extract_experience(text):
         # FIX: layout "Công ty / Ngày / Chức danh" -> position và company
         # bị đảo. Nếu "company" giống chức danh còn "position" thì không,
         # đảo lại.
+        # "Backend Intern, FPT Software" (dấu phẩy) -> tách khi một vế là chức
+        # danh và vế kia thì không.
+        if current["position"] and not current["company"] and "," in current["position"]:
+            left, right = [
+                part.strip()
+                for part in current["position"].split(",", 1)
+            ]
+            if (
+                left
+                and right
+                and len(right.split()) <= 8
+                and looks_like_role(left) != looks_like_role(right)
+            ):
+                current["position"], current["company"] = left, right
+
+        # Ngoài ra: "Công ty XYZ - Thực tập sinh Frontend" -> vế trái là tên
+        # công ty (có từ khoá công ty, không có từ khoá chức danh) thì đảo.
         if (
             current["position"]
             and current["company"]
-            and looks_like_role(current["company"])
-            and not looks_like_role(current["position"])
+            and (
+                (
+                    looks_like_role(current["company"])
+                    and not looks_like_role(current["position"])
+                )
+                or (
+                    looks_like_company(current["position"])
+                    and not looks_like_role(current["position"])
+                    and not looks_like_company(current["company"])
+                )
+            )
         ):
             current["position"], current["company"] = (
                 current["company"],
@@ -1679,17 +1802,70 @@ PROJECT_ROLE_KEYWORDS = [
     "intern",
     "analyst",
     "consultant",
-    "contributor"
+    "contributor",
+    # Bổ sung: chức danh thường gặp (Anh + Việt)
+    "tester",
+    "qa",
+    "qc",
+    "devops",
+    "programmer",
+    "specialist",
+    "administrator",
+    "coordinator",
+    "officer",
+    "executive",
+    "assistant",
+    "associate",
+    "trainee",
+    "fresher",
+    "freelancer",
+    "scientist",
+    "director",
+    "supervisor",
+    "thực tập sinh",
+    "thực tập",
+    "lập trình viên",
+    "kỹ sư",
+    "chuyên viên",
+    "nhân viên",
+    "trưởng nhóm",
+    "trưởng phòng",
+    "quản lý",
+    "giám đốc",
+    "cộng tác viên",
+    "trợ lý",
 ]
+
+# Từ khoá cho thấy một chuỗi là TÊN CÔNG TY / TỔ CHỨC (không phải chức danh)
+COMPANY_HINTS = [
+    "công ty", "cty", "tập đoàn", "ngân hàng", "tổng công ty", "tnhh",
+    "company", "co.", "corp", "corporation", "inc", "ltd", "llc", "jsc",
+    "group", "technologies", "technology", "software", "solutions",
+    "systems", "studio", "labs", "bank", "agency", "startup",
+]
+
+
 def looks_like_role(line):
-    normalized = line.lower()
+    normalized = (line or "").lower()
 
     return any(
         re.search(
-            rf"\b{re.escape(keyword)}\b",
+            rf"(?<!\w){re.escape(keyword)}(?!\w)",
             normalized
         )
         for keyword in PROJECT_ROLE_KEYWORDS
+    )
+
+
+def looks_like_company(line):
+    normalized = (line or "").lower()
+
+    return any(
+        re.search(
+            rf"(?<!\w){re.escape(keyword)}(?!\w)",
+            normalized
+        )
+        for keyword in COMPANY_HINTS
     )
 
 

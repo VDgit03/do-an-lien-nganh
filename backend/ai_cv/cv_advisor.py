@@ -73,6 +73,10 @@ STRONG_VERBS = {
     "xây", "phát", "thiết", "triển", "tối", "cải", "giảm", "tăng", "quản",
     "dẫn", "tự", "tích", "kiểm", "viết", "vận", "nghiên", "phân", "cấu",
     "bảo", "phối", "hướng", "đạt", "hoàn",
+    # Bổ sung các động từ hành động tiếng Việt hay gặp ("Sửa lỗi...",
+    # "Lập trình...", "Đánh giá..."): trước đây bị báo "chưa có động từ mạnh".
+    "sửa", "dựng", "lập", "nâng", "đánh", "huấn", "đào", "chuyển", "áp",
+    "thực", "xử", "mở", "thu", "ứng", "chuẩn", "đề", "khắc", "rà",
 }
 
 SOFT_TEMPLATES: Dict[str, str] = {
@@ -1576,6 +1580,11 @@ class CVAdvisor:
     def _weak_phrase(self, folded: str) -> Optional[str]:
         for phrase in sorted(WEAK_PHRASES, key=len, reverse=True):
             if re.match(r"^" + re.escape(phrase) + r"(?!\w)", folded):
+                # "làm" chỉ là cụm động từ yếu khi đứng một mình ("Làm website
+                # bán hàng"). "Làm việc theo Agile" là cụm cố định; thay "làm"
+                # bằng "Xây dựng" tạo ra câu vô nghĩa ("Xây dựng việc theo...").
+                if phrase == "làm" and re.match(r"^làm\s+việc\b", folded):
+                    continue
                 return phrase
         return None
 
