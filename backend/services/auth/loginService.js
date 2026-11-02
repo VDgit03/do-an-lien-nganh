@@ -1,6 +1,6 @@
+
 import { findUserByEmail } from "../../models/authModel.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
 export const loginService = async (email, password) => {
     // 1. Tìm user
@@ -32,27 +32,11 @@ export const loginService = async (email, password) => {
         throw new Error("Sai mật khẩu");
     }
 
-    // 5. Tạo token
-    const token = jwt.sign(
-        {
-            id: user.id,
-            email: user.email,
-        },
-        process.env.JWT_SECRET,
-        {
-            expiresIn: "1h"
-        }
-    );
-
-    // 6. Trả về
+    // 5. Trả về thông tin user, không tạo token
     return {
-        token,
-
-        user: {
-            id: user.id,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            email: user.email,
-        },
+        id: user.id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
     };
 };
