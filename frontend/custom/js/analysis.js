@@ -744,8 +744,11 @@ function renderAnalysisResult(data) {
                 Quay lại
             </button>
 
-            <div class="result-toolbar-actions">
-
+            <div class="result-toolbar-actions">    
+                <button type="button" class="btn-clear" id="analyzeAgainBtn">
+                    <i class="fa-solid fa-rotate"></i>
+                    Phân tích lại
+                </button>
                 <button type="button" class="btn-analyze" id="newAnalysisBtn">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                     Phân tích CV khác
