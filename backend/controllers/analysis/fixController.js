@@ -8,7 +8,7 @@ import {
     VALID_LEVELS,
     VALID_ROLES
 } from "../../services/analysis/analysisService.js";
-import { runCVAgent, AGENT_MODES } from "../../services/analysis/agentService.js";
+import { runCVAgent, runCVDraft, AGENT_MODES } from "../../services/analysis/agentService.js";
 import {
     isGeminiConfigured,
     extractTextFromPdf,
@@ -106,7 +106,7 @@ export const fixCV = async (req, res) => {
             .filter((item) => item.original)
             .slice(0, MAX_REWRITES);
 
-        if (!candidates.length) {
+        if (!candidates.length && mode !== "draft") {
             return res.status(200).json({
                 success: true,
                 data: { mode: null, applied: [], failed: [], pending: [], pdfBase64: null,
@@ -164,6 +164,44 @@ export const fixCV = async (req, res) => {
             }
 
             changes.push({ id: item.id, original: item.original, new: next });
+        }
+
+        // Chế độ "draft": không ghi PDF. Trả bản nháp CV (đã thay bullet) để người dùng
+        // chọn mẫu, xem trước và sửa tay. Bản nháp có cả bullet còn placeholder "[X%]"
+        // (người dùng điền ngay trong khung sửa) nên không bỏ chúng như khi ghi PDF.
+        if (mode === "draft") {
+            const draftChanges = [
+                ...changes,
+                ...pending.map((p) => ({ id: p.id, original: p.original, new: p.draft }))
+            ];
+
+            if (!draftChanges.length) {
+                notes.push("Không có đoạn nào AI cần sửa, đây là bản gốc của CV.");
+            }
+
+            await fs.writeFile(changesPath, JSON.stringify(draftChanges), "utf8");
+
+            const draft = await runCVDraft({ pdfPath, textPath, changesPath });
+            const draftById = new Map(draftChanges.map((c) => [c.id, c]));
+            const pendingIds = new Set(pending.map((p) => p.id));
+
+            return res.status(200).json({
+                success: true,
+                data: {
+                    mode: "draft",
+                    cv: draft.cv,
+                    changes: draft.applied.map((a) => ({
+                        ...a,
+                        source: label[a.id],
+                        original: draftById.get(a.id)?.original,
+                        new: draftById.get(a.id)?.new,
+                        needsInput: pendingIds.has(a.id)
+                    })),
+                    failed: draft.failed.length,
+                    notes,
+                    aiModel
+                }
+            });
         }
 
         if (!changes.length) {

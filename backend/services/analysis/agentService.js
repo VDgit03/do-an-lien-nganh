@@ -6,7 +6,6 @@ import { AnalysisError } from "./analysisService.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const AI_CV_DIR = path.resolve(__dirname, "../../ai_cv");
-const SCRIPT_PATH = path.join(AI_CV_DIR, "cv_agent.py");
 
 const PYTHON_BIN =
     process.env.PYTHON_BIN ||
@@ -14,23 +13,20 @@ const PYTHON_BIN =
 
 const TIMEOUT_MS = Number(process.env.AI_CV_TIMEOUT_MS) || 60000;
 
-export const AGENT_MODES = ["auto", "inplace", "rebuild"];
+// "draft" = không ghi PDF, chỉ trả bản nháp CV (JSON) để người dùng chọn mẫu / sửa tay
+export const AGENT_MODES = ["auto", "inplace", "rebuild", "draft"];
 
 /**
- * Chạy CV Agent (Python): áp dụng `changes` thẳng vào PDF, ghi ra outPath.
- * @param {{pdfPath?: string, textPath?: string, changesPath: string, outPath: string, mode: string}} options
- *   textPath: văn bản CV đã OCR (PDF ảnh) -> chỉ dựng lại, không sửa tại chỗ
- * @returns {Promise<{mode_used: string|null, applied: object[], failed: object[], notes: string[]}>}
+ * Chạy một script Python trong ai_cv, đọc đúng một dòng JSON cuối stdout.
+ * @param {string} scriptName tên file .py
+ * @param {string[]} args
+ * @param {{name: string, timeoutMessage: string}} labels
  */
-export const runCVAgent = ({ pdfPath, textPath, changesPath, outPath, mode }) =>
+const runPython = (scriptName, args, { name, timeoutMessage }) =>
     new Promise((resolve, reject) => {
         const child = spawn(
             PYTHON_BIN,
-            [
-                SCRIPT_PATH,
-                ...(textPath ? ["--text-file", textPath] : ["--pdf", pdfPath]),
-                "--changes", changesPath, "--out", outPath, "--mode", mode
-            ],
+            [path.join(AI_CV_DIR, scriptName), ...args],
             {
                 cwd: AI_CV_DIR,
                 env: { ...process.env, PYTHONIOENCODING: "utf-8", PYTHONUTF8: "1" },
@@ -66,7 +62,7 @@ export const runCVAgent = ({ pdfPath, textPath, changesPath, outPath, mode }) =>
                 new AnalysisError(
                     error.code === "ENOENT"
                         ? `Không tìm thấy Python ("${PYTHON_BIN}"). Hãy cài Python hoặc đặt PYTHON_BIN trong .env.`
-                        : `Không chạy được CV Agent: ${error.message}`,
+                        : `Không chạy được ${name}: ${error.message}`,
                     500
                 )
             );
@@ -74,7 +70,7 @@ export const runCVAgent = ({ pdfPath, textPath, changesPath, outPath, mode }) =>
 
         child.on("close", (code) => {
             if (timedOut) {
-                return finish(reject, new AnalysisError("CV Agent chạy quá lâu. Vui lòng thử lại.", 504));
+                return finish(reject, new AnalysisError(timeoutMessage, 504));
             }
 
             const lastLine = stdout.split("\n").map((l) => l.trim()).filter(Boolean).pop();
@@ -87,8 +83,8 @@ export const runCVAgent = ({ pdfPath, textPath, changesPath, outPath, mode }) =>
             }
 
             if (!payload) {
-                console.error("CV_AGENT stderr:", stderr);
-                return finish(reject, new AnalysisError("CV Agent không trả về kết quả hợp lệ.", 500));
+                console.error(`${name} stderr:`, stderr);
+                return finish(reject, new AnalysisError(`${name} không trả về kết quả hợp lệ.`, 500));
             }
 
             if (payload.success) {
@@ -96,9 +92,36 @@ export const runCVAgent = ({ pdfPath, textPath, changesPath, outPath, mode }) =>
             }
 
             if (code !== 2) {
-                console.error("CV_AGENT stderr:", stderr);
+                console.error(`${name} stderr:`, stderr);
             }
 
-            finish(reject, new AnalysisError(payload.error || "CV Agent không sửa được PDF.", code === 2 ? 422 : 500));
+            finish(reject, new AnalysisError(payload.error || `${name} không xử lý được CV.`, code === 2 ? 422 : 500));
         });
     });
+
+const sourceArgs = ({ pdfPath, textPath }) =>
+    textPath ? ["--text-file", textPath] : ["--pdf", pdfPath];
+
+/**
+ * Chạy CV Agent (Python): áp dụng `changes` thẳng vào PDF, ghi ra outPath.
+ * @param {{pdfPath?: string, textPath?: string, changesPath: string, outPath: string, mode: string}} options
+ *   textPath: văn bản CV đã OCR (PDF ảnh) -> chỉ dựng lại, không sửa tại chỗ
+ * @returns {Promise<{mode_used: string|null, applied: object[], failed: object[], notes: string[]}>}
+ */
+export const runCVAgent = ({ pdfPath, textPath, changesPath, outPath, mode }) =>
+    runPython(
+        "cv_agent.py",
+        [...sourceArgs({ pdfPath, textPath }), "--changes", changesPath, "--out", outPath, "--mode", mode],
+        { name: "CV Agent", timeoutMessage: "CV Agent chạy quá lâu. Vui lòng thử lại." }
+    );
+
+/**
+ * Dựng bản nháp CV (structured_cv đã thay bullet) để frontend xem trước / sửa tay.
+ * @returns {Promise<{cv: object, applied: object[], failed: object[]}>}
+ */
+export const runCVDraft = ({ pdfPath, textPath, changesPath }) =>
+    runPython(
+        "cv_draft.py",
+        [...sourceArgs({ pdfPath, textPath }), "--changes", changesPath],
+        { name: "CV Draft", timeoutMessage: "Dựng bản nháp CV quá lâu. Vui lòng thử lại." }
+    );

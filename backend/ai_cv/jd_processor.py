@@ -122,6 +122,15 @@ class JDProcessor:
 
     def __init__(self, nlp_processor: Optional[Any] = None):
         # Tùy chọn: tái sử dụng taxonomy skill của nlp_processor.
+        # FIX: trước đây mặc định None -> JD luôn dùng danh sách dự phòng ~45
+        # kỹ năng nên bỏ sót GraphQL, REST API, Redux, Jest... Nay tự dùng
+        # taxonomy đầy đủ của CVNLPProcessor.
+        if nlp_processor is None:
+            try:
+                from nlp_processor import CVNLPProcessor
+                nlp_processor = CVNLPProcessor()
+            except Exception:
+                nlp_processor = None
         self.nlp = nlp_processor
 
     def process_jd(self, jd_input: Any, source: str = "auto") -> Dict[str, Any]:
@@ -241,7 +250,7 @@ class JDProcessor:
             "id": "",
             "title": self._extract_title(text),
             "company": "",
-            "level": "",
+            "level": self._extract_level(self._extract_title(text), text),
             "employment_type": "",
             "summary": self._extract_summary(text, sections),
             "responsibilities": sections["responsibilities"],
@@ -325,7 +334,7 @@ class JDProcessor:
         mandatory_text = "\n".join(
             line
             for name, lines in sections.items()
-            if name != "preferred"
+            if name not in ("preferred", "benefits")
             for line in lines
         ) or text
 
@@ -503,9 +512,10 @@ class JDProcessor:
 
         if self.nlp is not None:
             try:
-                return self.nlp.normalize_skill_list(
-                    self.nlp.extract_skills_from_text(text)
-                )
+                # extract_skills_from_text đã trả về tên chuẩn; KHÔNG chuẩn hoá
+                # lại bằng normalize_skill_list vì tên chuẩn như "Vue.js" không
+                # phải khoá của taxonomy nên sẽ bị loại nhầm.
+                return list(self.nlp.extract_skills_from_text(text))
             except Exception:
                 pass
 
@@ -571,6 +581,31 @@ class JDProcessor:
             return "soft_skill"
         return "skill"
 
+    # Mục không phải yêu cầu (quyền lợi, lương, giới thiệu công ty...). Nội dung
+    # ở đây không được dùng để suy ra kỹ năng/bằng cấp bắt buộc.
+    BENEFIT_HEADINGS = {
+        "benefits", "benefit", "what we offer", "perks", "salary",
+        "compensation", "working conditions", "work location", "location",
+        "working time", "working hours", "about us", "about the company",
+        "company overview", "how to apply",
+        # Vietnamese
+        "quyền lợi", "quyền lợi được hưởng", "quyền lợi và phúc lợi",
+        "phúc lợi", "chế độ phúc lợi", "mức lương", "lương", "thu nhập",
+        "địa điểm làm việc", "địa điểm", "thời gian làm việc",
+        "về chúng tôi", "giới thiệu công ty", "thông tin công ty",
+        "cách thức ứng tuyển", "ứng tuyển",
+    }
+
+    # Dòng nằm trong mục "Yêu cầu" nhưng thực chất chỉ là điểm cộng.
+    PREFERRED_LINE_PATTERN = re.compile(
+        r"(?:là\s+(?:một\s+)?(?:điểm\s+cộng|lợi\s+thế|ưu\s+điểm)"
+        r"|sẽ\s+là\s+(?:một\s+)?(?:điểm\s+cộng|lợi\s+thế)"
+        r"|\bưu\s+tiên\b|\bđiểm\s+cộng\b|\bkhông\s+bắt\s+buộc\b"
+        r"|nice[\s-]to[\s-]have|\b(?:a|is\s+a|be\s+a)\s+plus\b|\bbonus\b"
+        r"|\badvantage\b|\bpreferred\b|\bdesirable\b)",
+        re.IGNORECASE,
+    )
+
     def _split_sections(self, text: str) -> Dict[str, List[str]]:
         result = {
             "general": [],
@@ -579,6 +614,7 @@ class JDProcessor:
             "preferred": [],
             "qualifications": [],
             "experience": [],
+            "benefits": [],
         }
 
         current = "general"
@@ -588,7 +624,34 @@ class JDProcessor:
             if not line:
                 continue
 
+            # "Quyền lợi: lương 20-30 triệu" / "Yêu cầu: React" -> nhãn + nội dung
+            # cùng một dòng. Trước đây cả dòng bị coi là nội dung của mục cũ.
+            label_match = re.match(r"^([^:：]{2,40})[:：]\s*(.+)$", line)
+            if label_match:
+                label = self._normalize_heading(label_match.group(1))
+                label_target = None
+                if label in self.BENEFIT_HEADINGS:
+                    label_target = "benefits"
+                elif label in self.PREFERRED_HEADINGS:
+                    label_target = "preferred"
+                elif label in self.RESPONSIBILITY_HEADINGS:
+                    label_target = "responsibilities"
+                elif label in self.EXPERIENCE_HEADINGS:
+                    label_target = "experience"
+                elif label in self.REQUIRED_HEADINGS:
+                    label_target = "required"
+                elif label in self.QUALIFICATION_HEADINGS:
+                    label_target = "qualifications"
+                if label_target:
+                    current = label_target
+                    result[current].append(label_match.group(2).strip())
+                    continue
+
             heading = self._normalize_heading(line)
+
+            if heading in self.BENEFIT_HEADINGS:
+                current = "benefits"
+                continue
 
             if heading in self.RESPONSIBILITY_HEADINGS:
                 current = "responsibilities"
@@ -612,6 +675,41 @@ class JDProcessor:
                 continue
 
             result[current].append(line)
+
+        # Dòng "… là một lợi thế" trong mục yêu cầu -> chuyển sang điểm cộng.
+        for name in ("required", "qualifications", "experience"):
+            kept = []
+            for line in result[name]:
+                if not self.PREFERRED_LINE_PATTERN.search(line):
+                    kept.append(line)
+                    continue
+
+                # "Ít nhất 2 năm với React; ưu tiên có Redux" -> tách tại điểm
+                # "ưu tiên": vế trước vẫn là yêu cầu bắt buộc, vế sau là điểm cộng.
+                split = re.search(
+                    r"[;.]\s*(?=(?:ưu\s+tiên|nice[\s-]to[\s-]have|bonus|"
+                    r"điểm\s+cộng))",
+                    line,
+                    flags=re.IGNORECASE,
+                )
+                if split:
+                    head = line[:split.start()].strip()
+                    tail = line[split.end():].strip()
+                    if head:
+                        kept.append(head)
+                    if tail:
+                        result["preferred"].append(tail)
+                    continue
+
+                # Dòng có yêu cầu số năm kinh nghiệm thì giữ nguyên để không
+                # làm mất mức kinh nghiệm tối thiểu.
+                if re.search(r"\d+\s*\+?\s*(?:năm|years?|yrs?)\b", line,
+                             flags=re.IGNORECASE):
+                    kept.append(line)
+                    continue
+
+                result["preferred"].append(line)
+            result[name] = kept
 
         return result
 
@@ -644,6 +742,35 @@ class JDProcessor:
         }
 
     @staticmethod
+    def _extract_level(title: str, text: str) -> str:
+        """Cấp bậc ghi trong tiêu đề ("Frontend Developer (Middle)") hoặc dòng
+        "Cấp bậc/Level: Senior". Không quét cả bài để tránh nhầm "senior engineers"."""
+        mapping = (
+            ("intern", r"intern(?:ship)?|thực tập"),
+            ("fresher", r"fresher"),
+            ("junior", r"junior"),
+            ("middle", r"middle|mid[\s-]?level|\bmid\b"),
+            ("senior", r"senior"),
+            ("lead", r"\blead\b|manager|trưởng nhóm|trưởng phòng"),
+        )
+
+        sources = [str(title or "")]
+        label = re.search(
+            r"(?:cấp\s*bậc|level|vị\s*trí)\s*[:：]\s*([^\n]+)",
+            str(text or ""),
+            flags=re.IGNORECASE,
+        )
+        if label:
+            sources.append(label.group(1))
+
+        for source in sources:
+            for level, pattern in mapping:
+                if re.search(pattern, source, flags=re.IGNORECASE):
+                    return level
+
+        return ""
+
+    @staticmethod
     def _extract_title(text: str) -> str:
         for line in text.splitlines():
             clean = re.sub(
@@ -657,6 +784,7 @@ class JDProcessor:
                 heading in JDProcessor.REQUIRED_HEADINGS
                 or heading in JDProcessor.PREFERRED_HEADINGS
                 or heading in JDProcessor.RESPONSIBILITY_HEADINGS
+                or heading in JDProcessor.BENEFIT_HEADINGS
             ):
                 continue
 
@@ -687,6 +815,31 @@ class JDProcessor:
     ) -> Optional[Dict[str, Any]]:
         if not text:
             return None
+
+        # "2-3 năm" / "2 – 3 years" -> tối thiểu 2, tối đa 3 (trước đây chỉ bắt
+        # được "3 năm" và coi 3 là mức tối thiểu).
+        range_match = re.search(
+            r"(\d+(?:\.\d+)?)\s*[-–~]\s*(\d+(?:\.\d+)?)\s*\+?\s*"
+            r"(?:năm|years?|yrs?)\b",
+            text,
+            flags=re.IGNORECASE,
+        )
+        if range_match:
+            low = float(range_match.group(1))
+            high = float(range_match.group(2))
+            if low <= high:
+                return {
+                    "id": "",
+                    "category": "experience",
+                    "importance": "must_have",
+                    "match_mode": "single",
+                    "name": "Professional Experience",
+                    "alternatives": [],
+                    "minimum_years": low,
+                    "maximum_years": high,
+                    "source_section": "raw_text",
+                    "evidence_required": True,
+                }
 
         patterns = [
             r"(?:ít nhất|minimum|min\.?)\s*(\d+(?:\.\d+)?)\s*(?:năm|years?)",
@@ -988,10 +1141,12 @@ class JDProcessor:
         # Luôn dùng ranh giới từ để tránh khớp nhầm chuỗi con,
         # kể cả với từ ngắn (VD: "SQL" nằm trong "PostgreSQL",
         # "Go" nằm trong "Django"/"Google").
+        # \w (Unicode) để chữ có dấu tiếng Việt cũng là ranh giới từ; dấu "."
+        # hoặc "-" chỉ chặn khi theo sau là chữ ("Docker." cuối câu vẫn khớp).
         pattern = (
-            r"(?<![a-zA-Z0-9+#.-])"
+            r"(?<![\w+#.-])"
             + re.escape(term)
-            + r"(?![a-zA-Z0-9+#.-])"
+            + r"(?![\w+#]|[.-]\w)"
         )
         return re.search(pattern, text, flags=re.IGNORECASE) is not None
 

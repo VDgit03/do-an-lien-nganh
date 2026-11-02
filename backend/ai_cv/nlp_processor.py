@@ -5,6 +5,10 @@ from domain_lexicon import EXTRA_SKILL_TAXONOMY
 
 class SkillNormalizer:
 
+    # Alias quá ngắn/trùng từ thường: chỉ khớp khi viết hoa đúng dạng gốc.
+    # Khi khớp sẽ dùng đúng tên chuẩn ("C", "Go") và phân biệt hoa/thường.
+    CASE_SENSITIVE_ALIASES = {"c", "go"}
+
     def __init__(self):
         """
         Dictionary dùng để chuẩn hóa skill.
@@ -241,6 +245,9 @@ class SkillNormalizer:
             "rest": "REST API",
             "rest api": "REST API",
             "restful api": "REST API",
+            "restful apis": "REST API",
+            "rest apis": "REST API",
+            "restful": "REST API",
 
             "api": "API",
 
@@ -354,16 +361,28 @@ class SkillNormalizer:
         matches = []
 
         for alias in aliases:
-            pattern = (
-                r"(?<![a-zA-Z0-9+#.])"
-                + re.escape(alias)
-                + r"(?![a-zA-Z0-9+#])"
+            # FIX: dùng \w (Unicode) thay vì [a-zA-Z0-9] để chữ có dấu tiếng
+            # Việt không bị coi là ranh giới từ. Trước đây "Công ty" bị nhận
+            # nhầm thành kỹ năng "C" (và "Go" trong "Gõ"...).
+            literal = (
+                self.skill_taxonomy[alias]
+                if alias in self.CASE_SENSITIVE_ALIASES
+                else alias
             )
+            pattern = (
+                r"(?<![\w+#.])"
+                + re.escape(literal)
+                + r"(?![\w+#])"
+            )
+
+            # Alias 1-2 ký tự dễ trùng từ thường ("c", "go") chỉ nhận khi viết
+            # đúng dạng ký hiệu ngôn ngữ ("C", "Go").
+            flags = 0 if alias in self.CASE_SENSITIVE_ALIASES else re.IGNORECASE
 
             for match in re.finditer(
                 pattern,
                 text,
-                re.IGNORECASE
+                flags
             ):
                 matches.append({
                     "start": match.start(),

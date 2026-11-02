@@ -233,7 +233,7 @@ function updateCharacterCount() {
 }
 
 
-/* jd mẫu: backend đọc từ it_15_job_positions.json theo ngành + cấp bậc đang chọn */
+/* jd mẫu: backend trả JD soạn sẵn trong data/sample_jds.json theo ngành + cấp bậc đang chọn */
 let lastSampleJd = "";
 
 async function loadSampleJD() {
@@ -858,7 +858,7 @@ function renderAnalysisResult(data) {
                                </button>
                                <button type="button" class="btn-ai" id="aiFixPdfBtn">
                                    <i class="fa-solid fa-file-pdf"></i>
-                                   AI tự sửa vào PDF
+                                   AI tự sửa và tạo PDF
                                </button>
                                <div id="aiFixResult"></div>
                                <p class="ai-note">
@@ -872,22 +872,16 @@ function renderAnalysisResult(data) {
             }
         </div>
     `;
-    document
-        .getElementById("backToAnalysisBtn")
-        .addEventListener("click", showAnalysisFormView);
+    document.getElementById("backToAnalysisBtn")
+        ?.addEventListener("click", showAnalysisFormView);
 
-    document
-        .getElementById("analyzeAgainBtn")
-        .addEventListener("click", () => {
-            if (lastAnalysisData) {
-                analyzeCV();
-            }
-        });
+    document.getElementById("newAnalysisBtn")
+        ?.addEventListener("click", startNewAnalysis);
 
-    document
-        .getElementById("newAnalysisBtn")
-        .addEventListener("click", startNewAnalysis);
-    /* nút viết lại bằng AI */
+    document.getElementById("analyzeAgainBtn")
+        ?.addEventListener("click", () => { if (lastAnalysisData) analyzeCV(); });
+    
+        /* nút viết lại bằng AI */
     const aiButton = document.getElementById("aiRewriteBtn");
 
     if (aiButton) {
@@ -897,7 +891,7 @@ function renderAnalysisResult(data) {
     const fixButton = document.getElementById("aiFixPdfBtn");
 
     if (fixButton) {
-        fixButton.addEventListener("click", () => fixPdfWithAgent());
+        fixButton.addEventListener("click", () => openCvDraft());
     }
 
     /* chạy hiệu ứng thanh điểm */

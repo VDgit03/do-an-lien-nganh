@@ -1,0 +1,2015 @@
+{
+  "description": "JD mẫu CNTT: 15 ngành x 6 cấp bậc (90 JD), soạn sẵn và cố định. Sửa trực tiếp file này để chỉnh nội dung.",
+  "roles": {
+    "frontend": {
+      "title": "Frontend Developer",
+      "levels": {
+        "intern": {
+          "summary": "Thực tập sinh Frontend tham gia xây dựng giao diện web cùng đội phát triển, được mentor kèm cặp trực tiếp.",
+          "responsibilities": [
+            "Dựng giao diện từ thiết kế có sẵn bằng HTML, CSS, JavaScript",
+            "Sửa các lỗi hiển thị nhỏ và cập nhật nội dung theo yêu cầu của mentor",
+            "Học cách dùng Git và quy trình làm việc nhóm trong dự án thực tế",
+            "Viết tài liệu ngắn hoặc báo cáo tiến độ công việc hằng tuần"
+          ],
+          "requirements": [
+            "Học vấn: Sinh viên năm 3 trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Không yêu cầu kinh nghiệm đi làm; ưu tiên có đồ án hoặc project cá nhân liên quan.",
+            "Kỹ năng chuyên môn: HTML, CSS, JavaScript cơ bản, hiểu Responsive Design",
+            "Biết sử dụng Git ở mức cơ bản, đọc hiểu được tài liệu kỹ thuật tiếng Anh",
+            "Kỹ năng mềm: Ham học hỏi, Teamwork, Communication"
+          ],
+          "preferred": [
+            "Đã làm đồ án hoặc website cá nhân đưa lên GitHub",
+            "Đã tìm hiểu ReactJS hoặc Vue.js"
+          ]
+        },
+        "fresher": {
+          "summary": "Lập trình viên Frontend mới ra trường, phát triển các tính năng giao diện nhỏ và học dần các công nghệ của dự án.",
+          "responsibilities": [
+            "Xây dựng component và trang giao diện theo thiết kế Figma",
+            "Tích hợp RESTful API để hiển thị và gửi dữ liệu",
+            "Sửa lỗi, kiểm thử giao diện trên nhiều trình duyệt và thiết bị",
+            "Tham gia code review và nhận góp ý từ thành viên có kinh nghiệm"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Chưa cần nhiều kinh nghiệm đi làm; ưu tiên đã có thực tập hoặc đồ án liên quan đến Frontend Developer.",
+            "Kỹ năng chuyên môn: HTML, CSS, JavaScript (ES6+), ReactJS hoặc Vue.js, RESTful API",
+            "Công cụ: Git, VS Code, Chrome DevTools",
+            "Hiểu cơ bản về Responsive Design và Flexbox/Grid",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Learning ability"
+          ],
+          "preferred": [
+            "Biết TypeScript",
+            "Từng làm project cá nhân có triển khai thực tế"
+          ]
+        },
+        "junior": {
+          "summary": "Lập trình viên Frontend độc lập hoàn thành các tính năng được giao và đảm bảo chất lượng giao diện sản phẩm.",
+          "responsibilities": [
+            "Tự phát triển tính năng giao diện hoàn chỉnh từ yêu cầu đến khi release",
+            "Quản lý state và gọi API bằng Redux hoặc Context API",
+            "Tối ưu tốc độ tải trang và khả năng responsive",
+            "Viết unit test cơ bản và sửa lỗi sau kiểm thử",
+            "Phối hợp với Backend và UI/UX Designer để thống nhất giao diện"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 1 năm kinh nghiệm ở vị trí Frontend Developer hoặc tương đương.",
+            "Kỹ năng chuyên môn: JavaScript, TypeScript, ReactJS hoặc Vue.js, Redux, Tailwind CSS, RESTful API",
+            "Công cụ: Git, Figma, Webpack hoặc Vite, Postman",
+            "Hiểu về cross-browser compatibility và web accessibility cơ bản",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Time management"
+          ],
+          "preferred": [
+            "Có kinh nghiệm Next.js",
+            "Biết viết test bằng Jest hoặc React Testing Library"
+          ]
+        },
+        "middle": {
+          "summary": "Lập trình viên Frontend chịu trách nhiệm thiết kế module giao diện, đảm bảo hiệu năng và hỗ trợ thành viên mới.",
+          "responsibilities": [
+            "Thiết kế cấu trúc component, quản lý state cho các module lớn",
+            "Tối ưu hiệu năng (code splitting, lazy loading, caching) theo Core Web Vitals",
+            "Review code và hướng dẫn các thành viên junior",
+            "Xây dựng và duy trì design system, thư viện component dùng chung",
+            "Thiết lập và cải thiện quy trình CI/CD cho frontend"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 3 năm kinh nghiệm ở vị trí Frontend Developer hoặc tương đương.",
+            "Kỹ năng chuyên môn: TypeScript, ReactJS, Next.js, Redux Toolkit hoặc Zustand, GraphQL, Performance Optimization",
+            "Công cụ: Git, Storybook, Jest, Cypress, GitHub Actions",
+            "Có kinh nghiệm Unit Test và E2E Test cho ứng dụng frontend",
+            "Kỹ năng mềm: Communication, Problem solving, Mentoring, Teamwork"
+          ],
+          "preferred": [
+            "Có kinh nghiệm SSR/SSG hoặc micro-frontend",
+            "Có đóng góp mã nguồn mở hoặc chia sẻ kỹ thuật"
+          ]
+        },
+        "senior": {
+          "summary": "Senior Frontend Engineer định hướng kiến trúc frontend, ra quyết định công nghệ và dẫn dắt chất lượng kỹ thuật.",
+          "responsibilities": [
+            "Thiết kế kiến trúc frontend cho hệ thống lớn, nhiều đội cùng phát triển",
+            "Chọn công nghệ, đặt tiêu chuẩn code và quy trình review cho toàn nhóm",
+            "Giải quyết các vấn đề hiệu năng, bảo mật (XSS, CSRF) và khả năng mở rộng",
+            "Mentor đội ngũ và tham gia phỏng vấn tuyển dụng",
+            "Đánh giá rủi ro kỹ thuật và ước lượng khối lượng công việc cho dự án"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 5 năm kinh nghiệm ở vị trí Frontend Developer, đã tham gia thiết kế và triển khai hệ thống thực tế.",
+            "Kỹ năng chuyên môn: TypeScript nâng cao, ReactJS/Next.js, micro-frontend, SSR/SSG, Web Performance, Web Security",
+            "Công cụ: Webpack/Vite, Module Federation, Lighthouse, Sentry, Docker, CI/CD",
+            "Có kinh nghiệm thiết kế design system và kiến trúc ứng dụng quy mô lớn",
+            "Kỹ năng mềm: Leadership, Mentoring, Communication, Problem solving, Decision making"
+          ],
+          "preferred": [
+            "Có kinh nghiệm làm việc với đội ngũ phân tán nhiều múi giờ",
+            "Biết ứng dụng AI vào quy trình phát triển và kiểm thử"
+          ]
+        },
+        "manager": {
+          "summary": "Frontend Engineering Manager quản lý đội frontend, chịu trách nhiệm tiến độ, chất lượng và phát triển nhân sự.",
+          "responsibilities": [
+            "Quản lý, đánh giá và phát triển đội ngũ lập trình viên frontend",
+            "Lập kế hoạch, phân bổ nguồn lực và theo dõi tiến độ delivery của nhiều dự án",
+            "Làm việc với Product, Design, Backend để thống nhất lộ trình sản phẩm",
+            "Xây dựng quy trình kỹ thuật, tiêu chuẩn chất lượng và văn hóa code review",
+            "Tuyển dụng, onboard và xây dựng lộ trình thăng tiến cho thành viên"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 7 năm kinh nghiệm chuyên môn Frontend Developer, trong đó ít nhất 2 năm quản lý đội nhóm.",
+            "Kỹ năng chuyên môn: kiến trúc frontend, ReactJS/Next.js, TypeScript, Web Performance, CI/CD",
+            "Có kinh nghiệm quản lý dự án theo Agile/Scrum, Jira, quản lý rủi ro và ngân sách nhân lực",
+            "Có kinh nghiệm xây dựng KPI/OKR và đánh giá hiệu suất đội nhóm",
+            "Kỹ năng mềm: Leadership, Communication, Negotiation, Stakeholder management, Strategic planning"
+          ],
+          "preferred": [
+            "Có chứng chỉ PMP, PSM hoặc tương đương",
+            "Có kinh nghiệm quản lý đội ngũ outsource hoặc làm việc với khách hàng nước ngoài"
+          ]
+        }
+      }
+    },
+    "backend": {
+      "title": "Backend Developer",
+      "levels": {
+        "intern": {
+          "summary": "Thực tập sinh Backend hỗ trợ đội phát triển xây dựng API và xử lý dữ liệu dưới sự hướng dẫn của mentor.",
+          "responsibilities": [
+            "Viết các API đơn giản (CRUD) theo mẫu có sẵn của dự án",
+            "Viết câu truy vấn SQL cơ bản để lấy và cập nhật dữ liệu",
+            "Chạy thử, ghi nhận và báo cáo lỗi cho mentor",
+            "Đọc tài liệu và học quy trình phát triển phần mềm của nhóm"
+          ],
+          "requirements": [
+            "Học vấn: Sinh viên năm 3 trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Không yêu cầu kinh nghiệm đi làm; ưu tiên có đồ án hoặc project cá nhân liên quan.",
+            "Kỹ năng chuyên môn: nắm một ngôn ngữ backend (Java, Node.js, Python hoặc C#), SQL cơ bản, hiểu HTTP và REST",
+            "Biết sử dụng Git ở mức cơ bản",
+            "Kỹ năng mềm: Ham học hỏi, Teamwork, Communication"
+          ],
+          "preferred": [
+            "Đã làm đồ án web có phần backend và cơ sở dữ liệu",
+            "Biết dùng Postman để thử API"
+          ]
+        },
+        "fresher": {
+          "summary": "Lập trình viên Backend mới ra trường, phát triển API và chức năng nghiệp vụ đơn giản cho hệ thống.",
+          "responsibilities": [
+            "Xây dựng RESTful API cho các chức năng nghiệp vụ được giao",
+            "Thiết kế bảng và viết truy vấn trên MySQL hoặc PostgreSQL",
+            "Xử lý xác thực người dùng cơ bản bằng JWT",
+            "Viết unit test đơn giản và sửa lỗi theo phản hồi của QA"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Chưa cần nhiều kinh nghiệm đi làm; ưu tiên đã có thực tập hoặc đồ án liên quan đến Backend Developer.",
+            "Kỹ năng chuyên môn: Node.js (Express), Java (Spring Boot) hoặc Python (Django/FastAPI), RESTful API, SQL",
+            "Công cụ: Git, Postman, MySQL hoặc PostgreSQL",
+            "Hiểu OOP, cấu trúc dữ liệu và giải thuật cơ bản",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Learning ability"
+          ],
+          "preferred": [
+            "Biết Docker ở mức cơ bản",
+            "Từng triển khai project cá nhân lên server hoặc cloud"
+          ]
+        },
+        "junior": {
+          "summary": "Lập trình viên Backend độc lập phát triển module nghiệp vụ, đảm bảo API ổn định và đúng tiến độ.",
+          "responsibilities": [
+            "Thiết kế và phát triển API, module nghiệp vụ từ yêu cầu đến khi triển khai",
+            "Thiết kế schema cơ sở dữ liệu và tối ưu câu truy vấn cơ bản",
+            "Tích hợp dịch vụ bên thứ ba (thanh toán, email, đăng nhập Google)",
+            "Viết unit test và tài liệu API bằng Swagger/OpenAPI",
+            "Phối hợp với Frontend và QA để xử lý lỗi nhanh"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 1 năm kinh nghiệm ở vị trí Backend Developer hoặc tương đương.",
+            "Kỹ năng chuyên môn: Spring Boot hoặc NestJS hoặc Django, RESTful API, SQL, Redis, JWT/OAuth2",
+            "Công cụ: Git, Docker, Postman, Swagger, Linux cơ bản",
+            "Hiểu về indexing, transaction và bảo mật API cơ bản",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Time management"
+          ],
+          "preferred": [
+            "Có kinh nghiệm với message queue (RabbitMQ, Kafka)",
+            "Biết CI/CD cơ bản với GitHub Actions hoặc GitLab CI"
+          ]
+        },
+        "middle": {
+          "summary": "Lập trình viên Backend thiết kế giải pháp cho các module phức tạp, đảm bảo hiệu năng và hỗ trợ đồng đội.",
+          "responsibilities": [
+            "Thiết kế kiến trúc module, API và mô hình dữ liệu cho tính năng phức tạp",
+            "Tối ưu hiệu năng truy vấn, caching và xử lý đồng thời",
+            "Review code, hướng dẫn thành viên junior",
+            "Xây dựng test tự động và tích hợp vào pipeline CI/CD",
+            "Theo dõi log, giám sát hệ thống và xử lý sự cố production"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 3 năm kinh nghiệm ở vị trí Backend Developer hoặc tương đương.",
+            "Kỹ năng chuyên môn: Spring Boot/NestJS/Django, Microservices, PostgreSQL/MySQL, Redis, Kafka hoặc RabbitMQ",
+            "Công cụ: Docker, Kubernetes cơ bản, Git, CI/CD, Prometheus/Grafana",
+            "Hiểu về Design Pattern, SOLID và Clean Architecture",
+            "Kỹ năng mềm: Communication, Problem solving, Mentoring, Teamwork"
+          ],
+          "preferred": [
+            "Có kinh nghiệm với MongoDB hoặc Elasticsearch",
+            "Có kinh nghiệm triển khai trên AWS hoặc GCP"
+          ]
+        },
+        "senior": {
+          "summary": "Senior Backend Engineer chịu trách nhiệm kiến trúc hệ thống, độ ổn định và định hướng kỹ thuật cho nhóm.",
+          "responsibilities": [
+            "Thiết kế kiến trúc hệ thống phân tán đáp ứng tải lớn và độ sẵn sàng cao",
+            "Quyết định công nghệ, đặt chuẩn code và quy trình review cho toàn nhóm",
+            "Phân tích điểm nghẽn, tối ưu hệ thống và xử lý sự cố nghiêm trọng",
+            "Đánh giá rủi ro, thiết kế cơ chế bảo mật và dự phòng dữ liệu",
+            "Mentor đội ngũ và tham gia phỏng vấn tuyển dụng"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 5 năm kinh nghiệm ở vị trí Backend Developer, đã tham gia thiết kế và triển khai hệ thống thực tế.",
+            "Kỹ năng chuyên môn: kiến trúc Microservices, Event-driven, System Design, Database Sharding/Replication, Kafka",
+            "Công cụ: Kubernetes, Docker, Terraform, Prometheus/Grafana, ELK, CI/CD",
+            "Có kinh nghiệm vận hành hệ thống chịu tải cao trên môi trường production",
+            "Kỹ năng mềm: Leadership, Mentoring, Communication, Problem solving, Decision making"
+          ],
+          "preferred": [
+            "Có kinh nghiệm chuyển đổi hệ thống monolith sang microservices",
+            "Có kinh nghiệm ứng dụng AI vào quy trình phát triển"
+          ]
+        },
+        "manager": {
+          "summary": "Backend Engineering Manager quản lý đội backend, chịu trách nhiệm delivery, chất lượng hệ thống và phát triển nhân sự.",
+          "responsibilities": [
+            "Quản lý, đánh giá và phát triển đội ngũ kỹ sư backend",
+            "Lập kế hoạch, phân bổ nguồn lực và theo dõi tiến độ nhiều dự án",
+            "Làm việc với Product, Frontend, DevOps để thống nhất lộ trình kỹ thuật",
+            "Đặt tiêu chuẩn về kiến trúc, bảo mật, SLA và quản lý nợ kỹ thuật",
+            "Tuyển dụng, onboard và xây dựng lộ trình thăng tiến cho thành viên"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 7 năm kinh nghiệm chuyên môn Backend Developer, trong đó ít nhất 2 năm quản lý đội nhóm.",
+            "Kỹ năng chuyên môn: kiến trúc Microservices, System Design, Cloud (AWS/GCP), CI/CD, bảo mật hệ thống",
+            "Có kinh nghiệm quản lý dự án Agile/Scrum, Jira, quản lý rủi ro và chi phí hạ tầng",
+            "Có kinh nghiệm xây dựng KPI/OKR và đánh giá hiệu suất đội nhóm",
+            "Kỹ năng mềm: Leadership, Communication, Negotiation, Stakeholder management, Strategic planning"
+          ],
+          "preferred": [
+            "Có chứng chỉ PMP, PSM hoặc tương đương",
+            "Có kinh nghiệm quản lý đội outsource hoặc làm việc với khách hàng nước ngoài"
+          ]
+        }
+      }
+    },
+    "mobile": {
+      "title": "Mobile App Developer",
+      "levels": {
+        "intern": {
+          "summary": "Thực tập sinh Mobile hỗ trợ đội xây dựng ứng dụng di động, học quy trình phát triển dưới sự kèm cặp của mentor.",
+          "responsibilities": [
+            "Dựng màn hình ứng dụng đơn giản theo thiết kế có sẵn",
+            "Sửa các lỗi giao diện nhỏ trên Android hoặc iOS",
+            "Chạy thử ứng dụng trên giả lập và thiết bị thật, ghi nhận lỗi",
+            "Học quy trình build, đóng gói ứng dụng của nhóm"
+          ],
+          "requirements": [
+            "Học vấn: Sinh viên năm 3 trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Không yêu cầu kinh nghiệm đi làm; ưu tiên có đồ án hoặc project cá nhân liên quan.",
+            "Kỹ năng chuyên môn: nắm một nền tảng di động (Flutter/Dart, React Native, Kotlin hoặc Swift), hiểu OOP cơ bản",
+            "Biết sử dụng Git ở mức cơ bản",
+            "Kỹ năng mềm: Ham học hỏi, Teamwork, Communication"
+          ],
+          "preferred": [
+            "Đã làm ứng dụng di động cá nhân hoặc đồ án",
+            "Biết gọi API từ ứng dụng"
+          ]
+        },
+        "fresher": {
+          "summary": "Lập trình viên Mobile mới ra trường, phát triển các màn hình và tính năng đơn giản cho ứng dụng di động.",
+          "responsibilities": [
+            "Xây dựng màn hình và chức năng ứng dụng theo thiết kế UI",
+            "Kết nối RESTful API và hiển thị dữ liệu lên ứng dụng",
+            "Lưu dữ liệu cục bộ bằng SQLite hoặc Room/Hive",
+            "Kiểm thử, sửa lỗi theo phản hồi của QA"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Chưa cần nhiều kinh nghiệm đi làm; ưu tiên đã có thực tập hoặc đồ án liên quan đến Mobile App Developer.",
+            "Kỹ năng chuyên môn: Flutter hoặc React Native hoặc Kotlin/Swift, RESTful API, JSON, quản lý state cơ bản",
+            "Công cụ: Git, Android Studio hoặc Xcode, Postman",
+            "Hiểu vòng đời ứng dụng và điều hướng màn hình",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Learning ability"
+          ],
+          "preferred": [
+            "Biết Firebase (Authentication, Firestore)",
+            "Đã đưa ứng dụng lên Google Play hoặc TestFlight"
+          ]
+        },
+        "junior": {
+          "summary": "Lập trình viên Mobile độc lập hoàn thành tính năng ứng dụng, đảm bảo trải nghiệm mượt trên nhiều thiết bị.",
+          "responsibilities": [
+            "Phát triển tính năng ứng dụng hoàn chỉnh từ yêu cầu đến khi phát hành",
+            "Quản lý state bằng Bloc, Provider, Redux hoặc MVVM",
+            "Tích hợp push notification, bản đồ, thanh toán và dịch vụ bên thứ ba",
+            "Đưa ứng dụng lên Google Play và App Store",
+            "Xử lý lỗi crash và tối ưu hiệu năng cơ bản"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 1 năm kinh nghiệm ở vị trí Mobile App Developer hoặc tương đương.",
+            "Kỹ năng chuyên môn: Flutter/Dart hoặc React Native hoặc Kotlin/Swift, Bloc/Provider/Redux, RESTful API, Firebase",
+            "Công cụ: Git, Android Studio, Xcode, Firebase Crashlytics",
+            "Hiểu quy trình đóng gói và phát hành ứng dụng lên store",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Time management"
+          ],
+          "preferred": [
+            "Biết viết unit test và widget test",
+            "Có kinh nghiệm CI/CD cho mobile (Fastlane, Codemagic)"
+          ]
+        },
+        "middle": {
+          "summary": "Lập trình viên Mobile thiết kế kiến trúc tính năng, tối ưu hiệu năng và hỗ trợ các thành viên trong nhóm.",
+          "responsibilities": [
+            "Thiết kế kiến trúc ứng dụng (Clean Architecture, MVVM) cho các module lớn",
+            "Tối ưu hiệu năng, bộ nhớ, thời gian khởi động và mức tiêu thụ pin",
+            "Review code và hướng dẫn thành viên junior",
+            "Xây dựng test tự động và pipeline CI/CD cho ứng dụng",
+            "Tích hợp native module và xử lý khác biệt giữa Android và iOS"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 3 năm kinh nghiệm ở vị trí Mobile App Developer hoặc tương đương.",
+            "Kỹ năng chuyên môn: Flutter hoặc React Native hoặc Kotlin/Swift nâng cao, Clean Architecture, Dependency Injection, GraphQL",
+            "Công cụ: Fastlane, Firebase, Jest hoặc Flutter test, Sentry",
+            "Có kinh nghiệm phát hành và duy trì ứng dụng có người dùng thực tế",
+            "Kỹ năng mềm: Communication, Problem solving, Mentoring, Teamwork"
+          ],
+          "preferred": [
+            "Có kinh nghiệm native bridge hoặc platform channel",
+            "Hiểu bảo mật ứng dụng di động (SSL pinning, lưu trữ an toàn)"
+          ]
+        },
+        "senior": {
+          "summary": "Senior Mobile Engineer định hướng kiến trúc ứng dụng, chất lượng phát hành và năng lực kỹ thuật của đội mobile.",
+          "responsibilities": [
+            "Thiết kế kiến trúc ứng dụng quy mô lớn, hỗ trợ nhiều đội cùng phát triển",
+            "Chọn công nghệ, đặt chuẩn code và quy trình phát hành",
+            "Giải quyết các vấn đề hiệu năng, bảo mật và khả năng mở rộng",
+            "Mentor đội ngũ và tham gia phỏng vấn tuyển dụng",
+            "Đánh giá rủi ro kỹ thuật, ước lượng và lập kế hoạch release"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 5 năm kinh nghiệm ở vị trí Mobile App Developer, đã tham gia thiết kế và triển khai hệ thống thực tế.",
+            "Kỹ năng chuyên môn: kiến trúc mobile quy mô lớn, modularization, offline-first, Performance Profiling, Mobile Security",
+            "Công cụ: CI/CD cho mobile, Firebase, Sentry, Android Profiler, Xcode Instruments",
+            "Có kinh nghiệm dẫn dắt kỹ thuật cho ứng dụng có số lượng người dùng lớn",
+            "Kỹ năng mềm: Leadership, Mentoring, Communication, Problem solving, Decision making"
+          ],
+          "preferred": [
+            "Có kinh nghiệm cả native (Kotlin/Swift) và cross-platform (Flutter/React Native)",
+            "Có kinh nghiệm ứng dụng AI on-device hoặc tích hợp AI vào ứng dụng"
+          ]
+        },
+        "manager": {
+          "summary": "Mobile Engineering Manager quản lý đội mobile, chịu trách nhiệm tiến độ phát hành, chất lượng và phát triển nhân sự.",
+          "responsibilities": [
+            "Quản lý, đánh giá và phát triển đội ngũ kỹ sư mobile",
+            "Lập kế hoạch release, phân bổ nguồn lực và theo dõi tiến độ nhiều ứng dụng",
+            "Làm việc với Product, Design, Backend để thống nhất lộ trình sản phẩm",
+            "Đặt tiêu chuẩn chất lượng, bảo mật và quy trình phát hành lên store",
+            "Tuyển dụng, onboard và xây dựng lộ trình thăng tiến cho thành viên"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 7 năm kinh nghiệm chuyên môn Mobile App Developer, trong đó ít nhất 2 năm quản lý đội nhóm.",
+            "Kỹ năng chuyên môn: kiến trúc mobile, chiến lược cross-platform và native, CI/CD cho mobile, quy trình phát hành App Store và Google Play",
+            "Có kinh nghiệm quản lý dự án Agile/Scrum, Jira, quản lý rủi ro và ngân sách nhân lực",
+            "Có kinh nghiệm xây dựng KPI/OKR và đánh giá hiệu suất đội nhóm",
+            "Kỹ năng mềm: Leadership, Communication, Negotiation, Stakeholder management, Strategic planning"
+          ],
+          "preferred": [
+            "Có chứng chỉ PMP, PSM hoặc tương đương",
+            "Có kinh nghiệm quản lý đội outsource hoặc làm việc với khách hàng nước ngoài"
+          ]
+        }
+      }
+    },
+    "ai-ml": {
+      "title": "AI/Machine Learning Engineer",
+      "levels": {
+        "intern": {
+          "summary": "Thực tập sinh AI/ML hỗ trợ chuẩn bị dữ liệu và chạy thử mô hình dưới sự hướng dẫn của mentor.",
+          "responsibilities": [
+            "Thu thập, làm sạch và gán nhãn dữ liệu theo hướng dẫn",
+            "Chạy lại các thí nghiệm huấn luyện mô hình có sẵn và ghi lại kết quả",
+            "Vẽ biểu đồ phân tích dữ liệu bằng Pandas và Matplotlib",
+            "Đọc và tóm tắt các bài báo, tài liệu kỹ thuật liên quan"
+          ],
+          "requirements": [
+            "Học vấn: Sinh viên năm 3 trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Không yêu cầu kinh nghiệm đi làm; ưu tiên có đồ án hoặc project cá nhân liên quan.",
+            "Kỹ năng chuyên môn: Python, nền tảng toán (đại số tuyến tính, xác suất thống kê), hiểu khái niệm Machine Learning cơ bản",
+            "Công cụ: Jupyter Notebook, Pandas, NumPy, Git",
+            "Kỹ năng mềm: Ham học hỏi, Teamwork, Communication"
+          ],
+          "preferred": [
+            "Đã hoàn thành khóa học Machine Learning hoặc Deep Learning",
+            "Có project trên Kaggle hoặc GitHub"
+          ]
+        },
+        "fresher": {
+          "summary": "Kỹ sư AI/ML mới ra trường, xây dựng và đánh giá các mô hình học máy cho bài toán cụ thể.",
+          "responsibilities": [
+            "Tiền xử lý dữ liệu và xây dựng đặc trưng (feature engineering)",
+            "Huấn luyện, đánh giá các mô hình Machine Learning cơ bản",
+            "Thử nghiệm mô hình Deep Learning bằng PyTorch hoặc TensorFlow",
+            "Ghi lại kết quả thí nghiệm và báo cáo cho nhóm"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Chưa cần nhiều kinh nghiệm đi làm; ưu tiên đã có thực tập hoặc đồ án liên quan đến AI/Machine Learning Engineer.",
+            "Kỹ năng chuyên môn: Python, Scikit-learn, Pandas, NumPy, Machine Learning, Deep Learning cơ bản, SQL",
+            "Công cụ: PyTorch hoặc TensorFlow, Jupyter, Git",
+            "Hiểu các chỉ số đánh giá mô hình (accuracy, precision, recall, F1)",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Learning ability"
+          ],
+          "preferred": [
+            "Biết Computer Vision hoặc NLP",
+            "Biết đóng gói mô hình thành API đơn giản bằng FastAPI hoặc Flask"
+          ]
+        },
+        "junior": {
+          "summary": "Kỹ sư AI/ML độc lập thực hiện bài toán học máy từ dữ liệu đến mô hình có thể sử dụng được.",
+          "responsibilities": [
+            "Phân tích bài toán, chọn mô hình và thực hiện thí nghiệm có hệ thống",
+            "Fine-tune mô hình có sẵn (Transformers, CNN) cho dữ liệu của dự án",
+            "Triển khai mô hình thành API và tích hợp vào sản phẩm",
+            "Theo dõi thí nghiệm bằng MLflow hoặc Weights & Biases",
+            "Phối hợp với Backend và Data Engineer để đưa mô hình vào hệ thống"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 1 năm kinh nghiệm ở vị trí AI/Machine Learning Engineer hoặc tương đương.",
+            "Kỹ năng chuyên môn: Python, PyTorch hoặc TensorFlow, Scikit-learn, NLP hoặc Computer Vision, Hugging Face Transformers",
+            "Công cụ: FastAPI, Docker, MLflow, Git, SQL",
+            "Hiểu về overfitting, cross-validation và tối ưu siêu tham số",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Time management"
+          ],
+          "preferred": [
+            "Có kinh nghiệm với LLM, RAG hoặc prompt engineering",
+            "Biết triển khai mô hình lên cloud (AWS SageMaker, GCP Vertex AI)"
+          ]
+        },
+        "middle": {
+          "summary": "Kỹ sư AI/ML thiết kế giải pháp học máy cho bài toán phức tạp và đưa mô hình vào vận hành thực tế.",
+          "responsibilities": [
+            "Thiết kế giải pháp AI/ML từ bài toán nghiệp vụ đến triển khai production",
+            "Xây dựng pipeline huấn luyện, đánh giá và triển khai mô hình (MLOps)",
+            "Tối ưu độ chính xác, độ trễ và chi phí suy luận của mô hình",
+            "Xây dựng hệ thống RAG hoặc ứng dụng LLM cho sản phẩm",
+            "Review code, hướng dẫn thành viên junior và giám sát mô hình sau triển khai"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 3 năm kinh nghiệm ở vị trí AI/Machine Learning Engineer hoặc tương đương.",
+            "Kỹ năng chuyên môn: PyTorch/TensorFlow, LLM, RAG, Vector Database, MLOps, Model Optimization",
+            "Công cụ: Docker, Kubernetes cơ bản, MLflow, Airflow, AWS hoặc GCP",
+            "Có kinh nghiệm đưa ít nhất một mô hình vào môi trường production",
+            "Kỹ năng mềm: Communication, Problem solving, Mentoring, Teamwork"
+          ],
+          "preferred": [
+            "Có kinh nghiệm Fine-tuning LLM (LoRA, QLoRA)",
+            "Có bài báo hoặc dự án mã nguồn mở về AI"
+          ]
+        },
+        "senior": {
+          "summary": "Senior AI/ML Engineer định hướng kiến trúc giải pháp AI, đảm bảo chất lượng mô hình và dẫn dắt kỹ thuật.",
+          "responsibilities": [
+            "Thiết kế kiến trúc nền tảng AI/ML cho nhiều sản phẩm và nhiều đội",
+            "Quyết định hướng tiếp cận mô hình, đánh đổi giữa chất lượng, chi phí và độ trễ",
+            "Xây dựng nền tảng MLOps, đánh giá mô hình và giám sát drift",
+            "Đánh giá rủi ro về dữ liệu, thiên lệch, bảo mật và đạo đức AI",
+            "Mentor đội ngũ và tham gia phỏng vấn tuyển dụng"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 5 năm kinh nghiệm ở vị trí AI/Machine Learning Engineer, đã tham gia thiết kế và triển khai hệ thống thực tế.",
+            "Kỹ năng chuyên môn: kiến trúc hệ thống ML, LLM/Agent, Distributed Training, Model Serving, Model Evaluation, MLOps",
+            "Công cụ: Kubernetes, Kubeflow hoặc Ray, vLLM hoặc Triton, Terraform, AWS/GCP",
+            "Có kinh nghiệm dẫn dắt dự án AI từ nghiên cứu đến production",
+            "Kỹ năng mềm: Leadership, Mentoring, Communication, Problem solving, Decision making"
+          ],
+          "preferred": [
+            "Có công bố nghiên cứu hoặc đóng góp mã nguồn mở nổi bật",
+            "Có kinh nghiệm tối ưu chi phí GPU quy mô lớn"
+          ]
+        },
+        "manager": {
+          "summary": "AI Engineering Manager quản lý đội AI/ML, chịu trách nhiệm chiến lược kỹ thuật, delivery và phát triển nhân sự.",
+          "responsibilities": [
+            "Quản lý, đánh giá và phát triển đội ngũ kỹ sư và nhà nghiên cứu AI/ML",
+            "Xây dựng lộ trình AI, phân bổ nguồn lực GPU và nhân sự theo ưu tiên kinh doanh",
+            "Làm việc với Product, Data, Business để xác định bài toán và đo lường giá trị",
+            "Đặt tiêu chuẩn về chất lượng mô hình, bảo mật dữ liệu và AI có trách nhiệm",
+            "Tuyển dụng, onboard và xây dựng lộ trình thăng tiến cho thành viên"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 7 năm kinh nghiệm chuyên môn AI/Machine Learning Engineer, trong đó ít nhất 2 năm quản lý đội nhóm.",
+            "Kỹ năng chuyên môn: chiến lược AI/ML, kiến trúc MLOps, LLM, quản trị dữ liệu và AI Governance",
+            "Có kinh nghiệm quản lý dự án Agile, quản lý rủi ro và ngân sách hạ tầng AI",
+            "Có kinh nghiệm xây dựng KPI/OKR và đánh giá hiệu suất đội nhóm",
+            "Kỹ năng mềm: Leadership, Communication, Negotiation, Stakeholder management, Strategic planning"
+          ],
+          "preferred": [
+            "Có chứng chỉ PMP, PSM hoặc tương đương",
+            "Có kinh nghiệm làm việc với đối tác hoặc khách hàng nước ngoài về dự án AI"
+          ]
+        }
+      }
+    },
+    "data-scientist": {
+      "title": "Data Scientist",
+      "levels": {
+        "intern": {
+          "summary": "Thực tập sinh Data Science hỗ trợ làm sạch, phân tích dữ liệu và trực quan hóa dưới sự hướng dẫn của mentor.",
+          "responsibilities": [
+            "Làm sạch và chuẩn hóa dữ liệu bằng Python hoặc Excel",
+            "Viết truy vấn SQL cơ bản để lấy dữ liệu phân tích",
+            "Vẽ biểu đồ và dashboard đơn giản để trình bày kết quả",
+            "Viết tóm tắt các nhận xét rút ra từ dữ liệu"
+          ],
+          "requirements": [
+            "Học vấn: Sinh viên năm 3 trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Không yêu cầu kinh nghiệm đi làm; ưu tiên có đồ án hoặc project cá nhân liên quan.",
+            "Kỹ năng chuyên môn: Python, SQL cơ bản, thống kê mô tả, hiểu khái niệm Machine Learning cơ bản",
+            "Công cụ: Pandas, NumPy, Matplotlib, Jupyter Notebook, Excel",
+            "Kỹ năng mềm: Ham học hỏi, Teamwork, Communication"
+          ],
+          "preferred": [
+            "Đã làm project phân tích dữ liệu trên Kaggle hoặc GitHub",
+            "Biết Power BI hoặc Tableau cơ bản"
+          ]
+        },
+        "fresher": {
+          "summary": "Data Scientist mới ra trường, thực hiện phân tích khám phá và xây dựng mô hình dự đoán cho bài toán đơn giản.",
+          "responsibilities": [
+            "Thực hiện phân tích khám phá dữ liệu (EDA) và kiểm định giả thuyết",
+            "Xây dựng các mô hình dự đoán cơ bản (hồi quy, phân loại, phân cụm)",
+            "Xây dựng báo cáo và dashboard cho bộ phận nghiệp vụ",
+            "Trình bày kết quả phân tích cho nhóm"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Chưa cần nhiều kinh nghiệm đi làm; ưu tiên đã có thực tập hoặc đồ án liên quan đến Data Scientist.",
+            "Kỹ năng chuyên môn: Python, SQL, thống kê, Machine Learning cơ bản, Data Visualization",
+            "Công cụ: Pandas, Scikit-learn, Matplotlib/Seaborn, Power BI hoặc Tableau, Git",
+            "Hiểu về kiểm định giả thuyết, phân phối xác suất và A/B Testing cơ bản",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Learning ability"
+          ],
+          "preferred": [
+            "Biết Deep Learning cơ bản",
+            "Có kiến thức về một lĩnh vực nghiệp vụ như tài chính, bán lẻ"
+          ]
+        },
+        "junior": {
+          "summary": "Data Scientist độc lập thực hiện bài toán phân tích và mô hình hóa, hỗ trợ ra quyết định kinh doanh.",
+          "responsibilities": [
+            "Làm việc với bộ phận nghiệp vụ để xác định bài toán và chỉ số cần đo",
+            "Xây dựng, so sánh và cải thiện mô hình dự đoán (Random Forest, XGBoost)",
+            "Thiết kế và phân tích thí nghiệm A/B",
+            "Xây dựng dashboard và báo cáo định kỳ",
+            "Triển khai mô hình đơn giản thành API hoặc batch job cùng đội kỹ thuật"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 1 năm kinh nghiệm ở vị trí Data Scientist hoặc tương đương.",
+            "Kỹ năng chuyên môn: Python, SQL nâng cao, Machine Learning, Feature Engineering, A/B Testing, thống kê suy luận",
+            "Công cụ: Scikit-learn, XGBoost/LightGBM, Power BI hoặc Tableau, Git, Jupyter",
+            "Biết diễn giải kết quả mô hình cho người không chuyên kỹ thuật",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Time management"
+          ],
+          "preferred": [
+            "Có kinh nghiệm NLP hoặc time series forecasting",
+            "Biết Spark hoặc BigQuery"
+          ]
+        },
+        "middle": {
+          "summary": "Data Scientist thiết kế giải pháp phân tích và mô hình cho bài toán phức tạp, tạo giá trị đo được cho kinh doanh.",
+          "responsibilities": [
+            "Thiết kế giải pháp phân tích và mô hình cho bài toán kinh doanh phức tạp",
+            "Xây dựng mô hình dự báo, đề xuất, phát hiện bất thường và đưa vào vận hành",
+            "Thiết kế khung đo lường hiệu quả (KPI, thí nghiệm nhân quả)",
+            "Review phương pháp và hướng dẫn thành viên junior",
+            "Giám sát hiệu quả mô hình sau triển khai và cải tiến định kỳ"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 3 năm kinh nghiệm ở vị trí Data Scientist hoặc tương đương.",
+            "Kỹ năng chuyên môn: Machine Learning nâng cao, Deep Learning, Time Series, Causal Inference, Recommender System, MLOps cơ bản",
+            "Công cụ: Python, SQL, Spark, MLflow, Airflow, Docker, cloud (AWS/GCP/Azure)",
+            "Có kinh nghiệm đưa mô hình vào production và đo lường tác động kinh doanh",
+            "Kỹ năng mềm: Communication, Problem solving, Mentoring, Teamwork"
+          ],
+          "preferred": [
+            "Có kinh nghiệm LLM hoặc NLP nâng cao",
+            "Có công bố hoặc chia sẻ chuyên môn"
+          ]
+        },
+        "senior": {
+          "summary": "Senior Data Scientist định hướng phương pháp phân tích, dẫn dắt các bài toán dữ liệu có tác động lớn đến kinh doanh.",
+          "responsibilities": [
+            "Xác định các bài toán dữ liệu trọng yếu cùng lãnh đạo nghiệp vụ",
+            "Chọn phương pháp, đặt chuẩn đánh giá mô hình và quy trình thí nghiệm",
+            "Dẫn dắt các dự án khoa học dữ liệu từ nghiên cứu đến production",
+            "Đánh giá rủi ro về chất lượng dữ liệu, thiên lệch và tuân thủ",
+            "Mentor đội ngũ và tham gia phỏng vấn tuyển dụng"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 5 năm kinh nghiệm ở vị trí Data Scientist, đã tham gia thiết kế và triển khai hệ thống thực tế.",
+            "Kỹ năng chuyên môn: Machine Learning/Deep Learning nâng cao, Causal Inference, Experimentation Platform, Optimization, MLOps",
+            "Công cụ: Python, SQL, Spark, Databricks hoặc SageMaker, MLflow, Airflow",
+            "Có kinh nghiệm dẫn dắt dự án dữ liệu có tác động doanh thu hoặc chi phí rõ rệt",
+            "Kỹ năng mềm: Leadership, Mentoring, Communication, Problem solving, Decision making"
+          ],
+          "preferred": [
+            "Có bằng Thạc sĩ hoặc Tiến sĩ ngành liên quan",
+            "Có kinh nghiệm xây dựng nền tảng thí nghiệm hoặc feature store"
+          ]
+        },
+        "manager": {
+          "summary": "Data Science Manager quản lý đội khoa học dữ liệu, chịu trách nhiệm chiến lược phân tích, delivery và phát triển nhân sự.",
+          "responsibilities": [
+            "Quản lý, đánh giá và phát triển đội ngũ data scientist và analyst",
+            "Xây dựng chiến lược dữ liệu và lộ trình phân tích gắn với mục tiêu kinh doanh",
+            "Làm việc với lãnh đạo các phòng ban để ưu tiên bài toán và đo lường giá trị",
+            "Đặt tiêu chuẩn về chất lượng mô hình, quản trị dữ liệu và bảo mật",
+            "Tuyển dụng, onboard và xây dựng lộ trình thăng tiến cho thành viên"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 7 năm kinh nghiệm chuyên môn Data Scientist, trong đó ít nhất 2 năm quản lý đội nhóm.",
+            "Kỹ năng chuyên môn: chiến lược dữ liệu, Machine Learning, Experimentation, Data Governance, MLOps",
+            "Có kinh nghiệm quản lý dự án Agile, quản lý rủi ro và ngân sách",
+            "Có kinh nghiệm xây dựng KPI/OKR và đánh giá hiệu suất đội nhóm",
+            "Kỹ năng mềm: Leadership, Communication, Negotiation, Stakeholder management, Strategic planning"
+          ],
+          "preferred": [
+            "Có chứng chỉ PMP, PSM hoặc tương đương",
+            "Có kinh nghiệm trình bày với ban lãnh đạo và đối tác"
+          ]
+        }
+      }
+    },
+    "data-engineer": {
+      "title": "Data Engineer",
+      "levels": {
+        "intern": {
+          "summary": "Thực tập sinh Data Engineer hỗ trợ đội xây dựng luồng dữ liệu, được mentor hướng dẫn từng bước.",
+          "responsibilities": [
+            "Viết script Python hoặc SQL đơn giản để nhập và chuyển đổi dữ liệu",
+            "Kiểm tra chất lượng dữ liệu và ghi nhận các bản ghi lỗi",
+            "Chạy và theo dõi các job dữ liệu có sẵn, báo cáo khi có lỗi",
+            "Học cấu trúc kho dữ liệu và tài liệu hóa luồng dữ liệu"
+          ],
+          "requirements": [
+            "Học vấn: Sinh viên năm 3 trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Không yêu cầu kinh nghiệm đi làm; ưu tiên có đồ án hoặc project cá nhân liên quan.",
+            "Kỹ năng chuyên môn: SQL, Python cơ bản, hiểu khái niệm cơ sở dữ liệu quan hệ và ETL",
+            "Công cụ: Git, Linux cơ bản, Excel",
+            "Kỹ năng mềm: Ham học hỏi, Teamwork, Communication"
+          ],
+          "preferred": [
+            "Đã làm project xử lý dữ liệu bằng Pandas",
+            "Biết MySQL hoặc PostgreSQL"
+          ]
+        },
+        "fresher": {
+          "summary": "Data Engineer mới ra trường, xây dựng các luồng ETL đơn giản và hỗ trợ vận hành kho dữ liệu.",
+          "responsibilities": [
+            "Xây dựng pipeline ETL/ELT đơn giản bằng Python và SQL",
+            "Thiết kế bảng dữ liệu và viết truy vấn tối ưu cơ bản",
+            "Theo dõi lịch chạy job trên Airflow và xử lý lỗi thông thường",
+            "Viết tài liệu mô tả nguồn dữ liệu và luồng xử lý"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Chưa cần nhiều kinh nghiệm đi làm; ưu tiên đã có thực tập hoặc đồ án liên quan đến Data Engineer.",
+            "Kỹ năng chuyên môn: SQL, Python, ETL/ELT, Data Warehouse cơ bản, mô hình dữ liệu (Star Schema)",
+            "Công cụ: Apache Airflow, PostgreSQL, Git, Linux",
+            "Hiểu khác biệt giữa OLTP và OLAP",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Learning ability"
+          ],
+          "preferred": [
+            "Biết Apache Spark cơ bản",
+            "Biết Docker ở mức cơ bản"
+          ]
+        },
+        "junior": {
+          "summary": "Data Engineer độc lập xây dựng và vận hành pipeline dữ liệu ổn định phục vụ phân tích và báo cáo.",
+          "responsibilities": [
+            "Thiết kế và xây dựng pipeline batch xử lý dữ liệu từ nhiều nguồn",
+            "Mô hình hóa dữ liệu trong Data Warehouse (BigQuery, Snowflake, Redshift)",
+            "Tối ưu hiệu năng truy vấn và chi phí lưu trữ",
+            "Xây dựng cơ chế kiểm tra chất lượng và cảnh báo lỗi dữ liệu",
+            "Phối hợp với Data Analyst và Data Scientist để cung cấp dữ liệu sạch"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 1 năm kinh nghiệm ở vị trí Data Engineer hoặc tương đương.",
+            "Kỹ năng chuyên môn: SQL nâng cao, Python, Apache Spark, Airflow, Data Warehouse, Data Modeling",
+            "Công cụ: dbt, BigQuery hoặc Snowflake hoặc Redshift, Docker, Git",
+            "Hiểu về partitioning, indexing và incremental load",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Time management"
+          ],
+          "preferred": [
+            "Có kinh nghiệm Kafka hoặc xử lý streaming cơ bản",
+            "Có kinh nghiệm trên AWS hoặc GCP"
+          ]
+        },
+        "middle": {
+          "summary": "Data Engineer thiết kế kiến trúc luồng dữ liệu, đảm bảo độ tin cậy và hỗ trợ các thành viên trong nhóm.",
+          "responsibilities": [
+            "Thiết kế kiến trúc pipeline batch và streaming cho nhiều nguồn dữ liệu",
+            "Xây dựng Data Lake / Lakehouse và lớp dữ liệu phục vụ phân tích",
+            "Tối ưu Spark job, chi phí tính toán và lưu trữ",
+            "Xây dựng framework kiểm tra chất lượng dữ liệu và data lineage",
+            "Review code, hướng dẫn thành viên junior"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 3 năm kinh nghiệm ở vị trí Data Engineer hoặc tương đương.",
+            "Kỹ năng chuyên môn: Spark, Kafka, Airflow, Data Lake/Lakehouse, Delta Lake hoặc Iceberg, Data Modeling nâng cao",
+            "Công cụ: dbt, Databricks hoặc EMR, Terraform, Docker, Kubernetes cơ bản, AWS hoặc GCP",
+            "Có kinh nghiệm vận hành pipeline dữ liệu trên production với SLA rõ ràng",
+            "Kỹ năng mềm: Communication, Problem solving, Mentoring, Teamwork"
+          ],
+          "preferred": [
+            "Có kinh nghiệm CDC (Debezium) và Data Catalog",
+            "Có chứng chỉ cloud data (AWS Data Analytics, GCP Data Engineer)"
+          ]
+        },
+        "senior": {
+          "summary": "Senior Data Engineer chịu trách nhiệm kiến trúc nền tảng dữ liệu, độ tin cậy và định hướng kỹ thuật cho nhóm.",
+          "responsibilities": [
+            "Thiết kế kiến trúc nền tảng dữ liệu cho toàn doanh nghiệp (batch, streaming, serving)",
+            "Quyết định công nghệ, chuẩn mô hình dữ liệu và quy trình phát triển pipeline",
+            "Xử lý bài toán dữ liệu quy mô lớn về hiệu năng, chi phí và độ tin cậy",
+            "Đánh giá rủi ro về bảo mật, quyền truy cập và tuân thủ dữ liệu",
+            "Mentor đội ngũ và tham gia phỏng vấn tuyển dụng"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 5 năm kinh nghiệm ở vị trí Data Engineer, đã tham gia thiết kế và triển khai hệ thống thực tế.",
+            "Kỹ năng chuyên môn: kiến trúc Data Platform, Streaming (Kafka, Flink), Lakehouse, Data Governance, Data Security",
+            "Công cụ: Spark, Databricks/Snowflake, Terraform, Kubernetes, dbt, Airflow",
+            "Có kinh nghiệm dẫn dắt xây dựng nền tảng dữ liệu hơn nhiều TB mỗi ngày",
+            "Kỹ năng mềm: Leadership, Mentoring, Communication, Problem solving, Decision making"
+          ],
+          "preferred": [
+            "Có kinh nghiệm xây dựng feature store hoặc nền tảng ML dữ liệu",
+            "Có kinh nghiệm tối ưu FinOps cho nền tảng dữ liệu"
+          ]
+        },
+        "manager": {
+          "summary": "Data Engineering Manager quản lý đội kỹ sư dữ liệu, chịu trách nhiệm nền tảng dữ liệu, delivery và phát triển nhân sự.",
+          "responsibilities": [
+            "Quản lý, đánh giá và phát triển đội ngũ kỹ sư dữ liệu",
+            "Xây dựng lộ trình nền tảng dữ liệu và phân bổ nguồn lực theo ưu tiên kinh doanh",
+            "Làm việc với Data Science, BI, Product và các phòng ban để đáp ứng nhu cầu dữ liệu",
+            "Đặt tiêu chuẩn về chất lượng dữ liệu, bảo mật, SLA và chi phí hạ tầng",
+            "Tuyển dụng, onboard và xây dựng lộ trình thăng tiến cho thành viên"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 7 năm kinh nghiệm chuyên môn Data Engineer, trong đó ít nhất 2 năm quản lý đội nhóm.",
+            "Kỹ năng chuyên môn: kiến trúc Data Platform, Data Governance, Cloud Data (AWS/GCP/Azure), quản lý chi phí hạ tầng",
+            "Có kinh nghiệm quản lý dự án Agile, quản lý rủi ro và ngân sách",
+            "Có kinh nghiệm xây dựng KPI/OKR và đánh giá hiệu suất đội nhóm",
+            "Kỹ năng mềm: Leadership, Communication, Negotiation, Stakeholder management, Strategic planning"
+          ],
+          "preferred": [
+            "Có chứng chỉ PMP, PSM hoặc tương đương",
+            "Có kinh nghiệm làm việc với đối tác hoặc khách hàng nước ngoài"
+          ]
+        }
+      }
+    },
+    "devops": {
+      "title": "DevOps Engineer",
+      "levels": {
+        "intern": {
+          "summary": "Thực tập sinh DevOps hỗ trợ đội vận hành và tự động hóa, học quy trình CI/CD dưới sự hướng dẫn của mentor.",
+          "responsibilities": [
+            "Chạy và theo dõi các pipeline CI/CD có sẵn, báo cáo lỗi",
+            "Viết shell script đơn giản để tự động hóa tác vụ lặp lại",
+            "Cài đặt và cấu hình dịch vụ trên máy ảo theo hướng dẫn",
+            "Ghi lại tài liệu hướng dẫn vận hành cho nhóm"
+          ],
+          "requirements": [
+            "Học vấn: Sinh viên năm 3 trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Không yêu cầu kinh nghiệm đi làm; ưu tiên có đồ án hoặc project cá nhân liên quan.",
+            "Kỹ năng chuyên môn: Linux cơ bản, Shell Script, hiểu mạng máy tính cơ bản và khái niệm CI/CD",
+            "Công cụ: Git, Docker cơ bản",
+            "Kỹ năng mềm: Ham học hỏi, Teamwork, Communication"
+          ],
+          "preferred": [
+            "Đã tự dựng server Linux hoặc homelab",
+            "Biết một ngôn ngữ như Python hoặc Bash"
+          ]
+        },
+        "fresher": {
+          "summary": "DevOps Engineer mới ra trường, hỗ trợ xây dựng pipeline CI/CD và vận hành môi trường triển khai.",
+          "responsibilities": [
+            "Xây dựng pipeline CI/CD đơn giản bằng GitHub Actions hoặc GitLab CI",
+            "Đóng gói ứng dụng bằng Docker và triển khai lên môi trường test",
+            "Theo dõi log và giám sát dịch vụ, xử lý sự cố đơn giản",
+            "Tham gia trực hỗ trợ cùng thành viên có kinh nghiệm"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Chưa cần nhiều kinh nghiệm đi làm; ưu tiên đã có thực tập hoặc đồ án liên quan đến DevOps Engineer.",
+            "Kỹ năng chuyên môn: Linux, Shell Script, Docker, CI/CD, Networking cơ bản",
+            "Công cụ: Git, GitHub Actions hoặc GitLab CI, Nginx",
+            "Hiểu khái niệm Infrastructure as Code",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Learning ability"
+          ],
+          "preferred": [
+            "Biết Kubernetes cơ bản",
+            "Biết dùng một dịch vụ cloud (AWS, GCP hoặc Azure)"
+          ]
+        },
+        "junior": {
+          "summary": "DevOps Engineer độc lập vận hành pipeline và hạ tầng, đảm bảo triển khai ổn định cho các dự án.",
+          "responsibilities": [
+            "Xây dựng và duy trì pipeline CI/CD cho nhiều dịch vụ",
+            "Quản lý hạ tầng bằng Terraform hoặc Ansible",
+            "Triển khai và vận hành ứng dụng trên Kubernetes ở mức cơ bản",
+            "Thiết lập giám sát và cảnh báo bằng Prometheus và Grafana",
+            "Xử lý sự cố triển khai cùng đội phát triển"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 1 năm kinh nghiệm ở vị trí DevOps Engineer hoặc tương đương.",
+            "Kỹ năng chuyên môn: Linux, Docker, Kubernetes, CI/CD, Terraform hoặc Ansible, Networking",
+            "Công cụ: Jenkins hoặc GitLab CI, Prometheus, Grafana, ELK hoặc Loki, AWS hoặc GCP",
+            "Hiểu về bảo mật cơ bản trong CI/CD và quản lý secret",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Time management"
+          ],
+          "preferred": [
+            "Có chứng chỉ CKA, AWS hoặc tương đương",
+            "Biết Helm và ArgoCD"
+          ]
+        },
+        "middle": {
+          "summary": "DevOps Engineer thiết kế quy trình triển khai và hạ tầng, đảm bảo độ tin cậy và hỗ trợ các thành viên.",
+          "responsibilities": [
+            "Thiết kế kiến trúc CI/CD và chiến lược triển khai (blue-green, canary)",
+            "Quản lý cụm Kubernetes và hạ tầng cloud bằng Infrastructure as Code",
+            "Xây dựng hệ thống giám sát, logging, alerting toàn diện",
+            "Tối ưu chi phí hạ tầng, hiệu năng và độ sẵn sàng",
+            "Review cấu hình, hướng dẫn thành viên junior và xử lý sự cố production"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 3 năm kinh nghiệm ở vị trí DevOps Engineer hoặc tương đương.",
+            "Kỹ năng chuyên môn: Kubernetes, Terraform, CI/CD, GitOps (ArgoCD), Observability, Cloud (AWS/GCP/Azure)",
+            "Công cụ: Helm, Prometheus, Grafana, ELK, Vault, Ansible",
+            "Có kinh nghiệm xử lý sự cố và viết postmortem",
+            "Kỹ năng mềm: Communication, Problem solving, Mentoring, Teamwork"
+          ],
+          "preferred": [
+            "Có chứng chỉ CKA/CKAD hoặc AWS DevOps Professional",
+            "Có kinh nghiệm DevSecOps"
+          ]
+        },
+        "senior": {
+          "summary": "Senior DevOps Engineer chịu trách nhiệm kiến trúc hạ tầng, độ tin cậy hệ thống và định hướng kỹ thuật.",
+          "responsibilities": [
+            "Thiết kế kiến trúc hạ tầng đa môi trường, độ sẵn sàng cao và khả năng phục hồi thảm họa",
+            "Xây dựng nền tảng nội bộ (Internal Developer Platform) cho các đội phát triển",
+            "Đặt tiêu chuẩn SRE: SLI/SLO, error budget, quy trình xử lý sự cố",
+            "Đánh giá rủi ro bảo mật hạ tầng và tuân thủ",
+            "Mentor đội ngũ và tham gia phỏng vấn tuyển dụng"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 5 năm kinh nghiệm ở vị trí DevOps Engineer, đã tham gia thiết kế và triển khai hệ thống thực tế.",
+            "Kỹ năng chuyên môn: kiến trúc cloud đa vùng, Kubernetes nâng cao, SRE, Disaster Recovery, DevSecOps, FinOps",
+            "Công cụ: Terraform, ArgoCD, Istio hoặc service mesh, Prometheus/Grafana, Vault",
+            "Có kinh nghiệm vận hành hạ tầng cho hệ thống chịu tải cao",
+            "Kỹ năng mềm: Leadership, Mentoring, Communication, Problem solving, Decision making"
+          ],
+          "preferred": [
+            "Có chứng chỉ chuyên sâu (CKS, AWS Solutions Architect Professional)",
+            "Có kinh nghiệm xây dựng Internal Developer Platform"
+          ]
+        },
+        "manager": {
+          "summary": "DevOps/SRE Manager quản lý đội vận hành và nền tảng, chịu trách nhiệm độ tin cậy, delivery và phát triển nhân sự.",
+          "responsibilities": [
+            "Quản lý, đánh giá và phát triển đội ngũ DevOps/SRE",
+            "Xây dựng chiến lược hạ tầng, tự động hóa và chi phí cloud",
+            "Làm việc với các đội phát triển, bảo mật và lãnh đạo để thống nhất ưu tiên",
+            "Đặt tiêu chuẩn về SLA/SLO, quy trình xử lý sự cố và trực vận hành",
+            "Tuyển dụng, onboard và xây dựng lộ trình thăng tiến cho thành viên"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 7 năm kinh nghiệm chuyên môn DevOps Engineer, trong đó ít nhất 2 năm quản lý đội nhóm.",
+            "Kỹ năng chuyên môn: chiến lược hạ tầng cloud, SRE, DevSecOps, quản lý chi phí (FinOps), kiến trúc CI/CD",
+            "Có kinh nghiệm quản lý dự án Agile, quản lý rủi ro và ngân sách hạ tầng",
+            "Có kinh nghiệm xây dựng KPI/OKR và đánh giá hiệu suất đội nhóm",
+            "Kỹ năng mềm: Leadership, Communication, Negotiation, Stakeholder management, Strategic planning"
+          ],
+          "preferred": [
+            "Có chứng chỉ PMP, ITIL hoặc tương đương",
+            "Có kinh nghiệm làm việc với đối tác hoặc khách hàng nước ngoài"
+          ]
+        }
+      }
+    },
+    "cloud": {
+      "title": "Cloud Engineer",
+      "levels": {
+        "intern": {
+          "summary": "Thực tập sinh Cloud hỗ trợ đội cấu hình và theo dõi tài nguyên đám mây, học qua tài khoản thử nghiệm.",
+          "responsibilities": [
+            "Tạo và cấu hình máy ảo, lưu trữ trên môi trường thử nghiệm theo hướng dẫn",
+            "Theo dõi mức sử dụng tài nguyên và chi phí cơ bản",
+            "Viết tài liệu hướng dẫn thao tác trên cloud console",
+            "Hỗ trợ kiểm tra cấu hình và báo cáo lỗi"
+          ],
+          "requirements": [
+            "Học vấn: Sinh viên năm 3 trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Không yêu cầu kinh nghiệm đi làm; ưu tiên có đồ án hoặc project cá nhân liên quan.",
+            "Kỹ năng chuyên môn: Linux cơ bản, mạng máy tính cơ bản, hiểu khái niệm Cloud Computing (IaaS, PaaS, SaaS)",
+            "Công cụ: Git, AWS hoặc Azure hoặc GCP (tài khoản miễn phí)",
+            "Kỹ năng mềm: Ham học hỏi, Teamwork, Communication"
+          ],
+          "preferred": [
+            "Có chứng chỉ AWS Cloud Practitioner hoặc Azure Fundamentals",
+            "Đã tự triển khai website lên cloud"
+          ]
+        },
+        "fresher": {
+          "summary": "Cloud Engineer mới ra trường, triển khai và vận hành tài nguyên đám mây cho các dịch vụ đơn giản.",
+          "responsibilities": [
+            "Triển khai máy chủ, mạng ảo và lưu trữ trên AWS, Azure hoặc GCP",
+            "Cấu hình phân quyền IAM và nhóm bảo mật cơ bản",
+            "Giám sát tài nguyên và xử lý sự cố đơn giản",
+            "Đóng gói và triển khai ứng dụng bằng Docker"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Chưa cần nhiều kinh nghiệm đi làm; ưu tiên đã có thực tập hoặc đồ án liên quan đến Cloud Engineer.",
+            "Kỹ năng chuyên môn: AWS hoặc Azure hoặc GCP, Linux, Networking (VPC, Subnet), IAM, Docker",
+            "Công cụ: Git, CLI của nhà cung cấp cloud, CloudWatch hoặc tương đương",
+            "Hiểu khái niệm Infrastructure as Code",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Learning ability"
+          ],
+          "preferred": [
+            "Có chứng chỉ AWS Solutions Architect Associate hoặc tương đương",
+            "Biết Terraform cơ bản"
+          ]
+        },
+        "junior": {
+          "summary": "Cloud Engineer độc lập triển khai và vận hành hạ tầng đám mây, đảm bảo ổn định và an toàn.",
+          "responsibilities": [
+            "Xây dựng hạ tầng cloud bằng Terraform hoặc CloudFormation",
+            "Triển khai ứng dụng trên EC2, ECS/EKS hoặc dịch vụ tương đương",
+            "Thiết kế mạng VPC, load balancer và phân quyền theo nguyên tắc tối thiểu",
+            "Thiết lập sao lưu, giám sát và cảnh báo",
+            "Phối hợp với đội phát triển để xử lý sự cố triển khai"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 1 năm kinh nghiệm ở vị trí Cloud Engineer hoặc tương đương.",
+            "Kỹ năng chuyên môn: AWS (EC2, S3, RDS, VPC, IAM), Terraform, Docker, Kubernetes cơ bản, Linux",
+            "Công cụ: CloudWatch, GitHub Actions hoặc GitLab CI, Ansible",
+            "Hiểu về bảo mật cloud và tối ưu chi phí cơ bản",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Time management"
+          ],
+          "preferred": [
+            "Có chứng chỉ AWS SAA hoặc Azure Administrator",
+            "Biết Serverless (Lambda, API Gateway)"
+          ]
+        },
+        "middle": {
+          "summary": "Cloud Engineer thiết kế kiến trúc cloud cho hệ thống ứng dụng, đảm bảo bảo mật, hiệu năng và chi phí.",
+          "responsibilities": [
+            "Thiết kế kiến trúc cloud đa tầng, độ sẵn sàng cao cho ứng dụng",
+            "Xây dựng hạ tầng bằng Infrastructure as Code và quản lý cấu hình tập trung",
+            "Tối ưu chi phí, hiệu năng và thiết lập chiến lược sao lưu, phục hồi",
+            "Triển khai bảo mật cloud: IAM, mã hóa, ghi log kiểm toán",
+            "Review thiết kế, hướng dẫn thành viên junior và xử lý sự cố production"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 3 năm kinh nghiệm ở vị trí Cloud Engineer hoặc tương đương.",
+            "Kỹ năng chuyên môn: kiến trúc AWS/Azure/GCP, Terraform, Kubernetes (EKS/AKS/GKE), Networking nâng cao, Cloud Security",
+            "Công cụ: CloudWatch/Prometheus, Vault, ArgoCD, CI/CD",
+            "Có kinh nghiệm di chuyển hệ thống lên cloud (cloud migration)",
+            "Kỹ năng mềm: Communication, Problem solving, Mentoring, Teamwork"
+          ],
+          "preferred": [
+            "Có chứng chỉ AWS SA Professional hoặc tương đương",
+            "Có kinh nghiệm multi-account và Landing Zone"
+          ]
+        },
+        "senior": {
+          "summary": "Senior Cloud Engineer/Architect chịu trách nhiệm kiến trúc cloud cho tổ chức, bảo mật và tối ưu chi phí.",
+          "responsibilities": [
+            "Thiết kế kiến trúc cloud đa vùng, đa tài khoản cho hệ thống quan trọng",
+            "Xây dựng chiến lược di chuyển, kiến trúc hybrid/multi-cloud và dự phòng thảm họa",
+            "Đặt tiêu chuẩn về bảo mật, tuân thủ và quản trị tài nguyên cloud",
+            "Đánh giá rủi ro, chi phí (FinOps) và đề xuất tối ưu cho tổ chức",
+            "Mentor đội ngũ và tham gia phỏng vấn tuyển dụng"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 5 năm kinh nghiệm ở vị trí Cloud Engineer, đã tham gia thiết kế và triển khai hệ thống thực tế.",
+            "Kỹ năng chuyên môn: Cloud Architecture, Multi-cloud/Hybrid, Disaster Recovery, Cloud Security & Compliance, FinOps",
+            "Công cụ: Terraform, Kubernetes, Service Mesh, Landing Zone, SIEM",
+            "Có kinh nghiệm thiết kế hệ thống cloud cho doanh nghiệp quy mô lớn",
+            "Kỹ năng mềm: Leadership, Mentoring, Communication, Problem solving, Decision making"
+          ],
+          "preferred": [
+            "Có chứng chỉ cấp Professional/Specialty của nhà cung cấp cloud",
+            "Có kinh nghiệm tư vấn giải pháp cho khách hàng"
+          ]
+        },
+        "manager": {
+          "summary": "Cloud Manager quản lý đội kỹ sư cloud, chịu trách nhiệm chiến lược đám mây, chi phí và phát triển nhân sự.",
+          "responsibilities": [
+            "Quản lý, đánh giá và phát triển đội ngũ kỹ sư cloud",
+            "Xây dựng chiến lược cloud, lộ trình di chuyển và ngân sách hạ tầng",
+            "Làm việc với bảo mật, phát triển và lãnh đạo để thống nhất ưu tiên",
+            "Đặt tiêu chuẩn về bảo mật, tuân thủ, SLA và kiểm soát chi phí",
+            "Tuyển dụng, onboard và xây dựng lộ trình thăng tiến cho thành viên"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 7 năm kinh nghiệm chuyên môn Cloud Engineer, trong đó ít nhất 2 năm quản lý đội nhóm.",
+            "Kỹ năng chuyên môn: chiến lược cloud, kiến trúc AWS/Azure/GCP, FinOps, Cloud Governance, tuân thủ bảo mật",
+            "Có kinh nghiệm quản lý dự án Agile, quản lý rủi ro và ngân sách",
+            "Có kinh nghiệm xây dựng KPI/OKR và đánh giá hiệu suất đội nhóm",
+            "Kỹ năng mềm: Leadership, Communication, Negotiation, Stakeholder management, Strategic planning"
+          ],
+          "preferred": [
+            "Có chứng chỉ PMP, ITIL hoặc tương đương",
+            "Có kinh nghiệm làm việc với nhà cung cấp cloud và đối tác"
+          ]
+        }
+      }
+    },
+    "cybersecurity": {
+      "title": "Cybersecurity Engineer",
+      "levels": {
+        "intern": {
+          "summary": "Thực tập sinh An toàn thông tin hỗ trợ đội giám sát và kiểm tra bảo mật dưới sự hướng dẫn của mentor.",
+          "responsibilities": [
+            "Theo dõi cảnh báo và log bảo mật cơ bản theo hướng dẫn",
+            "Quét lỗ hổng bằng công cụ có sẵn và ghi nhận kết quả",
+            "Tìm hiểu và tóm tắt các lỗ hổng, mối đe dọa mới",
+            "Hỗ trợ viết tài liệu quy trình và chính sách bảo mật"
+          ],
+          "requirements": [
+            "Học vấn: Sinh viên năm 3 trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Không yêu cầu kinh nghiệm đi làm; ưu tiên có đồ án hoặc project cá nhân liên quan.",
+            "Kỹ năng chuyên môn: mạng máy tính cơ bản, Linux, hiểu nguyên lý CIA triad, các lỗ hổng web phổ biến (OWASP Top 10)",
+            "Công cụ: Wireshark, Nmap, Kali Linux",
+            "Kỹ năng mềm: Ham học hỏi, Teamwork, Communication"
+          ],
+          "preferred": [
+            "Đã tham gia CTF hoặc nền tảng TryHackMe, HackTheBox",
+            "Có chứng chỉ CompTIA Security+ hoặc tương đương"
+          ]
+        },
+        "fresher": {
+          "summary": "Kỹ sư An toàn thông tin mới ra trường, tham gia giám sát, đánh giá lỗ hổng và hỗ trợ xử lý sự cố.",
+          "responsibilities": [
+            "Giám sát cảnh báo bảo mật trên SIEM và phân loại sự kiện ban đầu",
+            "Quét và đánh giá lỗ hổng cho hệ thống, ứng dụng",
+            "Hỗ trợ xử lý sự cố bảo mật theo quy trình",
+            "Cập nhật báo cáo và tài liệu bảo mật định kỳ"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Chưa cần nhiều kinh nghiệm đi làm; ưu tiên đã có thực tập hoặc đồ án liên quan đến Cybersecurity Engineer.",
+            "Kỹ năng chuyên môn: Network Security, Vulnerability Assessment, OWASP Top 10, Linux, hiểu Firewall/IDS",
+            "Công cụ: Nmap, Burp Suite, Wireshark, Splunk hoặc ELK",
+            "Hiểu về mã hóa, xác thực và phân quyền",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Learning ability"
+          ],
+          "preferred": [
+            "Có chứng chỉ CEH, Security+ hoặc tương đương",
+            "Biết Python hoặc Bash để tự động hóa"
+          ]
+        },
+        "junior": {
+          "summary": "Kỹ sư An toàn thông tin độc lập thực hiện giám sát, kiểm thử xâm nhập cơ bản và xử lý sự cố.",
+          "responsibilities": [
+            "Thực hiện kiểm thử xâm nhập (Penetration Testing) cho ứng dụng web và hạ tầng",
+            "Giám sát, phân tích log và điều tra cảnh báo trên SIEM",
+            "Xử lý sự cố bảo mật và viết báo cáo điều tra",
+            "Hướng dẫn đội phát triển sửa lỗ hổng đã phát hiện",
+            "Cấu hình và tinh chỉnh Firewall, WAF, EDR"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 1 năm kinh nghiệm ở vị trí Cybersecurity Engineer hoặc tương đương.",
+            "Kỹ năng chuyên môn: Penetration Testing, Vulnerability Management, SIEM, Incident Response, Web Security",
+            "Công cụ: Burp Suite, Metasploit, Nessus, Splunk/ELK, Wireshark",
+            "Hiểu khung MITRE ATT&CK và quy trình xử lý sự cố",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Time management"
+          ],
+          "preferred": [
+            "Có chứng chỉ CEH, eJPT, OSCP hoặc tương đương",
+            "Biết bảo mật cloud (AWS, Azure)"
+          ]
+        },
+        "middle": {
+          "summary": "Kỹ sư An toàn thông tin thiết kế biện pháp bảo vệ, dẫn dắt điều tra sự cố và hỗ trợ đồng đội.",
+          "responsibilities": [
+            "Thiết kế và triển khai biện pháp bảo mật cho hệ thống, ứng dụng và hạ tầng",
+            "Dẫn dắt điều tra sự cố bảo mật và phân tích nguyên nhân gốc",
+            "Xây dựng rule phát hiện, use case trên SIEM và quy trình SOC",
+            "Đánh giá bảo mật mã nguồn và tích hợp DevSecOps vào CI/CD",
+            "Review cấu hình bảo mật, hướng dẫn thành viên junior"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 3 năm kinh nghiệm ở vị trí Cybersecurity Engineer hoặc tương đương.",
+            "Kỹ năng chuyên môn: Incident Response, Threat Hunting, SIEM/SOAR, Cloud Security, DevSecOps, Digital Forensics cơ bản",
+            "Công cụ: Splunk/ELK, CrowdStrike hoặc EDR tương đương, SAST/DAST, Burp Suite",
+            "Hiểu các tiêu chuẩn ISO 27001, NIST, PCI DSS",
+            "Kỹ năng mềm: Communication, Problem solving, Mentoring, Teamwork"
+          ],
+          "preferred": [
+            "Có chứng chỉ OSCP, CISSP, GCIH hoặc tương đương",
+            "Có kinh nghiệm Red Team hoặc Threat Intelligence"
+          ]
+        },
+        "senior": {
+          "summary": "Senior Security Engineer chịu trách nhiệm kiến trúc bảo mật, đánh giá rủi ro và định hướng kỹ thuật cho nhóm.",
+          "responsibilities": [
+            "Thiết kế kiến trúc bảo mật (Zero Trust, phòng thủ nhiều lớp) cho tổ chức",
+            "Dẫn dắt xử lý sự cố nghiêm trọng và các cuộc diễn tập tấn công - phòng thủ",
+            "Đánh giá rủi ro bảo mật, đề xuất kiểm soát và theo dõi khắc phục",
+            "Xây dựng chuẩn bảo mật ứng dụng và hạ tầng cho các đội kỹ thuật",
+            "Mentor đội ngũ và tham gia phỏng vấn tuyển dụng"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 5 năm kinh nghiệm ở vị trí Cybersecurity Engineer, đã tham gia thiết kế và triển khai hệ thống thực tế.",
+            "Kỹ năng chuyên môn: Security Architecture, Zero Trust, Threat Modeling, Red/Blue Team, Digital Forensics, Cloud Security",
+            "Công cụ: SIEM/SOAR, EDR/XDR, WAF, IAM/PAM, công cụ phân tích mã độc",
+            "Có kinh nghiệm dẫn dắt xử lý sự cố bảo mật nghiêm trọng và báo cáo cho lãnh đạo",
+            "Kỹ năng mềm: Leadership, Mentoring, Communication, Problem solving, Decision making"
+          ],
+          "preferred": [
+            "Có chứng chỉ CISSP, OSCP/OSEP hoặc tương đương",
+            "Có kinh nghiệm tư vấn tuân thủ ISO 27001, SOC 2"
+          ]
+        },
+        "manager": {
+          "summary": "Security Manager quản lý đội An toàn thông tin, chịu trách nhiệm chiến lược bảo mật, tuân thủ và phát triển nhân sự.",
+          "responsibilities": [
+            "Quản lý, đánh giá và phát triển đội ngũ an toàn thông tin",
+            "Xây dựng chiến lược, chính sách bảo mật và lộ trình kiểm soát rủi ro",
+            "Làm việc với lãnh đạo, pháp chế và các phòng ban về tuân thủ và rủi ro",
+            "Điều phối ứng phó sự cố lớn và giao tiếp với các bên liên quan",
+            "Tuyển dụng, onboard và xây dựng lộ trình thăng tiến cho thành viên"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 7 năm kinh nghiệm chuyên môn Cybersecurity Engineer, trong đó ít nhất 2 năm quản lý đội nhóm.",
+            "Kỹ năng chuyên môn: Security Governance, Risk Management, ISO 27001, NIST, quản lý SOC và Incident Response",
+            "Có kinh nghiệm quản lý dự án, quản lý rủi ro và ngân sách an ninh",
+            "Có kinh nghiệm xây dựng KPI/OKR và đánh giá hiệu suất đội nhóm",
+            "Kỹ năng mềm: Leadership, Communication, Negotiation, Stakeholder management, Strategic planning"
+          ],
+          "preferred": [
+            "Có chứng chỉ CISSP, CISM, CISA hoặc tương đương",
+            "Có kinh nghiệm làm việc với kiểm toán và cơ quan quản lý"
+          ]
+        }
+      }
+    },
+    "qa-qc": {
+      "title": "QA/QC Engineer",
+      "levels": {
+        "intern": {
+          "summary": "Thực tập sinh QA/QC hỗ trợ đội kiểm thử phần mềm, học quy trình đảm bảo chất lượng dưới sự hướng dẫn của mentor.",
+          "responsibilities": [
+            "Thực thi test case có sẵn và ghi nhận kết quả",
+            "Báo cáo lỗi (bug) rõ ràng trên hệ thống quản lý lỗi",
+            "Kiểm thử giao diện trên nhiều trình duyệt và thiết bị",
+            "Học cách đọc tài liệu yêu cầu và viết test case cơ bản"
+          ],
+          "requirements": [
+            "Học vấn: Sinh viên năm 3 trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Không yêu cầu kinh nghiệm đi làm; ưu tiên có đồ án hoặc project cá nhân liên quan.",
+            "Kỹ năng chuyên môn: hiểu vòng đời phát triển phần mềm (SDLC), kiểm thử thủ công cơ bản, đọc hiểu yêu cầu",
+            "Công cụ: Excel, Jira hoặc công cụ quản lý lỗi tương tự",
+            "Kỹ năng mềm: Ham học hỏi, Teamwork, Communication"
+          ],
+          "preferred": [
+            "Có chứng chỉ ISTQB Foundation",
+            "Đã thực hành kiểm thử một sản phẩm thật hoặc đồ án"
+          ]
+        },
+        "fresher": {
+          "summary": "QA/QC Engineer mới ra trường, thiết kế và thực hiện kiểm thử thủ công cho các tính năng được giao.",
+          "responsibilities": [
+            "Phân tích yêu cầu và viết test case, test scenario",
+            "Thực hiện kiểm thử chức năng, kiểm thử hồi quy và ghi nhận lỗi",
+            "Kiểm thử API cơ bản bằng Postman",
+            "Báo cáo kết quả kiểm thử và theo dõi lỗi đến khi đóng"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Chưa cần nhiều kinh nghiệm đi làm; ưu tiên đã có thực tập hoặc đồ án liên quan đến QA/QC Engineer.",
+            "Kỹ năng chuyên môn: Manual Testing, Test Case Design, Bug Reporting, SQL cơ bản, hiểu API testing",
+            "Công cụ: Jira, Postman, TestRail hoặc Excel",
+            "Hiểu mô hình Agile/Scrum",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Learning ability"
+          ],
+          "preferred": [
+            "Có chứng chỉ ISTQB Foundation",
+            "Biết một ngôn ngữ lập trình cơ bản để học kiểm thử tự động"
+          ]
+        },
+        "junior": {
+          "summary": "QA/QC Engineer độc lập đảm bảo chất lượng cho tính năng, bắt đầu xây dựng kiểm thử tự động.",
+          "responsibilities": [
+            "Lập kế hoạch kiểm thử và thiết kế test case cho tính năng được giao",
+            "Thực hiện kiểm thử chức năng, hồi quy, kiểm thử API và kiểm thử tích hợp",
+            "Viết script kiểm thử tự động cơ bản bằng Selenium hoặc Cypress",
+            "Phân tích nguyên nhân lỗi cùng lập trình viên",
+            "Tham gia họp sprint và ước lượng công việc kiểm thử"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 1 năm kinh nghiệm ở vị trí QA/QC Engineer hoặc tương đương.",
+            "Kỹ năng chuyên môn: Manual Testing, Automation Testing cơ bản, API Testing, SQL, Test Planning",
+            "Công cụ: Selenium hoặc Cypress hoặc Playwright, Postman, Jira, Git",
+            "Một ngôn ngữ lập trình (Java, Python hoặc JavaScript) ở mức cơ bản",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Time management"
+          ],
+          "preferred": [
+            "Biết kiểm thử hiệu năng cơ bản bằng JMeter",
+            "Có chứng chỉ ISTQB"
+          ]
+        },
+        "middle": {
+          "summary": "QA/QC Engineer thiết kế chiến lược kiểm thử, xây dựng khung kiểm thử tự động và hỗ trợ các thành viên.",
+          "responsibilities": [
+            "Thiết kế chiến lược kiểm thử và kế hoạch kiểm thử cho dự án",
+            "Xây dựng và bảo trì framework kiểm thử tự động (UI, API)",
+            "Tích hợp kiểm thử tự động vào pipeline CI/CD",
+            "Thực hiện kiểm thử hiệu năng và kiểm thử bảo mật cơ bản",
+            "Review test case, hướng dẫn thành viên junior"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 3 năm kinh nghiệm ở vị trí QA/QC Engineer hoặc tương đương.",
+            "Kỹ năng chuyên môn: Automation Testing, Test Strategy, API Automation, Performance Testing, CI/CD",
+            "Công cụ: Selenium/Cypress/Playwright, RestAssured hoặc Postman, JMeter hoặc k6, Jenkins hoặc GitHub Actions",
+            "Có kinh nghiệm xây dựng framework theo Page Object Model",
+            "Kỹ năng mềm: Communication, Problem solving, Mentoring, Teamwork"
+          ],
+          "preferred": [
+            "Có chứng chỉ ISTQB Advanced hoặc tương đương",
+            "Có kinh nghiệm kiểm thử ứng dụng di động (Appium)"
+          ]
+        },
+        "senior": {
+          "summary": "Senior QA Engineer định hướng chất lượng sản phẩm, kiến trúc kiểm thử tự động và quy trình QA cho nhiều đội.",
+          "responsibilities": [
+            "Xây dựng chiến lược chất lượng và chuẩn kiểm thử cho nhiều dự án",
+            "Thiết kế kiến trúc framework kiểm thử tự động dùng chung",
+            "Đánh giá rủi ro chất lượng và đưa ra quyết định phát hành (go/no-go)",
+            "Dẫn dắt kiểm thử hiệu năng, bảo mật và độ tin cậy cho hệ thống lớn",
+            "Mentor đội ngũ và tham gia phỏng vấn tuyển dụng"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 5 năm kinh nghiệm ở vị trí QA/QC Engineer, đã tham gia thiết kế và triển khai hệ thống thực tế.",
+            "Kỹ năng chuyên môn: Test Architecture, Test Automation Framework, Performance Engineering, Shift-left Testing, Quality Metrics",
+            "Công cụ: Selenium/Playwright, k6/JMeter, Docker, CI/CD, công cụ quan sát hệ thống",
+            "Có kinh nghiệm dẫn dắt hoạt động đảm bảo chất lượng cho sản phẩm quy mô lớn",
+            "Kỹ năng mềm: Leadership, Mentoring, Communication, Problem solving, Decision making"
+          ],
+          "preferred": [
+            "Có kinh nghiệm ứng dụng AI vào sinh test case và kiểm thử",
+            "Có kinh nghiệm kiểm thử bảo mật hoặc kiểm thử hợp đồng API (contract testing)"
+          ]
+        },
+        "manager": {
+          "summary": "QA Manager quản lý đội đảm bảo chất lượng, chịu trách nhiệm chiến lược chất lượng, delivery và phát triển nhân sự.",
+          "responsibilities": [
+            "Quản lý, đánh giá và phát triển đội ngũ QA/QC",
+            "Xây dựng chiến lược chất lượng, quy trình kiểm thử và chỉ số chất lượng",
+            "Làm việc với Product, Development và DevOps để thống nhất tiêu chí phát hành",
+            "Lập kế hoạch nguồn lực kiểm thử, ngân sách công cụ và theo dõi tiến độ",
+            "Tuyển dụng, onboard và xây dựng lộ trình thăng tiến cho thành viên"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 7 năm kinh nghiệm chuyên môn QA/QC Engineer, trong đó ít nhất 2 năm quản lý đội nhóm.",
+            "Kỹ năng chuyên môn: Quality Management, Test Strategy, Test Automation, quản lý quy trình QA, Quality Metrics",
+            "Có kinh nghiệm quản lý dự án Agile/Scrum, Jira, quản lý rủi ro và ngân sách",
+            "Có kinh nghiệm xây dựng KPI/OKR và đánh giá hiệu suất đội nhóm",
+            "Kỹ năng mềm: Leadership, Communication, Negotiation, Stakeholder management, Strategic planning"
+          ],
+          "preferred": [
+            "Có chứng chỉ ISTQB Advanced/Expert, PMP hoặc tương đương",
+            "Có kinh nghiệm làm việc với khách hàng nước ngoài"
+          ]
+        }
+      }
+    },
+    "system-admin": {
+      "title": "System Administrator",
+      "levels": {
+        "intern": {
+          "summary": "Thực tập sinh Quản trị hệ thống hỗ trợ đội vận hành máy chủ và máy trạm, học qua các tác vụ cụ thể.",
+          "responsibilities": [
+            "Cài đặt, cấu hình máy trạm và phần mềm cho nhân viên theo hướng dẫn",
+            "Tạo và quản lý tài khoản người dùng cơ bản",
+            "Theo dõi tình trạng máy chủ và báo cáo bất thường",
+            "Ghi chép và cập nhật tài liệu hướng dẫn vận hành"
+          ],
+          "requirements": [
+            "Học vấn: Sinh viên năm 3 trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Không yêu cầu kinh nghiệm đi làm; ưu tiên có đồ án hoặc project cá nhân liên quan.",
+            "Kỹ năng chuyên môn: Windows và Linux cơ bản, hiểu mạng máy tính cơ bản, cài đặt hệ điều hành",
+            "Công cụ: VirtualBox hoặc VMware, Command Line",
+            "Kỹ năng mềm: Ham học hỏi, Teamwork, Communication"
+          ],
+          "preferred": [
+            "Đã tự dựng máy ảo hoặc homelab",
+            "Có chứng chỉ CompTIA A+ hoặc tương đương"
+          ]
+        },
+        "fresher": {
+          "summary": "Quản trị viên hệ thống mới ra trường, vận hành máy chủ và hỗ trợ người dùng theo quy trình.",
+          "responsibilities": [
+            "Cài đặt, cấu hình và bảo trì máy chủ Windows Server và Linux",
+            "Quản lý người dùng và phân quyền bằng Active Directory",
+            "Theo dõi hệ thống, sao lưu dữ liệu và xử lý sự cố thông thường",
+            "Hỗ trợ người dùng (helpdesk) và ghi nhận yêu cầu qua hệ thống ticket"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Chưa cần nhiều kinh nghiệm đi làm; ưu tiên đã có thực tập hoặc đồ án liên quan đến System Administrator.",
+            "Kỹ năng chuyên môn: Windows Server, Linux, Active Directory, DNS/DHCP, Networking cơ bản",
+            "Công cụ: PowerShell hoặc Bash, VMware hoặc Hyper-V, Zabbix hoặc công cụ giám sát tương tự",
+            "Hiểu nguyên tắc sao lưu và phục hồi dữ liệu",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Learning ability"
+          ],
+          "preferred": [
+            "Có chứng chỉ MCSA, RHCSA hoặc tương đương",
+            "Biết Docker ở mức cơ bản"
+          ]
+        },
+        "junior": {
+          "summary": "Quản trị viên hệ thống độc lập vận hành hạ tầng máy chủ, đảm bảo hệ thống ổn định và an toàn.",
+          "responsibilities": [
+            "Quản trị máy chủ vật lý và ảo hóa (VMware, Hyper-V)",
+            "Tự động hóa tác vụ bằng PowerShell, Bash hoặc Ansible",
+            "Thiết lập giám sát, cảnh báo và quy trình sao lưu - phục hồi",
+            "Vá lỗi, cập nhật hệ thống và tăng cường bảo mật máy chủ",
+            "Xử lý sự cố và phối hợp với đội mạng, bảo mật"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 1 năm kinh nghiệm ở vị trí System Administrator hoặc tương đương.",
+            "Kỹ năng chuyên môn: Windows Server, Linux (RHEL/Ubuntu), Active Directory, ảo hóa VMware, Networking, Shell Scripting",
+            "Công cụ: PowerShell, Ansible, Zabbix hoặc Nagios, Veeam hoặc Bacula",
+            "Hiểu về bảo mật hệ thống và hardening cơ bản",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Time management"
+          ],
+          "preferred": [
+            "Có chứng chỉ RHCSA, VCP hoặc MCSA",
+            "Có kinh nghiệm cloud cơ bản (AWS, Azure)"
+          ]
+        },
+        "middle": {
+          "summary": "Quản trị viên hệ thống thiết kế và tối ưu hạ tầng, xử lý sự cố phức tạp và hỗ trợ các thành viên.",
+          "responsibilities": [
+            "Thiết kế, nâng cấp hạ tầng máy chủ, lưu trữ và ảo hóa",
+            "Xây dựng kế hoạch sao lưu, dự phòng và phục hồi thảm họa",
+            "Tự động hóa vận hành bằng Ansible, PowerShell hoặc Terraform",
+            "Quản lý hệ thống giám sát tập trung và log",
+            "Xử lý sự cố phức tạp, hướng dẫn thành viên junior"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 3 năm kinh nghiệm ở vị trí System Administrator hoặc tương đương.",
+            "Kỹ năng chuyên môn: Windows Server, Linux nâng cao, Active Directory/Azure AD, VMware vSphere, Storage/SAN, Disaster Recovery",
+            "Công cụ: Ansible, PowerShell, Prometheus/Grafana hoặc Zabbix, ELK, Terraform cơ bản",
+            "Có kinh nghiệm quản trị hệ thống cho doanh nghiệp từ vài trăm người dùng",
+            "Kỹ năng mềm: Communication, Problem solving, Mentoring, Teamwork"
+          ],
+          "preferred": [
+            "Có chứng chỉ RHCE, VCP hoặc tương đương",
+            "Có kinh nghiệm hybrid cloud (Azure, AWS)"
+          ]
+        },
+        "senior": {
+          "summary": "Senior System Administrator chịu trách nhiệm kiến trúc hạ tầng, độ ổn định và an toàn cho toàn hệ thống.",
+          "responsibilities": [
+            "Thiết kế kiến trúc hạ tầng hệ thống độ sẵn sàng cao và dự phòng thảm họa",
+            "Xây dựng chuẩn vận hành, tăng cường bảo mật và quy trình xử lý sự cố",
+            "Lập kế hoạch năng lực (capacity planning) và lộ trình nâng cấp hạ tầng",
+            "Đánh giá rủi ro, tuân thủ và phối hợp với đội bảo mật, kiểm toán",
+            "Mentor đội ngũ và tham gia phỏng vấn tuyển dụng"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 5 năm kinh nghiệm ở vị trí System Administrator, đã tham gia thiết kế và triển khai hệ thống thực tế.",
+            "Kỹ năng chuyên môn: kiến trúc hạ tầng, High Availability, Disaster Recovery, Virtualization nâng cao, Hybrid Cloud, System Hardening",
+            "Công cụ: VMware vSphere/NSX, Ansible, Terraform, Prometheus/Grafana, SIEM",
+            "Có kinh nghiệm dẫn dắt dự án nâng cấp hoặc di chuyển hạ tầng quy mô lớn",
+            "Kỹ năng mềm: Leadership, Mentoring, Communication, Problem solving, Decision making"
+          ],
+          "preferred": [
+            "Có chứng chỉ RHCA, VCAP hoặc tương đương",
+            "Có kinh nghiệm theo ITIL hoặc ISO 27001"
+          ]
+        },
+        "manager": {
+          "summary": "IT Infrastructure Manager quản lý đội quản trị hệ thống, chịu trách nhiệm hạ tầng, ngân sách và phát triển nhân sự.",
+          "responsibilities": [
+            "Quản lý, đánh giá và phát triển đội ngũ quản trị hệ thống",
+            "Xây dựng chiến lược hạ tầng, ngân sách đầu tư và kế hoạch nâng cấp",
+            "Quản lý nhà cung cấp, hợp đồng bảo trì và SLA dịch vụ",
+            "Đặt tiêu chuẩn về bảo mật, sao lưu, liên tục hoạt động (BCP/DR)",
+            "Tuyển dụng, onboard và xây dựng lộ trình thăng tiến cho thành viên"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 7 năm kinh nghiệm chuyên môn System Administrator, trong đó ít nhất 2 năm quản lý đội nhóm.",
+            "Kỹ năng chuyên môn: quản trị hạ tầng CNTT, ITIL, Business Continuity, Hybrid Cloud, quản lý nhà cung cấp",
+            "Có kinh nghiệm quản lý dự án, quản lý rủi ro và ngân sách hạ tầng",
+            "Có kinh nghiệm xây dựng KPI/OKR và đánh giá hiệu suất đội nhóm",
+            "Kỹ năng mềm: Leadership, Communication, Negotiation, Stakeholder management, Strategic planning"
+          ],
+          "preferred": [
+            "Có chứng chỉ ITIL, PMP hoặc tương đương",
+            "Có kinh nghiệm làm việc với kiểm toán và đối tác nước ngoài"
+          ]
+        }
+      }
+    },
+    "network": {
+      "title": "Network Engineer",
+      "levels": {
+        "intern": {
+          "summary": "Thực tập sinh Hệ thống mạng hỗ trợ đội triển khai và vận hành mạng, học trực tiếp trên thiết bị thực tế.",
+          "responsibilities": [
+            "Bấm cáp, đấu nối và gắn nhãn thiết bị mạng theo hướng dẫn",
+            "Cấu hình cơ bản switch, router theo mẫu có sẵn",
+            "Kiểm tra kết nối bằng ping, traceroute và báo cáo sự cố",
+            "Cập nhật sơ đồ mạng và tài liệu thiết bị"
+          ],
+          "requirements": [
+            "Học vấn: Sinh viên năm 3 trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Không yêu cầu kinh nghiệm đi làm; ưu tiên có đồ án hoặc project cá nhân liên quan.",
+            "Kỹ năng chuyên môn: mô hình OSI/TCP-IP, địa chỉ IP và chia subnet, hiểu VLAN và routing cơ bản",
+            "Công cụ: Cisco Packet Tracer hoặc GNS3, Wireshark",
+            "Kỹ năng mềm: Ham học hỏi, Teamwork, Communication"
+          ],
+          "preferred": [
+            "Đang học hoặc có chứng chỉ CCNA",
+            "Đã thực hành dựng mạng LAN mô phỏng"
+          ]
+        },
+        "fresher": {
+          "summary": "Kỹ sư mạng mới ra trường, cấu hình và vận hành hệ thống mạng LAN/WAN theo quy trình.",
+          "responsibilities": [
+            "Cấu hình switch, router, VLAN, định tuyến tĩnh và động cơ bản",
+            "Cấu hình Wi-Fi, DHCP, DNS và NAT",
+            "Giám sát hệ thống mạng và xử lý sự cố kết nối thông thường",
+            "Lập tài liệu sơ đồ mạng và cấu hình thiết bị"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Chưa cần nhiều kinh nghiệm đi làm; ưu tiên đã có thực tập hoặc đồ án liên quan đến Network Engineer.",
+            "Kỹ năng chuyên môn: Cisco IOS, VLAN, STP, OSPF, TCP/IP, DHCP/DNS, Firewall cơ bản",
+            "Công cụ: Packet Tracer/GNS3, Wireshark, PRTG hoặc Zabbix",
+            "Có chứng chỉ CCNA hoặc kiến thức tương đương",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Learning ability"
+          ],
+          "preferred": [
+            "Biết Linux cơ bản",
+            "Biết Python để tự động hóa cấu hình"
+          ]
+        },
+        "junior": {
+          "summary": "Kỹ sư mạng độc lập triển khai và vận hành hạ tầng mạng doanh nghiệp, đảm bảo ổn định và bảo mật.",
+          "responsibilities": [
+            "Triển khai và vận hành mạng LAN, WAN, Wi-Fi cho văn phòng, chi nhánh",
+            "Cấu hình định tuyến OSPF/BGP, VPN site-to-site và remote access",
+            "Cấu hình và quản trị Firewall (Fortinet, Palo Alto hoặc tương đương)",
+            "Giám sát băng thông, độ trễ và xử lý sự cố mạng",
+            "Phối hợp với đội hệ thống, bảo mật để giải quyết sự cố"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 1 năm kinh nghiệm ở vị trí Network Engineer hoặc tương đương.",
+            "Kỹ năng chuyên môn: Routing & Switching, OSPF, BGP, VPN (IPsec), Firewall, Wireless, QoS",
+            "Công cụ: Cisco, Fortinet hoặc Palo Alto, Wireshark, PRTG hoặc Zabbix",
+            "Có chứng chỉ CCNA, ưu tiên CCNP Enterprise",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Time management"
+          ],
+          "preferred": [
+            "Có chứng chỉ NSE4 hoặc tương đương",
+            "Biết tự động hóa mạng cơ bản (Ansible, Python)"
+          ]
+        },
+        "middle": {
+          "summary": "Kỹ sư mạng thiết kế và tối ưu hạ tầng mạng, xử lý sự cố phức tạp và hỗ trợ các thành viên.",
+          "responsibilities": [
+            "Thiết kế kiến trúc mạng doanh nghiệp: core, distribution, access và data center",
+            "Triển khai SD-WAN, BGP đa nhà cung cấp và cân bằng tải",
+            "Thiết kế chính sách bảo mật mạng, phân đoạn mạng (segmentation)",
+            "Tối ưu hiệu năng, độ sẵn sàng và xử lý sự cố mạng phức tạp",
+            "Review thiết kế, hướng dẫn thành viên junior"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 3 năm kinh nghiệm ở vị trí Network Engineer hoặc tương đương.",
+            "Kỹ năng chuyên môn: thiết kế mạng, BGP/OSPF nâng cao, SD-WAN, Data Center Network, Network Security, Load Balancing",
+            "Công cụ: Cisco, Juniper hoặc Fortinet, F5, Wireshark, hệ thống NMS",
+            "Có chứng chỉ CCNP hoặc tương đương",
+            "Kỹ năng mềm: Communication, Problem solving, Mentoring, Teamwork"
+          ],
+          "preferred": [
+            "Có kinh nghiệm tự động hóa mạng (Python, Ansible, NETCONF)",
+            "Có kinh nghiệm mạng cloud (AWS VPC, Azure VNet)"
+          ]
+        },
+        "senior": {
+          "summary": "Senior Network Engineer/Architect chịu trách nhiệm kiến trúc mạng, độ tin cậy và an toàn cho toàn tổ chức.",
+          "responsibilities": [
+            "Thiết kế kiến trúc mạng tổng thể đáp ứng độ sẵn sàng cao và khả năng mở rộng",
+            "Dẫn dắt dự án triển khai, nâng cấp hoặc di chuyển hạ tầng mạng lớn",
+            "Đặt tiêu chuẩn cấu hình, bảo mật và quy trình thay đổi mạng",
+            "Phân tích sự cố nghiêm trọng, đánh giá rủi ro và đề xuất cải tiến",
+            "Mentor đội ngũ và tham gia phỏng vấn tuyển dụng"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 5 năm kinh nghiệm ở vị trí Network Engineer, đã tham gia thiết kế và triển khai hệ thống thực tế.",
+            "Kỹ năng chuyên môn: Network Architecture, MPLS, SD-WAN, Data Center (VXLAN/EVPN), Zero Trust Network, Network Automation",
+            "Công cụ: Cisco/Juniper/Arista, Palo Alto/Fortinet, Python, Ansible, hệ thống giám sát nâng cao",
+            "Có kinh nghiệm thiết kế và vận hành mạng quy mô lớn, nhiều chi nhánh",
+            "Kỹ năng mềm: Leadership, Mentoring, Communication, Problem solving, Decision making"
+          ],
+          "preferred": [
+            "Có chứng chỉ CCIE, JNCIE hoặc tương đương",
+            "Có kinh nghiệm hybrid/multi-cloud network"
+          ]
+        },
+        "manager": {
+          "summary": "Network Manager quản lý đội kỹ sư mạng, chịu trách nhiệm hạ tầng mạng, ngân sách và phát triển nhân sự.",
+          "responsibilities": [
+            "Quản lý, đánh giá và phát triển đội ngũ kỹ sư mạng",
+            "Xây dựng chiến lược hạ tầng mạng, ngân sách đầu tư và lộ trình nâng cấp",
+            "Quản lý nhà cung cấp, đường truyền, hợp đồng và SLA dịch vụ",
+            "Đặt tiêu chuẩn về bảo mật mạng, liên tục hoạt động và quản lý thay đổi",
+            "Tuyển dụng, onboard và xây dựng lộ trình thăng tiến cho thành viên"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 7 năm kinh nghiệm chuyên môn Network Engineer, trong đó ít nhất 2 năm quản lý đội nhóm.",
+            "Kỹ năng chuyên môn: chiến lược hạ tầng mạng, ITIL, Business Continuity, quản lý nhà cung cấp viễn thông",
+            "Có kinh nghiệm quản lý dự án, quản lý rủi ro và ngân sách hạ tầng",
+            "Có kinh nghiệm xây dựng KPI/OKR và đánh giá hiệu suất đội nhóm",
+            "Kỹ năng mềm: Leadership, Communication, Negotiation, Stakeholder management, Strategic planning"
+          ],
+          "preferred": [
+            "Có chứng chỉ CCNP/CCIE, PMP hoặc ITIL",
+            "Có kinh nghiệm làm việc với đối tác viễn thông và khách hàng nước ngoài"
+          ]
+        }
+      }
+    },
+    "ui-ux": {
+      "title": "UI/UX Designer",
+      "levels": {
+        "intern": {
+          "summary": "Thực tập sinh UI/UX hỗ trợ đội thiết kế sản phẩm số, được mentor góp ý và hướng dẫn từng bước.",
+          "responsibilities": [
+            "Thiết kế các màn hình đơn giản trên Figma theo mẫu của đội",
+            "Chỉnh sửa, xuất hình ảnh và icon theo yêu cầu",
+            "Hỗ trợ khảo sát, tổng hợp phản hồi người dùng",
+            "Tìm hiểu và tổng hợp tham khảo thiết kế (benchmark)"
+          ],
+          "requirements": [
+            "Học vấn: Sinh viên năm 3 trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Không yêu cầu kinh nghiệm đi làm; ưu tiên có đồ án hoặc project cá nhân liên quan.",
+            "Kỹ năng chuyên môn: Figma cơ bản, nguyên tắc bố cục, màu sắc và typography",
+            "Có bộ sưu tập sản phẩm (portfolio) bài tập hoặc đồ án thiết kế",
+            "Kỹ năng mềm: Ham học hỏi, Teamwork, Communication"
+          ],
+          "preferred": [
+            "Biết Adobe Photoshop hoặc Illustrator",
+            "Hiểu cơ bản HTML và CSS"
+          ]
+        },
+        "fresher": {
+          "summary": "UI/UX Designer mới ra trường, thiết kế giao diện và luồng người dùng cho các tính năng đơn giản.",
+          "responsibilities": [
+            "Vẽ wireframe và thiết kế giao diện chi tiết (UI) trên Figma",
+            "Xây dựng luồng người dùng (user flow) cho tính năng được giao",
+            "Làm prototype tương tác để kiểm tra với người dùng",
+            "Bàn giao thiết kế cho lập trình viên và hỗ trợ giải đáp"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Chưa cần nhiều kinh nghiệm đi làm; ưu tiên đã có thực tập hoặc đồ án liên quan đến UI/UX Designer.",
+            "Kỹ năng chuyên môn: Figma, Wireframe, Prototype, UI Design, hiểu nguyên tắc UX cơ bản",
+            "Công cụ: Figma, Adobe XD hoặc Sketch, Miro",
+            "Có portfolio với tối thiểu 2 dự án thiết kế hoàn chỉnh",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Learning ability"
+          ],
+          "preferred": [
+            "Biết nghiên cứu người dùng cơ bản (phỏng vấn, khảo sát)",
+            "Biết Design System cơ bản"
+          ]
+        },
+        "junior": {
+          "summary": "UI/UX Designer độc lập thiết kế trải nghiệm hoàn chỉnh cho tính năng, từ nghiên cứu đến bàn giao.",
+          "responsibilities": [
+            "Thực hiện nghiên cứu người dùng, xây dựng persona và user journey",
+            "Thiết kế UI/UX cho tính năng hoàn chỉnh trên web và mobile",
+            "Xây dựng và duy trì component trong Design System",
+            "Kiểm thử khả năng sử dụng (usability testing) và cải tiến thiết kế",
+            "Phối hợp chặt chẽ với Product Owner và lập trình viên"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 1 năm kinh nghiệm ở vị trí UI/UX Designer hoặc tương đương.",
+            "Kỹ năng chuyên môn: UX Research, Wireframe, Prototype, UI Design, Design System, Usability Testing",
+            "Công cụ: Figma (Auto Layout, Variables), Miro, Maze hoặc công cụ test tương tự",
+            "Hiểu về Responsive Design và nguyên tắc Accessibility cơ bản",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Time management"
+          ],
+          "preferred": [
+            "Biết motion design cơ bản (Principle, After Effects)",
+            "Hiểu giới hạn kỹ thuật frontend để thiết kế khả thi"
+          ]
+        },
+        "middle": {
+          "summary": "UI/UX Designer chịu trách nhiệm thiết kế cho sản phẩm hoặc mảng chức năng, dẫn dắt nghiên cứu và hỗ trợ đồng đội.",
+          "responsibilities": [
+            "Dẫn dắt thiết kế trải nghiệm cho một sản phẩm hoặc mảng chức năng",
+            "Thiết kế quy trình nghiên cứu, thử nghiệm A/B và phân tích dữ liệu hành vi",
+            "Xây dựng và phát triển Design System dùng chung",
+            "Review thiết kế, hướng dẫn thành viên junior",
+            "Thuyết trình và bảo vệ phương án thiết kế trước các bên liên quan"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 3 năm kinh nghiệm ở vị trí UI/UX Designer hoặc tương đương.",
+            "Kỹ năng chuyên môn: UX Strategy, Design System, UX Research nâng cao, Interaction Design, Information Architecture",
+            "Công cụ: Figma nâng cao, Miro, Hotjar hoặc công cụ phân tích hành vi, Storybook (phối hợp)",
+            "Có portfolio thể hiện sản phẩm đã ra mắt và kết quả đo lường được",
+            "Kỹ năng mềm: Communication, Problem solving, Mentoring, Teamwork"
+          ],
+          "preferred": [
+            "Có kinh nghiệm thiết kế sản phẩm B2B hoặc SaaS",
+            "Biết ứng dụng AI vào quy trình thiết kế và nghiên cứu"
+          ]
+        },
+        "senior": {
+          "summary": "Senior UI/UX Designer định hướng trải nghiệm sản phẩm, đặt chuẩn thiết kế và dẫn dắt đội ngũ thiết kế.",
+          "responsibilities": [
+            "Định hướng chiến lược trải nghiệm và tầm nhìn thiết kế cho sản phẩm",
+            "Xây dựng và quản trị Design System cho nhiều sản phẩm, nhiều đội",
+            "Dẫn dắt các dự án thiết kế phức tạp, đo lường tác động lên chỉ số kinh doanh",
+            "Đặt tiêu chuẩn quy trình thiết kế, nghiên cứu và phản biện thiết kế",
+            "Mentor đội ngũ và tham gia phỏng vấn tuyển dụng"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 5 năm kinh nghiệm ở vị trí UI/UX Designer, đã tham gia thiết kế và triển khai hệ thống thực tế.",
+            "Kỹ năng chuyên môn: Product Design, UX Strategy, Design Systems at scale, Design Leadership, Data-informed Design",
+            "Công cụ: Figma, Miro, công cụ phân tích sản phẩm (Mixpanel, Amplitude)",
+            "Có kinh nghiệm dẫn dắt thiết kế cho sản phẩm có lượng người dùng lớn",
+            "Kỹ năng mềm: Leadership, Mentoring, Communication, Problem solving, Decision making"
+          ],
+          "preferred": [
+            "Có kinh nghiệm thiết kế sản phẩm đa nền tảng và đa thị trường",
+            "Có kinh nghiệm chia sẻ, giảng dạy hoặc viết về thiết kế"
+          ]
+        },
+        "manager": {
+          "summary": "Design Manager quản lý đội UI/UX, chịu trách nhiệm chất lượng thiết kế, delivery và phát triển nhân sự.",
+          "responsibilities": [
+            "Quản lý, đánh giá và phát triển đội ngũ thiết kế",
+            "Xây dựng tầm nhìn và lộ trình thiết kế gắn với chiến lược sản phẩm",
+            "Làm việc với Product, Engineering và lãnh đạo để thống nhất ưu tiên",
+            "Đặt tiêu chuẩn về quy trình thiết kế, Design System và chất lượng trải nghiệm",
+            "Tuyển dụng, onboard và xây dựng lộ trình thăng tiến cho thành viên"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 7 năm kinh nghiệm chuyên môn UI/UX Designer, trong đó ít nhất 2 năm quản lý đội nhóm.",
+            "Kỹ năng chuyên môn: Design Leadership, UX Strategy, Design System, quản lý quy trình thiết kế, Design Ops",
+            "Có kinh nghiệm quản lý dự án Agile, quản lý nguồn lực và ngân sách",
+            "Có kinh nghiệm xây dựng KPI/OKR và đánh giá hiệu suất đội nhóm",
+            "Kỹ năng mềm: Leadership, Communication, Negotiation, Stakeholder management, Strategic planning"
+          ],
+          "preferred": [
+            "Có kinh nghiệm xây dựng đội thiết kế từ đầu",
+            "Có kinh nghiệm làm việc với khách hàng hoặc đối tác nước ngoài"
+          ]
+        }
+      }
+    },
+    "ba": {
+      "title": "Business Analyst",
+      "levels": {
+        "intern": {
+          "summary": "Thực tập sinh Business Analyst hỗ trợ đội phân tích nghiệp vụ, học cách thu thập và ghi nhận yêu cầu.",
+          "responsibilities": [
+            "Ghi biên bản các buổi họp với khách hàng và đội dự án",
+            "Vẽ sơ đồ quy trình đơn giản bằng draw.io hoặc Visio",
+            "Hỗ trợ viết tài liệu yêu cầu và user story theo mẫu",
+            "Tổng hợp dữ liệu và làm báo cáo đơn giản bằng Excel"
+          ],
+          "requirements": [
+            "Học vấn: Sinh viên năm 3 trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Không yêu cầu kinh nghiệm đi làm; ưu tiên có đồ án hoặc project cá nhân liên quan.",
+            "Kỹ năng chuyên môn: hiểu SDLC, Excel, vẽ sơ đồ quy trình cơ bản, kỹ năng ghi chép và tổng hợp",
+            "Công cụ: Excel, draw.io hoặc Visio, Jira cơ bản",
+            "Kỹ năng mềm: Ham học hỏi, Teamwork, Communication"
+          ],
+          "preferred": [
+            "Biết SQL cơ bản",
+            "Đã làm đồ án có phân tích yêu cầu"
+          ]
+        },
+        "fresher": {
+          "summary": "Business Analyst mới ra trường, thu thập yêu cầu và viết tài liệu phân tích cho các tính năng nhỏ.",
+          "responsibilities": [
+            "Thu thập yêu cầu từ khách hàng và bộ phận nghiệp vụ",
+            "Viết tài liệu yêu cầu (BRD/SRS) và user story",
+            "Vẽ sơ đồ quy trình (BPMN) và sơ đồ use case",
+            "Hỗ trợ kiểm thử chấp nhận (UAT) và giải đáp thắc mắc cho đội phát triển"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Chưa cần nhiều kinh nghiệm đi làm; ưu tiên đã có thực tập hoặc đồ án liên quan đến Business Analyst.",
+            "Kỹ năng chuyên môn: Requirement Analysis, User Story, Use Case, BPMN, SQL cơ bản, Agile/Scrum cơ bản",
+            "Công cụ: Jira, Confluence, draw.io hoặc Visio, Figma hoặc Balsamiq (wireframe)",
+            "Kỹ năng viết tài liệu mạch lạc",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Learning ability"
+          ],
+          "preferred": [
+            "Có chứng chỉ CBAP/ECBA hoặc đang học",
+            "Biết Power BI hoặc Tableau cơ bản"
+          ]
+        },
+        "junior": {
+          "summary": "Business Analyst độc lập phân tích yêu cầu và làm cầu nối giữa khách hàng với đội phát triển.",
+          "responsibilities": [
+            "Phân tích nghiệp vụ, xác định phạm vi và tiêu chí chấp nhận cho tính năng",
+            "Viết tài liệu BRD/SRS, user story và acceptance criteria rõ ràng",
+            "Thiết kế wireframe và mô hình dữ liệu cơ bản",
+            "Theo dõi quá trình phát triển, tham gia UAT và quản lý thay đổi yêu cầu",
+            "Tổ chức họp, truyền đạt yêu cầu cho đội phát triển và QA"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 1 năm kinh nghiệm ở vị trí Business Analyst hoặc tương đương.",
+            "Kỹ năng chuyên môn: Business Analysis, BRD/SRS, User Story, BPMN, SQL, Wireframe, Agile/Scrum",
+            "Công cụ: Jira, Confluence, Figma hoặc Balsamiq, draw.io, Excel",
+            "Kỹ năng phân tích dữ liệu và trình bày",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Time management"
+          ],
+          "preferred": [
+            "Có kiến thức nghiệp vụ một lĩnh vực (ngân hàng, bán lẻ, y tế)",
+            "Biết Power BI hoặc Tableau"
+          ]
+        },
+        "middle": {
+          "summary": "Business Analyst phân tích giải pháp cho các bài toán phức tạp, dẫn dắt yêu cầu và hỗ trợ thành viên trong nhóm.",
+          "responsibilities": [
+            "Phân tích và thiết kế giải pháp nghiệp vụ cho hệ thống phức tạp",
+            "Dẫn dắt workshop, đàm phán và chốt phạm vi với các bên liên quan",
+            "Phân tích dữ liệu bằng SQL và BI để đề xuất cải tiến sản phẩm",
+            "Quản lý backlog, ưu tiên yêu cầu và theo dõi giá trị mang lại",
+            "Review tài liệu, hướng dẫn thành viên junior"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 3 năm kinh nghiệm ở vị trí Business Analyst hoặc tương đương.",
+            "Kỹ năng chuyên môn: Business Process Modeling, Requirement Management, SQL nâng cao, Data Analysis, Agile/Scrum, API cơ bản",
+            "Công cụ: Jira, Confluence, Power BI hoặc Tableau, Postman, Figma",
+            "Có kinh nghiệm phân tích hệ thống từ khảo sát đến nghiệm thu",
+            "Kỹ năng mềm: Communication, Problem solving, Mentoring, Teamwork"
+          ],
+          "preferred": [
+            "Có chứng chỉ CBAP, PMI-PBA hoặc tương đương",
+            "Có kinh nghiệm dự án chuyển đổi số hoặc ERP/CRM"
+          ]
+        },
+        "senior": {
+          "summary": "Senior Business Analyst định hướng giải pháp nghiệp vụ, dẫn dắt phân tích cho dự án lớn và cố vấn cho đội ngũ.",
+          "responsibilities": [
+            "Định hướng giải pháp và kiến trúc nghiệp vụ cho dự án quy mô lớn",
+            "Dẫn dắt phân tích yêu cầu xuyên nhiều bộ phận, đàm phán với các bên liên quan cấp cao",
+            "Xây dựng chuẩn tài liệu, quy trình phân tích và quản lý thay đổi",
+            "Đánh giá rủi ro, tính khả thi và lợi ích kinh doanh (business case)",
+            "Mentor đội ngũ và tham gia phỏng vấn tuyển dụng"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 5 năm kinh nghiệm ở vị trí Business Analyst, đã tham gia thiết kế và triển khai hệ thống thực tế.",
+            "Kỹ năng chuyên môn: Business Architecture, Business Case, Solution Design, Stakeholder Management, Data Analytics, Process Improvement",
+            "Công cụ: Jira, Confluence, Power BI/Tableau, SQL, công cụ mô hình hóa (Enterprise Architect, Visio)",
+            "Có kinh nghiệm dẫn dắt phân tích cho dự án lớn nhiều bên tham gia",
+            "Kỹ năng mềm: Leadership, Mentoring, Communication, Problem solving, Decision making"
+          ],
+          "preferred": [
+            "Có chứng chỉ CBAP, PMI-PBA hoặc tương đương",
+            "Có kinh nghiệm tư vấn cho khách hàng nước ngoài"
+          ]
+        },
+        "manager": {
+          "summary": "BA Manager quản lý đội phân tích nghiệp vụ, chịu trách nhiệm chất lượng phân tích, delivery và phát triển nhân sự.",
+          "responsibilities": [
+            "Quản lý, đánh giá và phát triển đội ngũ Business Analyst",
+            "Xây dựng chiến lược phân tích, chuẩn quy trình và chuẩn tài liệu",
+            "Làm việc với lãnh đạo, khách hàng và các phòng ban để định hướng giải pháp",
+            "Phân bổ nguồn lực BA cho các dự án và theo dõi chất lượng đầu ra",
+            "Tuyển dụng, onboard và xây dựng lộ trình thăng tiến cho thành viên"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 7 năm kinh nghiệm chuyên môn Business Analyst, trong đó ít nhất 2 năm quản lý đội nhóm.",
+            "Kỹ năng chuyên môn: Business Analysis Management, Portfolio Prioritization, Stakeholder Management, Process Improvement",
+            "Có kinh nghiệm quản lý dự án Agile/Scrum, quản lý rủi ro và ngân sách",
+            "Có kinh nghiệm xây dựng KPI/OKR và đánh giá hiệu suất đội nhóm",
+            "Kỹ năng mềm: Leadership, Communication, Negotiation, Stakeholder management, Strategic planning"
+          ],
+          "preferred": [
+            "Có chứng chỉ PMP, CBAP hoặc tương đương",
+            "Có kinh nghiệm làm việc với khách hàng và đối tác nước ngoài"
+          ]
+        }
+      }
+    },
+    "dba": {
+      "title": "Database Administrator",
+      "levels": {
+        "intern": {
+          "summary": "Thực tập sinh Quản trị cơ sở dữ liệu hỗ trợ đội vận hành CSDL, học qua các tác vụ cụ thể dưới sự hướng dẫn của mentor.",
+          "responsibilities": [
+            "Viết truy vấn SQL cơ bản để lấy dữ liệu theo yêu cầu",
+            "Chạy các tác vụ sao lưu theo hướng dẫn và kiểm tra kết quả",
+            "Theo dõi tình trạng CSDL và báo cáo bất thường",
+            "Ghi chép tài liệu vận hành và cấu trúc dữ liệu"
+          ],
+          "requirements": [
+            "Học vấn: Sinh viên năm 3 trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Không yêu cầu kinh nghiệm đi làm; ưu tiên có đồ án hoặc project cá nhân liên quan.",
+            "Kỹ năng chuyên môn: SQL cơ bản, mô hình dữ liệu quan hệ, khóa chính - khóa ngoại, Linux cơ bản",
+            "Công cụ: MySQL hoặc PostgreSQL, DBeaver hoặc Workbench",
+            "Kỹ năng mềm: Ham học hỏi, Teamwork, Communication"
+          ],
+          "preferred": [
+            "Đã thiết kế CSDL cho đồ án",
+            "Biết Excel hoặc Python xử lý dữ liệu"
+          ]
+        },
+        "fresher": {
+          "summary": "DBA mới ra trường, vận hành cơ sở dữ liệu và hỗ trợ đội phát triển theo quy trình.",
+          "responsibilities": [
+            "Cài đặt, cấu hình và quản lý người dùng, phân quyền trên CSDL",
+            "Thực hiện sao lưu, phục hồi dữ liệu theo lịch",
+            "Viết và tối ưu truy vấn SQL cơ bản, tạo index",
+            "Theo dõi hiệu năng và xử lý sự cố thông thường"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Chưa cần nhiều kinh nghiệm đi làm; ưu tiên đã có thực tập hoặc đồ án liên quan đến Database Administrator.",
+            "Kỹ năng chuyên môn: SQL, MySQL/PostgreSQL hoặc SQL Server, Backup & Restore, Indexing, Linux",
+            "Công cụ: Navicat hoặc DBeaver, Zabbix hoặc công cụ giám sát tương tự, Git",
+            "Hiểu transaction, ACID và chuẩn hóa dữ liệu",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Learning ability"
+          ],
+          "preferred": [
+            "Biết T-SQL hoặc PL/SQL",
+            "Biết Docker ở mức cơ bản"
+          ]
+        },
+        "junior": {
+          "summary": "DBA độc lập vận hành và tối ưu cơ sở dữ liệu, đảm bảo ổn định, an toàn và sẵn sàng.",
+          "responsibilities": [
+            "Quản trị CSDL trên môi trường production: sao lưu, phục hồi, vá lỗi",
+            "Phân tích và tối ưu truy vấn chậm bằng execution plan",
+            "Thiết lập replication và cơ chế dự phòng cơ bản",
+            "Giám sát hiệu năng, dung lượng và thiết lập cảnh báo",
+            "Phối hợp với lập trình viên để thiết kế schema và tối ưu truy vấn"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Cao đẳng/Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 1 năm kinh nghiệm ở vị trí Database Administrator hoặc tương đương.",
+            "Kỹ năng chuyên môn: SQL nâng cao, PostgreSQL/MySQL/SQL Server, Query Tuning, Replication, Backup & Recovery, Linux",
+            "Công cụ: pgAdmin hoặc SSMS, Prometheus/Grafana hoặc Zabbix, Bash",
+            "Hiểu về bảo mật CSDL và phân quyền theo nguyên tắc tối thiểu",
+            "Kỹ năng mềm: Teamwork, Communication, Problem solving, Time management"
+          ],
+          "preferred": [
+            "Có kinh nghiệm NoSQL (MongoDB, Redis)",
+            "Có chứng chỉ Oracle, Microsoft hoặc tương đương"
+          ]
+        },
+        "middle": {
+          "summary": "DBA thiết kế và tối ưu hạ tầng CSDL, đảm bảo hiệu năng, độ sẵn sàng và hỗ trợ các thành viên trong nhóm.",
+          "responsibilities": [
+            "Thiết kế kiến trúc CSDL, mô hình dữ liệu và chiến lược lưu trữ cho hệ thống",
+            "Xây dựng giải pháp High Availability và Disaster Recovery (Replication, Cluster, Failover)",
+            "Tối ưu hiệu năng CSDL ở cấp truy vấn, index, cấu hình và phần cứng",
+            "Tự động hóa vận hành và nâng cấp, di chuyển dữ liệu an toàn",
+            "Review schema, hướng dẫn thành viên junior"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 3 năm kinh nghiệm ở vị trí Database Administrator hoặc tương đương.",
+            "Kỹ năng chuyên môn: PostgreSQL/MySQL/SQL Server/Oracle nâng cao, High Availability, Performance Tuning, Data Migration, NoSQL",
+            "Công cụ: Patroni hoặc Always On, Percona hoặc pgBackRest, Ansible, Prometheus/Grafana",
+            "Có kinh nghiệm quản trị CSDL cho hệ thống có dữ liệu lớn trên production",
+            "Kỹ năng mềm: Communication, Problem solving, Mentoring, Teamwork"
+          ],
+          "preferred": [
+            "Có kinh nghiệm CSDL trên cloud (RDS, Cloud SQL, Azure SQL)",
+            "Có chứng chỉ chuyên sâu về CSDL"
+          ]
+        },
+        "senior": {
+          "summary": "Senior DBA chịu trách nhiệm kiến trúc dữ liệu, hiệu năng và độ an toàn của hạ tầng cơ sở dữ liệu toàn tổ chức.",
+          "responsibilities": [
+            "Thiết kế kiến trúc CSDL cho hệ thống quy mô lớn, độ sẵn sàng cao",
+            "Dẫn dắt dự án di chuyển, nâng cấp hoặc chuyển đổi nền tảng CSDL",
+            "Đặt chuẩn thiết kế dữ liệu, bảo mật, mã hóa và sao lưu cho tổ chức",
+            "Giải quyết sự cố nghiêm trọng, đánh giá rủi ro và lập kế hoạch dung lượng",
+            "Mentor đội ngũ và tham gia phỏng vấn tuyển dụng"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 5 năm kinh nghiệm ở vị trí Database Administrator, đã tham gia thiết kế và triển khai hệ thống thực tế.",
+            "Kỹ năng chuyên môn: Database Architecture, Sharding/Partitioning, HA/DR nâng cao, Database Security, Capacity Planning, Cloud Database",
+            "Công cụ: PostgreSQL/Oracle/SQL Server, Kafka (CDC), Terraform, Prometheus/Grafana",
+            "Có kinh nghiệm dẫn dắt vận hành CSDL cho hệ thống tải cao, dữ liệu hàng TB",
+            "Kỹ năng mềm: Leadership, Mentoring, Communication, Problem solving, Decision making"
+          ],
+          "preferred": [
+            "Có chứng chỉ OCP, Microsoft hoặc chứng chỉ cloud database",
+            "Có kinh nghiệm tuân thủ bảo mật dữ liệu (ISO 27001, PCI DSS)"
+          ]
+        },
+        "manager": {
+          "summary": "Database Manager quản lý đội DBA, chịu trách nhiệm hạ tầng dữ liệu, tuân thủ và phát triển nhân sự.",
+          "responsibilities": [
+            "Quản lý, đánh giá và phát triển đội ngũ quản trị cơ sở dữ liệu",
+            "Xây dựng chiến lược hạ tầng dữ liệu, ngân sách và lộ trình nâng cấp",
+            "Làm việc với phát triển, bảo mật và lãnh đạo để thống nhất ưu tiên",
+            "Đặt tiêu chuẩn về bảo mật, sao lưu, SLA và liên tục hoạt động",
+            "Tuyển dụng, onboard và xây dựng lộ trình thăng tiến cho thành viên"
+          ],
+          "requirements": [
+            "Học vấn: Tốt nghiệp Đại học trở lên chuyên ngành CNTT hoặc liên quan",
+            "Kinh nghiệm: Có ít nhất 7 năm kinh nghiệm chuyên môn Database Administrator, trong đó ít nhất 2 năm quản lý đội nhóm.",
+            "Kỹ năng chuyên môn: chiến lược hạ tầng dữ liệu, Data Governance, Business Continuity, Cloud Database, quản lý nhà cung cấp",
+            "Có kinh nghiệm quản lý dự án, quản lý rủi ro và ngân sách hạ tầng dữ liệu",
+            "Có kinh nghiệm xây dựng KPI/OKR và đánh giá hiệu suất đội nhóm",
+            "Kỹ năng mềm: Leadership, Communication, Negotiation, Stakeholder management, Strategic planning"
+          ],
+          "preferred": [
+            "Có chứng chỉ PMP, ITIL hoặc tương đương",
+            "Có kinh nghiệm làm việc với kiểm toán và đối tác nước ngoài"
+          ]
+        }
+      }
+    }
+  }
+}

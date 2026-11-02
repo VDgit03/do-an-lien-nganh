@@ -303,6 +303,43 @@ _SKILLS = {
     "Azure DevOps": ["azure devops"],
     "PlantUML": ["plantuml"],
     "Lucidchart": ["lucidchart"],
+
+    # ---- Web / Frontend (từ điển gốc thiếu nên Redux, Jest... bị bỏ sót) ----
+    "Redux": ["redux", "redux toolkit", "react-redux", "rtk"],
+    "Zustand": ["zustand"],
+    "MobX": ["mobx"],
+    "NgRx": ["ngrx"],
+    "Tailwind CSS": ["tailwindcss", "tailwind-css"],
+    "Material UI": ["material ui", "material-ui", "mui"],
+    "Ant Design": ["ant design", "antd"],
+    "Styled Components": ["styled-components", "styled components"],
+    "Webpack": ["webpack"],
+    "Vite": ["vite", "vitejs"],
+    "Babel": ["babel"],
+    "ESLint": ["eslint"],
+    "Prettier": ["prettier"],
+    "Jest": ["jest"],
+    "Vitest": ["vitest"],
+    "React Testing Library": ["react testing library", "testing library"],
+    "Storybook": ["storybook"],
+    "Nuxt": ["nuxt", "nuxt.js", "nuxtjs"],
+    "Svelte": ["svelte", "sveltekit"],
+    "jQuery": ["jquery"],
+    "Axios": ["axios"],
+    "WebSocket": ["websocket", "websockets", "socket.io"],
+    "PWA": ["pwa", "progressive web app"],
+    "Responsive Design": ["responsive design", "responsive ui", "responsive web"],
+    "Web Performance": ["lighthouse", "core web vitals", "code splitting", "lazy loading"],
+    "Vercel": ["vercel"],
+    "Netlify": ["netlify"],
+    "Firebase": ["firebase"],
+    "NestJS": ["nestjs", "nest.js"],
+    "TypeORM": ["typeorm"],
+    "Prisma": ["prisma"],
+    "Sequelize": ["sequelize"],
+    "Mongoose": ["mongoose"],
+    "Postman": ["postman"],
+    "Swagger": ["swagger", "openapi"],
 }
 
 EXTRA_SKILL_TAXONOMY = {}
@@ -318,6 +355,37 @@ for _canonical, _aliases in _SKILLS.items():
 #     chứng trong mô tả kinh nghiệm/dự án)
 # ---------------------------------------------------------------------------
 EXTRA_CONCEPT_MAP = {
+    # ---- Frontend Developer (nhãn trừu tượng của career_framework) ----
+    # Từ khoá trùng tên kỹ năng chuẩn -> "khớp"; dạng `stem*` -> chỉ "một phần".
+    "advanced javascript": [
+        "typescript", "es6*", "async*", "promise*", "closure*", "react",
+        "vue.js", "angular", "next.js", "node.js",
+    ],
+    "frontend architecture": [
+        "micro-frontend*", "component library", "design system*",
+        "state management", "redux*", "zustand*", "mobx*", "ngrx*",
+        "monorepo", "architect*", "kiến trúc",
+    ],
+    "design patterns": [
+        "design pattern*", "mvc", "mvvm", "solid", "singleton",
+        "observer pattern", "factory pattern", "hoc", "custom hook*",
+    ],
+    "performance profiling": [
+        "profil*", "lighthouse", "core web vitals", "web performance",
+        "performance optimiz*", "lazy load*", "code splitting",
+        "bundle size", "tối ưu hiệu năng", "tối ưu hiệu suất",
+        "giảm thời gian tải",
+    ],
+    "testing architecture": [
+        "jest", "vitest", "cypress", "playwright", "react testing library",
+        "unit testing", "unit test*", "integration test*", "e2e",
+        "test coverage", "tdd", "kiểm thử",
+    ],
+    "build optimization": [
+        "webpack", "vite", "rollup", "esbuild", "babel", "code splitting",
+        "tree shaking", "minif*", "bundle*", "build time",
+    ],
+    "testing": ["jest", "vitest", "cypress", "playwright", "unit testing"],
     # ---- Công cụ chung (xuất hiện ở mọi ngành) ----
     "testing tools": [
         "jest", "pytest", "junit", "selenium", "cypress", "playwright",
